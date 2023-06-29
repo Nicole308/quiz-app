@@ -1,6 +1,8 @@
 const NotFoundPage = () => {
     return (
-        <div>NOT FOUND PAGE</div>
+        <div style={{fontSize: '42px', fontWeight: '600'}}>
+            PAGE NOT FOUND
+        </div>
     )
 }
 

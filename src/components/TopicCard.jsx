@@ -9,13 +9,18 @@ import { Link } from 'react-router-dom'
 
 const TopicCard = (data) => {
     
+    // Checking to see if we still get the data
     // console.log(data.data, "data from topicCard")
 
+    // Used the Material UI design Card component to list all of the objects in data json.
+    // The card component will be wrapped with a router Link so that when clicked, it will automatically 
+    // go to another page that has the same link. I decided to use the useParams to get the topic_name
+    // so it will be easier to fetch the data according to the user card selection.
     return (
         <>
             {/* <img src={data.data.image_url} style={{width: '100px', height: '100px'}} alt="topic imgs" /> */}
             <Link to={`/QuizList/${data.data.topic_name}`}>
-                <Card sx={{ width: '300px', height: '200px' }}>
+                <Card sx={{ width: '300px', height: '200px', borderRadius: '10px' }}>
                     <Box sx={{ position: 'relative' }}>
                         <CardMedia
                         component="img"

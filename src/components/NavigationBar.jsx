@@ -3,6 +3,7 @@ import AppBar from '@mui/material/AppBar'
 import ToolBar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import QuizIcon from '@mui/icons-material/Quiz';
 
 import { Link } from 'react-router-dom'
 
@@ -13,8 +14,10 @@ const NavigationBar = () => {
         <Box sx={{flexGrow: 1}}>
             <AppBar position='static' style={{backgroundColor: '#283618'}}>
                 <ToolBar>
+                    <QuizIcon style={{height: '1em', width: '1em', color: '#FFC300'}} />
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        <Link to={'/'}>Quiz Website</Link>
+                        <Link to={'/'}>QuizQuest</Link>
+                        <Link to={'/QuizList'} style={{marginLeft: '1em'}}>Quiz List</Link>
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </ToolBar>

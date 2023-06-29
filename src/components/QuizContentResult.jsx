@@ -7,8 +7,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 // import NavigationBar from "./NavigationBar";
 
+// Display all the datas and count the total quiz score
 const QuizContentResult = () => {
 
+    // The totalScore has the chance to get the wrong quiz score because there's a logic error
     const [totalScore, setTotalScore] = useState(0)
     const [totalQuestion, setTotalQuestion] = useState(0)
     const storedData = getDataFromLocalStorage('myData');
@@ -18,9 +20,17 @@ const QuizContentResult = () => {
     // } else {
     //     console.log("There's an error in getting the result data")
     // }
+
+    // const test = Object.keys(storedData)
+    useEffect(() => {
+        calculateResult(totalScore)
+        
+    }, [])
     
-    const calculateResult = () => {
+    const calculateResult = (totalScore) => {
+        
         setTotalQuestion(storedData.length)
+
         storedData.map((data) => {
 
             // There's a small bug wherever the page refreshes, the score will increase
@@ -28,22 +38,14 @@ const QuizContentResult = () => {
             if(data.userAnswer === data.correctQuizAnswer){
                 setTotalScore(totalScore + 1)
             }
-            return totalScore
+            
         })
         
        
     }
 
-    // const test = Object.keys(storedData)
-    useEffect(() => {
-        calculateResult()
-        
-        // test.map((t) => {
-        //     console.log(storedData[t].questionChoices, "questionChoices: ")
-        // })
-    }, [])
-    
-
+    // I disabled the RadioButtons since it's just a quiz preview where it shows the users the correct solutions
+    // and also their previous answers
     return (
         <>
             {/* <NavigationBar /> */}
@@ -62,9 +64,17 @@ const QuizContentResult = () => {
                                         
                                         <h1>{data.number} {data.question}</h1>
 
-                                        <h2 style={{ color: data.userAnswer === data.correctQuizAnswer ? '#588157' : 'red',}}>
-                                            User previous answer: {data.userAnswer}
-                                        </h2>
+                                        {
+                                            data.userAnswer === data.correctQuizAnswer ? 
+                                            (
+                                                <div></div>
+                                            ) : (
+                                                <h2 style={{ color: 'red', fontWeight: '600'}}>
+                                                    User previous answer: {data.userAnswer}
+                                                </h2>
+                                            )
+                                        }
+                                        
 
                                         <FormControl component="fieldset">
                                             <RadioGroup
@@ -74,17 +84,32 @@ const QuizContentResult = () => {
                                             >
                                                 {
                                                     Object.keys(data.questionChoices).map((key) => (
-                                                        <FormControlLabel 
-                                                            key={key} 
-                                                            value={key} 
-                                                            control={<Radio />} 
-                                                            label={data.questionChoices[key]} 
-                                                            disabled
-                                                            style={{
-                                                                backgroundColor: key === data.correctQuizAnswer ? '#80ED99' : 'transparent',
-                                                                borderRadius: '20px'
-                                                            }}
-                                                        />
+                                                        data.userAnswer == data.correctQuizAnswer ? (
+                                                            <FormControlLabel 
+                                                                key={key} 
+                                                                value={key} 
+                                                                control={<Radio />} 
+                                                                label={data.questionChoices[key]} 
+                                                                disabled
+                                                                style={{
+                                                                    backgroundColor: key === data.correctQuizAnswer ? '#80ED99' : 'transparent',
+                                                                    borderRadius: '20px'
+                                                                }}
+                                                            />
+                                                        ) : (
+                                                            <FormControlLabel 
+                                                                key={key} 
+                                                                value={key} 
+                                                                control={<Radio />} 
+                                                                label={data.questionChoices[key]} 
+                                                                disabled
+                                                                style={{
+                                                                    backgroundColor: key === data.correctQuizAnswer ? '#F07167' : 'transparent',
+                                                                    borderRadius: '20px'
+                                                                }}
+                                                            />
+                                                        )
+                                                        
                                                     ))
                                                 }
                                                 {/* <FormControlLabel value={key} control={<Radio />} label={data.questionChoices[key]} /> */}
