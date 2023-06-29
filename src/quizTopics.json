@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "topic_name": "Linux",
+        "image_url": "./images/codes.jpg",
+        "image_banner": "../images/codes.jpg",
+        "image2_url": "../images/linux.png",
+        "description": "LINUX Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce. Tellus in hac habitasse platea dictumst vestibulum rhoncus est. Arcu non sodales neque sodales ut etiam sit. Arcu bibendum at varius vel pharetra. Sed felis eget velit aliquet sagittis id consectetur. Nunc sed id semper risus in. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Magna sit amet purus gravida quis blandit turpis. Ac feugiat sed lectus vestibulum mattis ullamcorper velit sed. Et leo duis ut diam quam nulla porttitor massa id.",
+        "quizResult": {},
+        "test": ""
+    },
+    {
+        "id": 2,
+        "topic_name": "Bash",
+        "image_url": "./images/keyboard.jpg",
+        "image_banner": "../images/keyboard.jpg",
+        "image2_url": "../images/bash.png",
+        "description": " BASH Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce. Tellus in hac habitasse platea dictumst vestibulum rhoncus est. Arcu non sodales neque sodales ut etiam sit. Arcu bibendum at varius vel pharetra. Sed felis eget velit aliquet sagittis id consectetur. Nunc sed id semper risus in. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Magna sit amet purus gravida quis blandit turpis. Ac feugiat sed lectus vestibulum mattis ullamcorper velit sed. Et leo duis ut diam quam nulla porttitor massa id.",
+        "quizResult": {},
+        "test": ""
+    },
+    {
+        "id": 3,
+        "topic_name": "DevOps",
+        "image_url": "./images/devOps1.jpg",
+        "image_banner": "../images/devOps1.jpg",
+        "image2_url": "../images/devops.png",
+        "description": " DEVOPS Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce. Tellus in hac habitasse platea dictumst vestibulum rhoncus est. Arcu non sodales neque sodales ut etiam sit. Arcu bibendum at varius vel pharetra. Sed felis eget velit aliquet sagittis id consectetur. Nunc sed id semper risus in. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Magna sit amet purus gravida quis blandit turpis. Ac feugiat sed lectus vestibulum mattis ullamcorper velit sed. Et leo duis ut diam quam nulla porttitor massa id.",
+        "quizResult": {},
+        "test": ""
+    }
+]
