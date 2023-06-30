@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {getDataFromLocalStorage} from '../localStorage/localStorageUtils'
 
 import FormControl from '@mui/material/FormControl';
@@ -11,8 +11,8 @@ import Radio from '@mui/material/Radio';
 const QuizContentResult = () => {
 
     // The totalScore has the chance to get the wrong quiz score because there's a logic error
-    const [totalScore, setTotalScore] = useState(0)
-    const [totalQuestion, setTotalQuestion] = useState(0)
+    // const [totalScore, setTotalScore] = useState(0)
+    // const [totalQuestion, setTotalQuestion] = useState(0)
     const storedData = getDataFromLocalStorage('myData');
 
     // if(storedData){
@@ -23,26 +23,26 @@ const QuizContentResult = () => {
 
     // const test = Object.keys(storedData)
     useEffect(() => {
-        calculateResult(totalScore)
+        // calculateResult(totalScore)
         
     }, [])
     
-    const calculateResult = (totalScore) => {
+    // const calculateResult = (totalScore) => {
         
-        setTotalQuestion(storedData.length)
+    //     setTotalQuestion(storedData.length)
 
-        storedData.map((data) => {
+    //     storedData.map((data) => {
 
-            // There's a small bug wherever the page refreshes, the score will increase
-            // automatically and I think it's due to the useEffect()
-            if(data.userAnswer === data.correctQuizAnswer){
-                setTotalScore(totalScore + 1)
-            }
+    //         // There's a small bug wherever the page refreshes, the score will increase
+    //         // automatically and I think it's due to the useEffect()
+    //         if(data.userAnswer === data.correctQuizAnswer){
+    //             setTotalScore(totalScore + 1)
+    //         }
             
-        })
+    //     })
         
        
-    }
+    // }
 
     // I disabled the RadioButtons since it's just a quiz preview where it shows the users the correct solutions
     // and also their previous answers
@@ -51,7 +51,7 @@ const QuizContentResult = () => {
             {/* <NavigationBar /> */}
             <div style={{padding: '2em'}}>
             
-                <div style={{fontSize: '20px', fontWeight: '500', textAlign: 'center'}}> Quiz Result: {totalScore}.0 / {totalQuestion}.0</div>
+                {/* <div style={{fontSize: '20px', fontWeight: '500', textAlign: 'center'}}> Quiz Result: {totalScore}.0 / {totalQuestion}.0</div> */}
                 <h1 style={{fontSize: '25px', fontWeight: '600', textAlign: 'center', marginTop: '20px'}}>Quiz Preview</h1>
 
                 <div className="flex flex-col" style={{padding: '1em 2em 0 2em'}}>
