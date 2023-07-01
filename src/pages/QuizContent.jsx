@@ -174,14 +174,14 @@ const QuizContent = () => {
                         style={{
                             marginTop: '2em', 
                             marginLeft: '2em', 
-                            color: '#FFC300', 
-                            backgroundColor: '#31572C', 
+                            color: '#26547C', 
+                            backgroundColor: 'white', 
                             fontWeight: '600',
                             marginBottom: '2em'
                         }}>
                     <Link to={`/QuizList/${params.name}`}>Back to Detail page</Link>
                 </Button>
-                <div style={{backgroundColor: '#CCD5AE', margin: '0 10em 0 10em'}}>
+                <div style={{backgroundColor: 'white', margin: '0 10em 0 10em'}}>
                     {
                         quizData.length > 0 && (
                             <QuestionContentCard key={currentStep} data={quizData[currentStep]} values={values} handleRadioChange={handleRadioChange} handleSubmit={handleSubmit} currentStep={quizData.length}/>

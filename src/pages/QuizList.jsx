@@ -22,14 +22,14 @@ const QuizList = () => {
             <NavigationBar />
             <div className="flex justify-center">
                 <Box sx={{ maxWidth: 500 }} style={{position: 'absolute', marginTop: '10%'}}>
-                    <Card variant="outlined" sx={{maxWidth: 500}} style={{backgroundColor: '#606C38', padding: '10% 10%', borderRadius: '50px'}} className="flex flex-col items-center justify-center">
+                    <Card variant="outlined" sx={{maxWidth: 500}} style={{backgroundColor: '#26547C', padding: '10% 10%', borderRadius: '50px'}} className="flex flex-col items-center justify-center">
                         <CardContent>
                             <Typography variant="h5" component="div" style={{fontFamily: 'sans-serif', color: 'white', fontWeight: '600', textAlign: 'center', fontSize: '35px'}}> 
                                 Want To Create Your Own Quiz?
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button size="small" style={{backgroundColor: '#CCD5AE', color: 'black', padding: '10px 20px 10px 20px'}}>Create Now!</Button>
+                            <Button size="small" style={{backgroundColor: 'white', color: '#26547C', padding: '10px 20px 10px 20px'}}>Create Now!</Button>
                         </CardActions>
                     </Card>
                 </Box>
@@ -41,9 +41,9 @@ const QuizList = () => {
             
             </div>
             
-            <div style={{backgroundColor: '#CCD5AE', width: window.innerWidth, padding: '8% 10%'}}>
+            <div style={{backgroundColor: 'white', width: window.innerWidth, padding: '8% 10%'}}>
                 
-                <h1 style={{textAlign: 'center', fontSize: '28px', fontWeight: '700', color: '#606C38'}}>TOPICS AVAILABLE</h1>
+                <h1 style={{textAlign: 'center', fontSize: '28px', fontWeight: '700', color: '#26547C'}}>TOPICS AVAILABLE</h1>
                 <div className="flex flex-row flex-wrap justify-evenly mt-5">
                     {
                         // Mapped the jsonData which is an array of objects and create another component called to TopicCard. 

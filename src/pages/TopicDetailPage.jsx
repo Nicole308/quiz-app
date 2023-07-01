@@ -45,7 +45,7 @@ const TopicDetailPage = () => {
                                         backgroundRepeat: 'no-repeat'
                                     }}>
 
-                                        <Button variant='outlined' startIcon={<KeyboardReturnIcon />} style={{marginTop: '2em', marginLeft: '2em', color: 'aquamarine', fontWeight: '600'}} color='success'>
+                                        <Button variant='outlined' startIcon={<KeyboardReturnIcon />} style={{marginTop: '2em', marginLeft: '2em', color: 'aquamarine', fontWeight: '600'}}>
                                             <Link to={`/QuizList`}>Back</Link>
                                         </Button>
 

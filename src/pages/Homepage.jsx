@@ -16,7 +16,8 @@ const Homepage = () => {
         fontWeight: '600',
         fontFamily: 'sans-serif',
         textAlign: 'right',
-        margin: '0 10% 0 10%'
+        margin: '0 10% 0 10%',
+        color: 'white'
     }
 
     return (
@@ -24,9 +25,9 @@ const Homepage = () => {
             <NavigationBar />
             <div className="relative h-32 ">
                 <div className="absolute inset-x-0 top-0" style={{width: '100%'}}>   
-                    <div className="absolute right-0 bg-lime-800/75 flex flex-col justify-center items-center" style={{width: '50%', height: '100%'}}>
+                    <div className="absolute right-0 bg-cyan-700/75 flex flex-col justify-center items-center" style={{width: '50%', height: '100%'}}>
                         <h1 
-                            style={{color: '#CCD5AE', 
+                            style={{color: 'white', 
                                     fontFamily: 'sans-serif',
                                     fontWeight: '600',
                                     fontSize: '45px',
@@ -37,7 +38,11 @@ const Homepage = () => {
                             WELCOME TO THE QUIZ APP
                         </h1>
                         <h2 style={regularText}>A place where you can test your computer knowledge and learn more!</h2>
-                        <h3 style={{marginLeft: '50%', fontSize: '20px', fontWeight: '600', color: 'white', textDecorationLine: 'underline'}}><Link to={'/QuizList'}>Try It Now!</Link></h3>
+                        <h3 style={{marginLeft: '50%', fontSize: '20px', fontWeight: '600', color: 'white', textDecorationLine: 'underline'}}>
+                            <Link to={'/QuizList'}>
+                                Try It Now!
+                            </Link>
+                        </h3>
                     </div>
                     
                     <img src="./images/study.jpg" alt="study img" />

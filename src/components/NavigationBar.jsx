@@ -12,14 +12,14 @@ const NavigationBar = () => {
     return (
         
         <Box sx={{flexGrow: 1}}>
-            <AppBar position='static' style={{backgroundColor: '#283618'}}>
+            <AppBar position='static' style={{backgroundColor: '#26547C'}}>
                 <ToolBar>
-                    <QuizIcon style={{height: '1em', width: '1em', color: '#FFC300'}} />
+                    <QuizIcon style={{height: '1em', width: '1em', color: 'white'}} />
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         <Link to={'/'}>QuizQuest</Link>
                         <Link to={'/QuizList'} style={{marginLeft: '1em'}}>Quiz List</Link>
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {/* <Button color="inherit">Login</Button> */}
                 </ToolBar>
             </AppBar>
         </Box>

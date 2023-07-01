@@ -100,7 +100,7 @@ const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, cur
                             
                             {/* Used ternary operator to change the button text to either 'Submit' or 'Next' */}
                             {/* If the currentStep (questionNum) has reached 6 (according to the length of the array starting from 0 => 0, 1, 2, ...) */}
-                            <Button type='submit' variant='contained' style={{backgroundColor: '#283618'}}>
+                            <Button type='submit' variant='contained' color='primary' style={{paddingRight: '30px', paddingLeft: '30px'}}>
                                 {
                                     currentStep === 6 ? `Submit` : `Next`
                                 }
