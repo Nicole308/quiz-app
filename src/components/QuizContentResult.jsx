@@ -54,7 +54,7 @@ const QuizContentResult = () => {
                 {/* <div style={{fontSize: '20px', fontWeight: '500', textAlign: 'center'}}> Quiz Result: {totalScore}.0 / {totalQuestion}.0</div> */}
                 <h1 style={{fontSize: '25px', fontWeight: '600', textAlign: 'center', marginTop: '20px'}}>Quiz Preview</h1>
 
-                <div className="flex flex-col" style={{padding: '1em 2em 0 2em'}}>
+                <div style={{display: 'flex', flexDirection: 'column', padding: '1em 2em 0 2em'}}>
                     {
                         storedData.map((data) => {
                             return (

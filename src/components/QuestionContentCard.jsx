@@ -11,6 +11,7 @@ import QuizContentResult from './QuizContentResult';
 // eslint-disable-next-line react/prop-types
 const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, currentStep}) => {
 
+    console.log("QUIZ CONTENT CARD CHECK")
     // If the questions are done/gone, display the QuizContentResult component page
     if(!data){
 
@@ -60,10 +61,10 @@ const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, cur
     // Display data's properties and assign all functions that has been passed to form onSubmit and RadioGroup onChange
     return (
         <>
-            <form onSubmit={handleFormSubmit} className='flex justify-center' style={{margin: '5% 2% 0 2%', padding: '8% 3% 0% 3%'}}>
+            <form onSubmit={handleFormSubmit} style={{display: 'flex', justifyContent: 'center', margin: '5% 2% 0 2%', padding: '8% 3% 0% 3%'}}>
                 <FormControl>
-                    <div className='flex flex-col'>
-                        <div className="flex flex-row" style={{fontSize: '30px'}}>
+                    <div style={{display: 'flex', flexDirection: 'column'}}>
+                        <div style={{display: 'flex', flexDirection: 'row', fontSize: '30px'}}>
                             <h2>{data.number}{'\u00A0'}</h2>
                             <h2>{data.question}</h2>
                         </div>
@@ -95,7 +96,7 @@ const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, cur
                         </div>
                        
                         {/* Needs a validation method */}
-                        <div className='flex justify-end' style={{padding: '1em 2em 1em 2em', margin: '0 5em 2em'}}>
+                        <div style={{display: 'flex', justifyContent: 'flex-end', padding: '1em 2em 1em 2em', margin: '0 5em 2em'}}>
 
                             
                             {/* Used ternary operator to change the button text to either 'Submit' or 'Next' */}

@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 const TopicCard = (data) => {
     
     // Checking to see if we still get the data
-    // console.log(data.data, "data from topicCard")
+    console.log("quizzes in TopicCard.jsx: ", data.data)
 
     // Used the Material UI design Card component to list all of the objects in data json.
     // The card component will be wrapped with a router Link so that when clicked, it will automatically 
@@ -18,9 +18,11 @@ const TopicCard = (data) => {
     // so it will be easier to fetch the data according to the user card selection.
     return (
         <>
-            {/* <img src={data.data.image_url} style={{width: '100px', height: '100px'}} alt="topic imgs" /> */}
+            {/* <p>{data.data.topic_name}</p>
+            <img src={data.data.image_url} alt="quiz img" style={{width: '50px', height: '50px'}}/> */}
+
             <Link to={`/QuizList/${data.data.topic_name}`}>
-                <Card sx={{ width: '300px', height: '200px', borderRadius: '10px' }}>
+                <Card sx={{ width: '300px', height: '200px', borderRadius: '10px', margin: '0px 15px'}}>
                     <Box sx={{ position: 'relative' }}>
                         <CardMedia
                         component="img"

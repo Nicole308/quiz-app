@@ -8,6 +8,9 @@ import NotFoundPage from './pages/NotFoundPage'
 import topicsData from './quizTopics.json'
 import TopicDetailPage from './pages/TopicDetailPage'
 import QuizContent from './pages/QuizContent'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import CreateQuiz from './pages/CreateQuiz'
 
 function App() {
 
@@ -35,6 +38,9 @@ function App() {
             <Route path='/QuizList' element={<QuizList />}/>
             <Route path='/QuizList/:name' element={<TopicDetailPage />} />
             <Route path='/QuizList/:name/quiz' element={<QuizContent />}/>
+            <Route path='/login' element={<Login />}/>
+            <Route path='/register' element={<Register />}/>
+            <Route path='/createQuiz' element={<CreateQuiz />}/>
             <Route path='*' element={<NotFoundPage />}/>
           </Routes>
         </QuizContext.Provider>

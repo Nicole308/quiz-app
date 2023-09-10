@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom'
@@ -15,7 +15,7 @@ const QuizContent = () => {
 
     // Call the context from data json 
     // (I ended up didn't use it because whenever I refresh the page, 
-    // the quiz result will be gone due to the data json property called "quizResult" being an empy object)
+    // the quiz result will be gone due to the data json property called "quizResult" being an empty object)
     const { topicData, setTopicData } = useContext(QuizContext)
 
     // The quizData useState is for the API quiz data after fetching it. Later on, it will be used to display the quiz questions
@@ -26,7 +26,7 @@ const QuizContent = () => {
     const [userAnswers, setUserAnswers] = useState([])
 
     // The currentStep useState will be to keep track of the quiz question page number since the quiz will display one question at a time
-    // The user will be able to proceed to the next question when 'Next' button is clicked
+    // The user will be able to proceed to the next question when 'Next' button is clickeda
     const [currentStep, setCurrentStep] = useState(0)
 
     // The values useState is to record the material UI radio buttons when being clicked by users.
@@ -37,7 +37,7 @@ const QuizContent = () => {
 
 
     useEffect(() => {
-
+        // console.log(params, "params in useEffect")
         // This is where I decided to use local storage to store user answers since it will be easier to refresh the code 
         // without worrying the answer data being gone
         const storedData = getDataFromLocalStorage('myData');
@@ -59,7 +59,7 @@ const QuizContent = () => {
 
             // Used the quiz json parsed data to get specific values that I will use and put them inside a new array of objects
             // The questionNum will automatically increased by 1 everytime there's a new object
-            const simplifiedData = jsonDataConvert.map((data) => {
+            const simplifiedData = await jsonDataConvert.map((data) => {
                 questionNum += 1
                 return {
                     number: questionNum,
@@ -72,6 +72,7 @@ const QuizContent = () => {
                 }
             })
             console.log(simplifiedData, "Simplified data from Quiz Content file")
+            // console.log("CHECK QUIZ CONTENT")
 
             // Assign the newly simplifiedData array to quizData 
             setQuizData(simplifiedData)
@@ -80,7 +81,11 @@ const QuizContent = () => {
         // Call the function
         getQuizData()
 
-    }, [params.name])
+    }, [])
+
+
+    // const memoizedQuizData = useMemo(() => quizData, [quizData])
+    // console.log(memoizedQuizData, 'memoized data')
 
     // console.log(topicData, "Checking topicData context from QuizContent.jsx")
 
@@ -160,7 +165,7 @@ const QuizContent = () => {
     // console.log(topicData, "topic Data accessed after update quiz result")
    
     // Assign userAnswers object to local storage 
-    console.log(userAnswers, "User all answers")
+    // console.log(userAnswers, "User all answers")
     setDataInLocalStorage('myData', userAnswers)
 
 
