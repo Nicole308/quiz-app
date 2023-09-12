@@ -56,7 +56,7 @@ const NavigationBar = () => {
                     return {...oldValues, token: null }
                 })
             }
-            setTimeout(verifyUser, 5 * 60 * 1000)
+            setTimeout(verifyUser, 3 * 60 * 60 * 1000)
 
         } catch(err) {
             console.log("error fetching refreshToken from server: ", err)

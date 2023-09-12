@@ -6,55 +6,33 @@ import QuestionContentCard from '../components/QuestionContentCard';
 import QuizContext from '../context/QuizContext';
 import {getDataFromLocalStorage, setDataInLocalStorage} from '../localStorage/localStorageUtils'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
-// In this QuizContent page, I ended up didn't use the context provider and ended up using local storage for this one
 const QuizContent = () => {
 
-    // Used the useParams from TopicDetail page
     const params = useParams()
-
-    // Call the context from data json 
-    // (I ended up didn't use it because whenever I refresh the page, 
-    // the quiz result will be gone due to the data json property called "quizResult" being an empty object)
     const { topicData, setTopicData } = useContext(QuizContext)
-
-    // The quizData useState is for the API quiz data after fetching it. Later on, it will be used to display the quiz questions
     const [quizData, setQuizData] = useState([])
-
-    // The userAnswer useState is to record all user's answers and also to put in some of the quizData's values for easier comparison
-    // later in the quiz result component
     const [userAnswers, setUserAnswers] = useState([])
-
-    // The currentStep useState will be to keep track of the quiz question page number since the quiz will display one question at a time
-    // The user will be able to proceed to the next question when 'Next' button is clickeda
     const [currentStep, setCurrentStep] = useState(0)
-
-    // The values useState is to record the material UI radio buttons when being clicked by users.
     const [values, setValues] = useState({answer: ''})
+    const server_api = import.meta.env.VITE_CONNECT_SERVER_API
+    const TOKEN_API = import.meta.env.VITE_QUIZ_API
+    const serverRefresh_endpoint = "/quizzes/getAllQuiz"
+    
+    // Fetching the Quiz API data according to the parameter name. After getting the data, parse it to json data
+    const getQuizData = async() => {
+        const categoryName = params.name
+        const quizID = params.id
+        console.log("QuizContent params.name: ", categoryName)
+        console.log("QuizContent params.id: ", quizID)
 
-    // The token API for fetching API
-    const TOKEN_API = '8jbzeHmOykyfsFJ2r9tZZXuToFJr2lQ3ao6hqD0e'
-
-
-    useEffect(() => {
-        // console.log(params, "params in useEffect")
-        // This is where I decided to use local storage to store user answers since it will be easier to refresh the code 
-        // without worrying the answer data being gone
-        const storedData = getDataFromLocalStorage('myData');
-
-        if (storedData) {
-            setUserAnswers(storedData);
-            // console.log(storedData, "StoredData from QuizContent.jsx")
-        }
-
-        // Fetching the Quiz API data according to the parameter name. After getting the data, parse it to json data
-        const getQuizData = async() => {
-            const categoryName = params.name
-            const fetchData = await fetch(`https://quizapi.io/api/v1/questions?apiKey=${TOKEN_API}&category=${categoryName.toLowerCase()}&limit=7`)
+        const fetchData = await fetch(`https://quizapi.io/api/v1/questions?apiKey=${TOKEN_API}&category=${categoryName.toLowerCase()}&limit=7`)
+        if(fetchData.ok){
             const jsonDataConvert = await fetchData.json()
             // console.log(jsonDataConvert, `Quiz ${categoryName} content result in jsonDataConvert`)
 
-            // questionNum will display the question number (I also treat this as an id)
             let questionNum = 0
 
             // Used the quiz json parsed data to get specific values that I will use and put them inside a new array of objects
@@ -71,18 +49,61 @@ const QuizContent = () => {
                     isMultipleAnswers: data.multiple_correct_answers
                 }
             })
-            console.log(simplifiedData, "Simplified data from Quiz Content file")
+            // console.log(simplifiedData, "Simplified data from Quiz Content file")
             // console.log("CHECK QUIZ CONTENT")
 
-            // Assign the newly simplifiedData array to quizData 
             setQuizData(simplifiedData)
-        }
+        } else if(!fetchData.ok) {
+            console.log("Fetch Quiz API status: ", fetchData.status, fetchData.statusText)
 
-        // Call the function
+            const fetchUsersData = await fetch(
+                `${server_api}${serverRefresh_endpoint}`, {
+                    method: 'GET',
+                    credentials: 'include', 
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+            )
+            if(fetchUsersData.ok){
+                const userQuizJsonData = await fetchUsersData.json()
+                console.log("userQuizJsonData: ", userQuizJsonData)
+
+                const simplifiedUserQuiz = userQuizJsonData.filter((quizzes) => quizzes._id === quizID && quizzes.topic_name === categoryName)
+                                                            .map(quiz => quiz.content)
+                console.log("simplifiedUserQuiz: ", simplifiedUserQuiz)
+
+                if(simplifiedUserQuiz.length > 0){
+                    const firstQuizArr = simplifiedUserQuiz[0]
+                    console.log("firstQuizArr: ", firstQuizArr)
+
+                    setQuizData(firstQuizArr)
+                } else {
+                    console.log("No match for the quiz")
+                }
+
+            } else {
+                console.log("Fetch Quiz BACKEND status: ", fetchUsersData.status, fetchUsersData.statusText)
+            }
+
+        }
+        
+    }
+
+    useEffect(() => {
+        // console.log(params, "params in useEffect")
+        // This is where I decided to use local storage to store user answers since it will be easier to refresh the code 
+        // without worrying the answer data being gone
+        const storedData = getDataFromLocalStorage('myData');
+
+        if (storedData) {
+            setUserAnswers(storedData);
+            // console.log(storedData, "StoredData from QuizContent.jsx")
+        }
+        
         getQuizData()
 
     }, [])
-
 
     // const memoizedQuizData = useMemo(() => quizData, [quizData])
     // console.log(memoizedQuizData, 'memoized data')
@@ -111,11 +132,6 @@ const QuizContent = () => {
     // A function for when the Form for radio buttons is submitted
     const handleSubmit = () => {
         // event.preventDefault()
-
-        // Added more properties such as how many correct or wrong answers
-        // Also if the user wants to check which question they got them wrong..
-        // Then we would have to store our previous questions and answers 
-        // and mark them red based on the answers the user provided
 
         // I did some filtering when there's a null in correctQuizAnswer and used another property object 
         // from quizData called answers_bool as another answer (they container boolean values for each answers)
@@ -159,18 +175,12 @@ const QuizContent = () => {
         setTopicData(updateData)
 
     }
-
-    
-   
     // console.log(topicData, "topic Data accessed after update quiz result")
    
     // Assign userAnswers object to local storage 
     // console.log(userAnswers, "User all answers")
     setDataInLocalStorage('myData', userAnswers)
 
-
-    // Pass the required datas to another component called QuestionContentCard  by using props method
-    // so it can be used on that file
     return (
         <> 
             <div style={{}}>
@@ -184,12 +194,17 @@ const QuizContent = () => {
                             fontWeight: '600',
                             marginBottom: '2em'
                         }}>
-                    <Link to={`/QuizList/${params.name}`}>Back to Detail page</Link>
+                    <Link to={`/QuizList/${params.id}/${params.name}`}>Back to Detail page</Link>
                 </Button>
                 <div style={{backgroundColor: 'white', margin: '0 10em 0 10em'}}>
                     {
-                        quizData.length > 0 && (
+                        quizData.length > 0 ? (
                             <QuestionContentCard key={currentStep} data={quizData[currentStep]} values={values} handleRadioChange={handleRadioChange} handleSubmit={handleSubmit} currentStep={quizData.length}/>
+                        ) : (
+                            <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '10rem'}}>
+                                <CircularProgress />
+                                <h2 className='kelly-font'>Loading...</h2>
+                            </Box>
                         )
                     }
 

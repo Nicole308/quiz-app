@@ -1,27 +1,27 @@
 [
     {
-        "id": 1,
+        "_id": "1",
         "topic_name": "Linux",
-        "image_url": "../images/codes.jpg",
-        "image2_url": "../images/linux.png",
+        "image_url": "http://res.cloudinary.com/dyu3tr71i/image/upload/v1694493075/codes_hztpgq.jpg",
+        "image2_url": "http://res.cloudinary.com/dyu3tr71i/image/upload/v1694493077/linux_kjeevf.png",
         "description": "Linux is a free, open source operating system, a software that directly manages a system's hardware and resources. Since it's placed between the hardware and applications anyone can run, study, and modify the code by adding more features or fixing bugs to the Linux kernel then, redistribute the source code to the community (as long as they have the license). There are 7 questions within the quiz and by clicking the start button below, the quiz will start now.",
         "quizResult": {},
         "test": ""
     },
     {
-        "id": 2,
+        "_id": "2",
         "topic_name": "Bash",
-        "image_url": "../images/keyboard.jpg",
-        "image2_url": "../images/bash.png",
+        "image_url": "http://res.cloudinary.com/dyu3tr71i/image/upload/v1694493076/keyboard_zlallg.jpg",
+        "image2_url": "http://res.cloudinary.com/dyu3tr71i/image/upload/v1694493073/bash_b3ged2.png",
         "description": "Bash is the most popular shell application for Unix computers when it comes to operating outside of the kernel. Not only is Bash the best but it's also the most powerful and the most user-friendly. There are 7 questions within the quiz and by clicking the start button below, the quiz will start now.",
         "quizResult": {},
         "test": ""
     },
     {
-        "id": 3,
+        "_id": "3",
         "topic_name": "DevOps",
-        "image_url": "../images/devOps1.jpg",
-        "image2_url": "../images/devops.png",
+        "image_url": "http://res.cloudinary.com/dyu3tr71i/image/upload/v1694494586/comp-desk_sumueh.png",
+        "image2_url": "http://res.cloudinary.com/dyu3tr71i/image/upload/v1694493074/devops_jvfyjl.png",
         "description": "DevOps enables  formerly siloed roles—development, IT operations, quality engineering, and security—to coordinate and collaborate to produce better, more reliable products. They influences the application lifecycle by their plan, develop, deliver, and operate phases. There are several DevOps practises: configuration management, agile software development, and many other things that can improve productivity. There are 7 questions within the quiz and by clicking the start button below, the quiz will start now.",
         "quizResult": {},
         "test": ""

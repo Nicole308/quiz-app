@@ -10,8 +10,9 @@ import { Link } from 'react-router-dom'
 const TopicCard = (data) => {
     
     // Checking to see if we still get the data
-    console.log("quizzes in TopicCard.jsx: ", data.data)
-
+    // console.log("quizzes in TopicCard.jsx: ", data.data)
+    // console.log("all ids: ", data.data._id)
+    
     // Used the Material UI design Card component to list all of the objects in data json.
     // The card component will be wrapped with a router Link so that when clicked, it will automatically 
     // go to another page that has the same link. I decided to use the useParams to get the topic_name
@@ -21,7 +22,7 @@ const TopicCard = (data) => {
             {/* <p>{data.data.topic_name}</p>
             <img src={data.data.image_url} alt="quiz img" style={{width: '50px', height: '50px'}}/> */}
 
-            <Link to={`/QuizList/${data.data.topic_name}`}>
+            <Link to={`/QuizList/${data.data._id}/${data.data.topic_name}`}>
                 <Card sx={{ width: '300px', height: '200px', borderRadius: '10px', margin: '0px 15px'}}>
                     <Box sx={{ position: 'relative' }}>
                         <CardMedia

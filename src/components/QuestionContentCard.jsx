@@ -36,9 +36,9 @@ const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, cur
     const filterNullValues = (choicesObj) => {
 
         for(let filter in choicesObj){
-            if(choicesObj[filter] === null){
+            if(choicesObj[filter] === null ){
                 delete choicesObj[filter]
-            }
+            } 
         }
         return choicesObj
 

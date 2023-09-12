@@ -12,6 +12,8 @@ const TopicDetailPage = () => {
 
     // Used the useParams to get the link's parameter topic_name from QuizList TopicCard component
     const params = useParams()
+    // console.log("params.name: ", params.name)
+    // console.log("params.id: ", params.id)
     const [usersAllQuiz, setUsersAllQuiz] = useState([])
     const [dataFetched, setDataFetched] = useState(false)
     const [combinedQuizArr, setCombinedQuizArr] = useState([])
@@ -47,7 +49,7 @@ const TopicDetailPage = () => {
             const combinedArray = [...topicData, ...usersAllQuiz];
             setCombinedQuizArr(combinedArray);
           } else {
-            console.log("Error in combining both arrays of quizzes");
+            console.log("Error in combining both arrays of quizzes: ", topicData.status, topicData.statusText);
           }
         
     }
@@ -64,9 +66,9 @@ const TopicDetailPage = () => {
         combineQuizzesArr();
       }, [topicData, usersAllQuiz]);
 
-    // console.log("usersAllQuiz from TopicDetailPage.jsx: ", usersAllQuiz)
-    // console.log(topicData, "Data Context from topic detail page")  
-    // console.log("combinedQuizArr: ", combinedQuizArr)
+    console.log("usersAllQuiz from TopicDetailPage.jsx: ", usersAllQuiz)
+    console.log(topicData, "Data Context from topic detail page")  
+    console.log("combinedQuizArr: ", combinedQuizArr)
 
     return (
         <>
@@ -82,7 +84,7 @@ const TopicDetailPage = () => {
                     // Passed the parameter name again to the link router for starting the quiz so that we can fetch the API according 
                     // to the params name
                     combinedQuizArr.map((data) => {
-                        if(data.topic_name === params.name){
+                        if(data.topic_name === params.name && data._id === params.id){
                             return (
                                 <>
                                     <div style={{
@@ -94,7 +96,7 @@ const TopicDetailPage = () => {
                                         backgroundRepeat: 'no-repeat'
                                     }}>
 
-                                        <Button onClick={() => navigate(-1)} variant='outlined' startIcon={<KeyboardReturnIcon />} style={{marginTop: '2em', marginLeft: '2em', color: 'aquamarine', fontWeight: '600'}}>
+                                        <Button onClick={() => navigate('/QuizList')} variant='outlined' startIcon={<KeyboardReturnIcon />} style={{marginTop: '2em', marginLeft: '2em', color: 'aquamarine', fontWeight: '600'}}>
                                             {/* <Link to={`/QuizList`}>Back</Link> */}
                                             Back
                                         </Button>
@@ -133,8 +135,9 @@ const TopicDetailPage = () => {
                                                                     )
                                                                 }
                                                             </div>
-                                                            <Button variant='contained' startIcon={<KeyboardArrowRightIcon />} style={{backgroundColor: '#4361EE', marginTop: '2em', color: 'aquamarine', fontWeight: '600'}}>
-                                                                <Link to={`/QuizList/${data.topic_name}/quiz/`}>Start</Link>
+                                                            <Button onClick={() => navigate(`/QuizList/${params.id}/${data.topic_name}/quiz`)} variant='contained' startIcon={<KeyboardArrowRightIcon />} style={{backgroundColor: '#4361EE', marginTop: '2em', color: 'aquamarine', fontWeight: '600'}}>
+                                                                {/* <Link to={`/QuizList/${data.topic_name}/quiz/`}>Start</Link> */}
+                                                                Start
                                                             </Button>
                                                         </div>
                                                     </div>

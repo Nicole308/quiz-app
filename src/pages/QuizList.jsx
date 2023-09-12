@@ -101,7 +101,7 @@ const QuizList = () => {
                         // Mapped the jsonData which is an array of objects and create another component called to TopicCard. 
                         // Returned the TopicCard component 
                         memoizeQuizList.map((data) => {
-                            return <TopicCard key={data.id} data={data}/>
+                            return <TopicCard key={data._id} data={data}/>
                         })
                         
 
