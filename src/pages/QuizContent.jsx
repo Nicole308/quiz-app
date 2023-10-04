@@ -1,13 +1,14 @@
 import { useContext, useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom'
 import QuestionContentCard from '../components/QuestionContentCard';
 import QuizContext from '../context/QuizContext';
 import {getDataFromLocalStorage, setDataInLocalStorage} from '../localStorage/localStorageUtils'
-import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const QuizContent = () => {
 
@@ -17,17 +18,16 @@ const QuizContent = () => {
     const [userAnswers, setUserAnswers] = useState([])
     const [currentStep, setCurrentStep] = useState(0)
     const [values, setValues] = useState({answer: ''})
+    const navigate = useNavigate()
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const TOKEN_API = import.meta.env.VITE_QUIZ_API
+    const QUIZ_CONTENT_IMG = import.meta.env.VITE_QUIZ_CONTENT_BG_IMG
     const serverRefresh_endpoint = "/quizzes/getAllQuiz"
     
     // Fetching the Quiz API data according to the parameter name. After getting the data, parse it to json data
     const getQuizData = async() => {
         const categoryName = params.name
         const quizID = params.id
-        console.log("QuizContent params.name: ", categoryName)
-        console.log("QuizContent params.id: ", quizID)
-
         const fetchData = await fetch(`https://quizapi.io/api/v1/questions?apiKey=${TOKEN_API}&category=${categoryName.toLowerCase()}&limit=7`)
         if(fetchData.ok){
             const jsonDataConvert = await fetchData.json()
@@ -67,11 +67,11 @@ const QuizContent = () => {
             )
             if(fetchUsersData.ok){
                 const userQuizJsonData = await fetchUsersData.json()
-                console.log("userQuizJsonData: ", userQuizJsonData)
+                // console.log("userQuizJsonData: ", userQuizJsonData)
 
                 const simplifiedUserQuiz = userQuizJsonData.filter((quizzes) => quizzes._id === quizID && quizzes.topic_name === categoryName)
                                                             .map(quiz => quiz.content)
-                console.log("simplifiedUserQuiz: ", simplifiedUserQuiz)
+                // console.log("simplifiedUserQuiz: ", simplifiedUserQuiz)
 
                 if(simplifiedUserQuiz.length > 0){
                     const firstQuizArr = simplifiedUserQuiz[0]
@@ -183,34 +183,69 @@ const QuizContent = () => {
 
     return (
         <> 
-            <div style={{}}>
-                <Button variant='contained' 
-                        startIcon={<KeyboardReturnIcon />} 
-                        style={{
-                            marginTop: '2em', 
-                            marginLeft: '2em', 
-                            color: '#26547C', 
-                            backgroundColor: 'white', 
-                            fontWeight: '600',
-                            marginBottom: '2em'
-                        }}>
-                    <Link to={`/QuizList/${params.id}/${params.name}`}>Back to Detail page</Link>
-                </Button>
-                <div style={{backgroundColor: 'white', margin: '0 10em 0 10em'}}>
-                    {
-                        quizData.length > 0 ? (
-                            <QuestionContentCard key={currentStep} data={quizData[currentStep]} values={values} handleRadioChange={handleRadioChange} handleSubmit={handleSubmit} currentStep={quizData.length}/>
-                        ) : (
-                            <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '10rem'}}>
-                                <CircularProgress />
-                                <h2 className='kelly-font'>Loading...</h2>
-                            </Box>
-                        )
-                    }
-
-                </div>
+            <Box sx={{backgroundColor: 'white', 
+                    //   padding: '0 10em 0 10em', 
+                      border: '3px solid #26547C', 
+                      position: 'absolute', 
+                      left: '50%', 
+                      top: '50%', 
+                      transform: 'translate(-50%, -50%)', 
+                      borderRadius: '15px',
+                      width: '50rem',
+                      height: '30rem'
+                    }}>
+                {
+                    (currentStep + 1) > quizData.length ? (
+                        <></>
+                    ) : (
+                        <>
+                            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                                <h2 className='allerta-font' style={{paddingTop: '1rem', marginBottom: '0rem', textAlign: 'center'}}>
+                                    {(currentStep + 1)}{'\u00A0'}/{quizData.length}
+                                </h2>
+                                <LinearProgress variant='determinate'
+                                            value={Math.round((100 / quizData.length) * (currentStep + 1))}
+                                            sx={{width: '80%', height: '6px', marginTop: '1.5rem'}}
+                                />
+                            </Box>  
+                        </>
+                    )
+                }
+                {
+                    quizData.length > 0 ? (
+                        <QuestionContentCard key={currentStep} data={quizData[currentStep]} values={values} handleRadioChange={handleRadioChange} handleSubmit={handleSubmit} currentStep={quizData.length}/>
+                    ) : (
+                        <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '10rem'}}>
+                            <CircularProgress />
+                            <h2 className='kelly-font'>Loading...</h2>
+                        </Box>
+                    )
+                }
+            </Box>
+            <Box component="div" sx={{width: '100%', display: 'flex'}}>
+                <Box component="div" sx={{width: '50%', backgroundColor: 'white'}}>
+                    <Button onClick={() => navigate(`/QuizList/${params.id}/${params.name}`)}
+                            startIcon={<ArrowBackIcon sx={{width: '5rem', height: '3rem'}}/>} 
+                            style={{
+                                marginTop: '3rem', 
+                                marginLeft: '3rem', 
+                                color: '#26547C', 
+                                fontWeight: '700',
+                                marginBottom: '2em'
+                            }}>
+                        {/* <Link to={`/QuizList/${params.id}/${params.name}`}>Back to Detail page</Link> */}
+                    </Button>
+                </Box>
+               
+                <Box component="div" sx={{width: '50%', height: '100%', display: 'flex', }}>
+                    <img src={QUIZ_CONTENT_IMG} 
+                         alt="Quiz content background img"
+                         style={{width: '100rem'}}
+                    />
+                </Box>
                 
-            </div>
+            </Box>
+            
         </>
     )
 }

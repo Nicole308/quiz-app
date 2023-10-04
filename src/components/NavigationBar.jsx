@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 import { UserContext } from "../context/UserContext.js"
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useCallback, useEffect, useState } from 'react';
 import { useContext } from 'react';
 // import { getSessionJwtToken, getSessionRefreshToken } from '../../session/sessionStorage.js';
@@ -26,6 +26,7 @@ const NavigationBar = () => {
     const serverRefresh_endpoint = "/users/refreshToken"
     const serverMe_endpoint = "/users/me"
     const serverLogout_endpoint = "/users/logout"
+    const navigate = useNavigate()
     // const sessionJWTtoken = getSessionJwtToken()
     // const sessionRefreshToken = getSessionRefreshToken()
 
@@ -125,6 +126,8 @@ const NavigationBar = () => {
                 return {...oldValues, details: undefined, token: null}
             })
             window.localStorage.setItem("logout", Date.now())
+            window.location.href = "/"
+
         }
     }
 
@@ -210,7 +213,7 @@ const NavigationBar = () => {
                                     open={open}
                                     onClose={handleCloseClick}
                                 >
-                                    <MenuItem>Dashboard</MenuItem>
+                                    <MenuItem onClick={() => navigate(`/dashboard`)}>Dashboard</MenuItem>
                                     <MenuItem onClick={logoutUser}>Logout</MenuItem>
                                 </Menu>
                             </>

@@ -11,6 +11,8 @@ import QuizContent from './pages/QuizContent'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import CreateQuiz from './pages/CreateQuiz'
+import QuizContentResult from './pages/QuizContentResult'
+import Dashboard from './pages/Dashboard'
 
 function App() {
 
@@ -38,9 +40,11 @@ function App() {
             <Route path='/QuizList' element={<QuizList />}/>
             <Route path='/QuizList/:id/:name' element={<TopicDetailPage />} />
             <Route path='/QuizList/:id/:name/quiz' element={<QuizContent />}/>
+            <Route path='/QuizList/quizResult' element={<QuizContentResult />} />
             <Route path='/login' element={<Login />}/>
             <Route path='/register' element={<Register />}/>
             <Route path='/createQuiz' element={<CreateQuiz />}/>
+            <Route path='/dashboard' element={<Dashboard />}/>
             <Route path='*' element={<NotFoundPage />}/>
           </Routes>
         </QuizContext.Provider>

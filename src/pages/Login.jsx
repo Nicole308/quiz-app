@@ -70,9 +70,9 @@ const Login = () => {
             if(response.ok){
                 console.log("Login currently being checked in backend")
                 const jsonData = await response.json()
-                console.log("Response Users: ", jsonData)
-                console.log("Response user token: ", jsonData.token)
-                console.log("Response refresh user token: ", jsonData.refreshToken)
+                // console.log("Response Users: ", jsonData)
+                // console.log("Response user token: ", jsonData.token)
+                // console.log("Response refresh user token: ", jsonData.refreshToken)
 
                 // Tried using sessionStorage => works but I decided to use cookies to store tokens
                 // await setSessionJwtToken(jsonData.token)

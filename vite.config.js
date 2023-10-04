@@ -4,7 +4,7 @@ import dotenv from "dotenv"
 
 dotenv.config({path: ".env"});
 
-console.log("test .env from vite.config.js: ", process.env.CONNECT_SERVER_API)
+// console.log("test .env from vite.config.js: ", process.env.CONNECT_SERVER_API)
 
 // https://vitejs.dev/config/
 export default defineConfig({

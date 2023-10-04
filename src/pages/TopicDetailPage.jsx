@@ -37,7 +37,7 @@ const TopicDetailPage = () => {
         if(response.ok){
             // console.log("response in QuizList page: ", response)
             const quizJsonData = await response.json()
-            console.log("quizJsonData in QuizList", quizJsonData)
+            // console.log("quizJsonData in QuizList", quizJsonData)
             await setUsersAllQuiz(quizJsonData)
         } else {
             console.log("No quizzes fetched in backend: ", response.status, response.statusText)
@@ -66,9 +66,9 @@ const TopicDetailPage = () => {
         combineQuizzesArr();
       }, [topicData, usersAllQuiz]);
 
-    console.log("usersAllQuiz from TopicDetailPage.jsx: ", usersAllQuiz)
-    console.log(topicData, "Data Context from topic detail page")  
-    console.log("combinedQuizArr: ", combinedQuizArr)
+    // console.log("usersAllQuiz from TopicDetailPage.jsx: ", usersAllQuiz)
+    // console.log(topicData, "Data Context from topic detail page")  
+    // console.log("combinedQuizArr: ", combinedQuizArr)
 
     return (
         <>

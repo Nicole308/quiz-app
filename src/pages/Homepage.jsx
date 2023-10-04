@@ -18,8 +18,6 @@ const Homepage = () => {
 
     // Will use this to further the homepage intro
     const memoizeHomepageData = useMemo(() => getJSONData, [getJSONData])
-    console.log(memoizeHomepageData, "Linux Data accessed from homepage: ")
-    // console.log("HOMEPAGE CHECK")
 
     const regularText = {
         fontSize: '25px',

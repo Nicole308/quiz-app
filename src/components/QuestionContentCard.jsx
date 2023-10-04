@@ -5,18 +5,18 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import Button from '@mui/material/Button';
 
-import QuizContentResult from './QuizContentResult';
+import { Box } from '@mui/material';
+import QuizScoreBox from './QuizScoreBox';
 
 // Call the properties that has been passed from QuizContent file
 // eslint-disable-next-line react/prop-types
 const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, currentStep}) => {
+    // console.log("QUIZ CONTENT CARD CHECK: ", currentStep)
 
-    console.log("QUIZ CONTENT CARD CHECK")
     // If the questions are done/gone, display the QuizContentResult component page
-    if(!data){
-
+    if(!data){        
         return (
-            <QuizContentResult />
+            <QuizScoreBox />
         )
     }
 
@@ -61,14 +61,14 @@ const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, cur
     // Display data's properties and assign all functions that has been passed to form onSubmit and RadioGroup onChange
     return (
         <>
-            <form onSubmit={handleFormSubmit} style={{display: 'flex', justifyContent: 'center', margin: '5% 2% 0 2%', padding: '8% 3% 0% 3%'}}>
-                <FormControl>
+            <form onSubmit={handleFormSubmit} style={{display: 'flex', justifyContent: 'center', padding: '2rem 0.75rem 0rem 0.75rem'}}>
+                <FormControl style={{width: '100%'}}>
                     <div style={{display: 'flex', flexDirection: 'column'}}>
-                        <div style={{display: 'flex', flexDirection: 'row', fontSize: '30px'}}>
-                            <h2>{data.number}{'\u00A0'}</h2>
-                            <h2>{data.question}</h2>
-                        </div>
-                        <div>
+                        <Box className='allerta-font' sx={{display: 'flex', flexDirection: 'column', fontSize: '30px', alignItems: 'center'}}>
+                            {/* <h5 style={{margin: '0px'}}>{data.number}{'\u00A0'}/{currentStep}</h5> */}
+                            <h5 style={{margin: '0px'}}>{data.question}</h5>
+                        </Box>
+                        <div style={{paddingTop: '0.75rem', display: 'flex', justifyContent: 'center'}}>
                             <FormControl>
                                 <RadioGroup
                                     aria-labelledby="demo-radio-buttons-group-label"
@@ -84,7 +84,11 @@ const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, cur
                                                         key={index} 
                                                         value={key} 
                                                         control={<Radio />} 
-                                                        label={choicesObj[key]} 
+                                                        label={
+                                                                <h3 style={{margin: '0.5rem', fontWeight: '100'}}>
+                                                                    {choicesObj[key]}
+                                                                </h3>
+                                                            } 
                                                         style={{fontSize: '25px'}}
                                                     />
                                             )
@@ -101,10 +105,12 @@ const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, cur
                             
                             {/* Used ternary operator to change the button text to either 'Submit' or 'Next' */}
                             {/* If the currentStep (questionNum) has reached 6 (according to the length of the array starting from 0 => 0, 1, 2, ...) */}
-                            <Button type='submit' variant='contained' color='primary' style={{paddingRight: '30px', paddingLeft: '30px'}}>
+                            <Button type='submit' variant='outlined' style={{padding: '0.5rem 2.5rem 0.5rem 2.5rem', border: '4px solid #26547C', borderRadius: '10px'}}>
+                                <p className='allerta-font' style={{fontSize: '1rem', margin: '0px', color: '#26547C'}}>
                                 {
                                     currentStep === 6 ? `Submit` : `Next`
                                 }
+                                </p>
                             </Button>
                         </div>
                     </div>

@@ -5,6 +5,8 @@ import FormControl from '@mui/material/FormControl';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Box } from "@mui/material";
 // import NavigationBar from "./NavigationBar";
 
 // Display all the datas and count the total quiz score
@@ -15,11 +17,11 @@ const QuizContentResult = () => {
     // const [totalQuestion, setTotalQuestion] = useState(0)
     const storedData = getDataFromLocalStorage('myData');
 
-    // if(storedData){
-    //     console.log(storedData, "Local Storage data success")
-    // } else {
-    //     console.log("There's an error in getting the result data")
-    // }
+    if(storedData){
+        console.log(storedData, "Local Storage data success")
+    } else {
+        console.log("There's an error in getting the result data")
+    }
 
     // const test = Object.keys(storedData)
     useEffect(() => {
@@ -48,13 +50,26 @@ const QuizContentResult = () => {
     // and also their previous answers
     return (
         <>
-            {/* <NavigationBar /> */}
-            <div style={{padding: '2em'}}>
-            
-                {/* <div style={{fontSize: '20px', fontWeight: '500', textAlign: 'center'}}> Quiz Result: {totalScore}.0 / {totalQuestion}.0</div> */}
-                <h1 style={{fontSize: '25px', fontWeight: '600', textAlign: 'center', marginTop: '20px'}}>Quiz Preview</h1>
+            <ArrowBackIcon sx={{position: 'absolute', width: '2.5rem', height: '2.5rem'}} />
+            <Box sx={{
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    padding: '2em',
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'white'
+                }}>
+ 
+                <h1 className="allerta-font"
+                    style={{fontSize: '25px', fontWeight: '600', textAlign: 'center', marginTop: '20px'}}>
+                    Quiz Preview
+                </h1>
 
-                <div style={{display: 'flex', flexDirection: 'column', padding: '1em 2em 0 2em'}}>
+                <div className="allerta-font" 
+                    style={{display: 'flex', flexDirection: 'column', padding: '1em 2em 0 2em'}}
+                >
                     {
                         storedData.map((data) => {
                             return (
@@ -62,16 +77,16 @@ const QuizContentResult = () => {
 
                                     <div key={data.number} style={{margin: '20px 0px'}}>
                                         
-                                        <h1>{data.number} {data.question}</h1>
+                                        <h2>{data.number}. {data.question}</h2>
 
                                         {
                                             data.userAnswer === data.correctQuizAnswer ? 
                                             (
                                                 <div></div>
                                             ) : (
-                                                <h2 style={{ color: 'red', fontWeight: '600'}}>
-                                                    User previous answer: {data.userAnswer}
-                                                </h2>
+                                                <h3 style={{ color: 'red', fontWeight: '600'}}>
+                                                    User previous answer: {data.questionChoices[data.userAnswer]}
+                                                </h3>
                                             )
                                         }
                                         
@@ -122,7 +137,7 @@ const QuizContentResult = () => {
                     }
                 </div>
                 
-            </div>
+            </Box>
         </>
         
     )

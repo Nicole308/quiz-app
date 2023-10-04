@@ -24,7 +24,7 @@ export const getRefreshToken = (user) => {
     const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
         expiresIn: eval(process.env.REFRESH_TOKEN_EXPIRY),
     })
-    console.log("refreshToken: ", refreshToken)
+    // console.log("refreshToken: ", refreshToken)
     return refreshToken
 }
 

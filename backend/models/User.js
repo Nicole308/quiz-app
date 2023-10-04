@@ -32,7 +32,13 @@ const QuestionSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    content: [QuizSchema]
+    description: {
+        type: String,
+    },
+    content: [QuizSchema],
+    score: {
+        type: Number
+    }
 })
 
 const UserSchema = mongoose.Schema(
@@ -51,6 +57,7 @@ const UserSchema = mongoose.Schema(
             default: Date.now,
         },
         quizzes: [QuestionSchema],
+        favoriteQuizzes: [QuestionSchema],
         refreshToken: {
             type: [Session],
         },

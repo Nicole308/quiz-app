@@ -18,6 +18,7 @@ const CreateQuiz = () => {
     const [selectedImage, setSelectedImage] = useState(null)
     const inputRef = useRef(null)
     const [userQuizTopic, setUserQuizTopic] = useState("")
+    const [quizDescription, setQuizDescription] = useState("")
     const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME
     const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_PRESET
     const [userQuiz, setUserQuiz] = useState([
@@ -26,6 +27,7 @@ const CreateQuiz = () => {
     const [userQuizDetail, setUserQuizDetail] = useState({
         topic_name: userQuizTopic,
         image_url: selectedImage,
+        description: quizDescription,
         content: userQuiz
     })
     const keyNames= ["answer_a", "answer_b", "answer_c", "answer_d", "answer_e"]
@@ -175,16 +177,21 @@ const CreateQuiz = () => {
         setUserQuizTopic(e.target.value)
     }
 
+    const handleQuizDescription = (e) => {
+        setQuizDescription(e.target.value)
+    }
+
     useEffect(() => {
         // console.log("User Detail Quiz: ", userQuizDetail)
         setUserQuizDetail((prevState) => ({
             ...prevState,
             topic_name: userQuizTopic,
             image_url: selectedImage,
+            description: quizDescription,
             content: userQuiz,
         }));
 
-    }, [userQuizTopic, selectedImage, userQuiz])
+    }, [userQuizTopic, selectedImage, quizDescription, userQuiz])
 
 
     const handleSubmit = async(e) => {
@@ -197,6 +204,7 @@ const CreateQuiz = () => {
                 ...prevState, 
                 topic_name: userQuizTopic,
                 image_url: selectedImage,
+                description: quizDescription,
                 content: userQuiz
             }
         })
@@ -240,72 +248,94 @@ const CreateQuiz = () => {
 
                 <form onSubmit={handleSubmit} style={{padding: '10px 100px 20px 100px'}}>
                     <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
-                        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                            <h2 className='allerta-font'>Quiz Cover</h2>
-                            <div style={{width: '200px', height: '200px'}}>
-                                {
-                                    selectedImage !== null ? (
-                                        <div style={{
-                                            width: '200px',
-                                            height: '200px',
-                                            border: "3px solid #26547C",
-                                            borderRadius: '10px',
-                                            overflow: 'hidden'
-                                        }}>
-                                            <img src={selectedImage}
-                                                 alt="quiz cover photo"
-                                                 onClick={handleCoverChange} 
-                                                 style={{
-                                                    objectFit: 'cover',
-                                                    width: '100%',
-                                                    height: '100%'
-                                                 }}
-                                            />
-                                        </div>
-                                    ) : (
-                                        <div style={{
-                                            width: "200px",
-                                            height: "200px",
-                                            border: "3px solid #26547C",
-                                            borderRadius: '10px',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center'
-                                        }}
-                                        onClick={handleCoverChange}
-                                        >
-                                            <div>
-                                                <h4 className='allerta-font' style={{marginBottom: '0px'}}>No photo provided</h4>
-                                                <h2 className='allerta-font' style={{textAlign: 'center', marginTop: '0px'}}>
-                                                    +
-                                                </h2>
+                        <h2 className='allerta-font'>Create A New Quiz</h2>
+                        <div style={{display: 'flex', flexDirection: 'row'}}>
+                            <div style={{display: 'flex', flexDirection: 'column', width: '30%'}}>
+                                <h3 className='allerta-font'>Quiz Cover</h3>
+                                <div style={{width: '200px', height: '200px'}}>
+                                    {
+                                        selectedImage !== null ? (
+                                            <div style={{
+                                                width: '200px',
+                                                height: '200px',
+                                                border: "3px solid #26547C",
+                                                borderRadius: '10px',
+                                                overflow: 'hidden'
+                                            }}>
+                                                <img src={selectedImage}
+                                                    alt="quiz cover photo"
+                                                    onClick={handleCoverChange} 
+                                                    style={{
+                                                        objectFit: 'cover',
+                                                        width: '100%',
+                                                        height: '100%'
+                                                    }}
+                                                />
                                             </div>
-                                        </div>
-                                    )
-                                }
-                                <input type="file" 
-                                        accept='image/*'
-                                        onChange={uploadQuizCover}
-                                        style={{display: 'none'}}
-                                        ref={inputRef}
-                                />
-                                
+                                        ) : (
+                                            <div style={{
+                                                width: "200px",
+                                                height: "200px",
+                                                border: "3px solid #26547C",
+                                                borderRadius: '10px',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                            }}
+                                            onClick={handleCoverChange}
+                                            >
+                                                <div>
+                                                    <h4 className='allerta-font' style={{marginBottom: '0px'}}>No photo provided</h4>
+                                                    <h2 className='allerta-font' style={{textAlign: 'center', marginTop: '0px'}}>
+                                                        +
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                    <input type="file" 
+                                            accept='image/*'
+                                            onChange={uploadQuizCover}
+                                            style={{display: 'none'}}
+                                            ref={inputRef}
+                                    />
+                                    
+                                </div>
+                            </div>
+                            <div style={{width: '70%'}}>
+                                <div style={{display: 'flex', flexDirection: 'column', paddingTop: '1rem'}}>
+                                    <h2 className='allerta-font' style={{fontSize: '1rem'}}>Quiz Topic</h2>
+                                    <TextField 
+                                        variant='outlined'
+                                        size='small'
+                                        value={userQuizTopic}
+                                        onChange={handleQuizTopic}
+                                        multiline
+                                        rows={1}
+                                        style={{
+                                            border: '3px solid #26547C',
+                                            borderRadius: '10px'
+                                        }}
+                                    />
+                                </div>
+                                <div style={{display: 'flex', flexDirection: 'column', paddingTop: '1rem'}}>
+                                    <h2 className='allerta-font' style={{fontSize: '1rem'}}>Description</h2>
+                                    <TextField 
+                                        variant='outlined'
+                                        size='small'
+                                        value={quizDescription}
+                                        onChange={handleQuizDescription}
+                                        multiline
+                                        rows={3}
+                                        style={{
+                                            border: '3px solid #26547C',
+                                            borderRadius: '10px'
+                                        }}
+                                    />
+                                </div>
                             </div>
                         </div>
-                        
-                        <div style={{display: 'flex', flexDirection: 'column', paddingTop: '1rem'}}>
-                            <h1 className='allerta-font' style={{fontSize: '1.25rem'}}>Quiz Topic</h1>
-                            <TextField 
-                                variant='outlined'
-                                size='small'
-                                value={userQuizTopic}
-                                onChange={handleQuizTopic}
-                                style={{
-                                    border: '3px solid #26547C',
-                                    borderRadius: '10px'
-                                }}
-                            />
-                        </div>
+
                         
                         {
                             userQuiz.map((question, index) => {

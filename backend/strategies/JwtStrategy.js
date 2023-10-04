@@ -6,19 +6,19 @@ import '../config/envConfig.js'
 // console.log("JWT_SECRET", process.env.JWT_SECRET)
 
 // Check if the JWT secret key matches
-if (process.env.JWT_SECRET === "Vortigenoberon-fujimaruritsukacastoria4321") {
-    console.log("JWT secret key matches!");
-} else {
-    console.log("JWT secret key does not match!");
-}
+// if (process.env.JWT_SECRET === "Vortigenoberon-fujimaruritsukacastoria4321") {
+//     console.log("JWT secret key matches!");
+// } else {
+//     console.log("JWT secret key does not match!");
+// }
 
 const opts = {};
 
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.JWT_SECRET;
 
-console.log("jwtFromRequest: ", opts.jwtFromRequest)
-console.log("secretOrKey: ", opts.secretOrKey)
+// console.log("jwtFromRequest: ", opts.jwtFromRequest)
+// console.log("secretOrKey: ", opts.secretOrKey)
 
 // Fetch user details from the JWT /Deserialize User
 passport.use(
@@ -26,15 +26,15 @@ passport.use(
         User.findOne({_id: jwt_payload._id})
             .then(user => {
                 if (user) {
-                    console.log("from JwtStrategy.js if the user exists");
+                    // console.log("from JwtStrategy.js if the user exists");
                     return done(null, user);
                 } else {
-                    console.log("from JwtStrategy.js User does not exist");
+                    // console.log("from JwtStrategy.js User does not exist");
                     return done(null, false);
                 }
             })
             .catch(err => {
-                console.log("from JwtStrategy.js there's an error");
+                // console.log("from JwtStrategy.js there's an error");
                 return done(err, false);
             });
     
