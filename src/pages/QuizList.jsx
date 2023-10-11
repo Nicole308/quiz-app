@@ -14,6 +14,7 @@ import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
+import axios from "axios";
 
 const QuizList = () => {
 
@@ -37,31 +38,41 @@ const QuizList = () => {
         }
     }
 
-    const fetchAllUsersQuiz = async() => {
-        const response = await fetch(
-            `${server_api}${serverRefresh_endpoint}`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            }
-        )
-        if(response.ok){
-            // console.log("response in QuizList page: ", response)
-            const quizJsonData = await response.json()
-            // console.log("quizJsonData in QuizList", quizJsonData)
-            await setUsersAllQuiz(quizJsonData)
-        } else {
-            console.log("No quizzes fetched in backend: ", response.status, response.statusText)
-        }
-    }
-
     useEffect(() => {
-        if (!dataFetched) {
-            fetchAllUsersQuiz();
+        const fetchAllUsersQuiz = async() => {
+
+            try {
+                await axios.get(`${server_api}${serverRefresh_endpoint}`)
+                    .then((response) => {     
+                        setUsersAllQuiz(response.data)  
+                    })
+                    .catch((error) => {
+                        console.log("Error getting the quizzes: ", error)
+                    })
+            } catch (error){
+                console.log("There's no quizzes fetched: ", error)
+            }
+            // const response = await fetch(
+            //     `${server_api}${serverRefresh_endpoint}`, {
+            //         method: 'GET',
+            //         credentials: 'include',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //         }
+            //     }
+            // )
+            // if(response.ok){
+            //     // console.log("response in QuizList page: ", response)
+            //     const quizJsonData = await response.json()
+            //     // console.log("quizJsonData in QuizList", quizJsonData)
+            //     await setUsersAllQuiz(quizJsonData)
+            // } else {
+            //     console.log("No quizzes fetched in backend: ", response.status, response.statusText)
+            // }
         }
-    }, [dataFetched])
+
+        fetchAllUsersQuiz()
+    }, [])
 
     // console.log("usersAllQuiz from QuizList.jsx: ", usersAllQuiz)
 

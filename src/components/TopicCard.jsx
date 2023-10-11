@@ -15,18 +15,18 @@ import { useEffect } from 'react';
 const TopicCard = (data) => {
     
     const [userContext] = useContext(UserContext)
-    const [favorites, setFavorites] = useState([])
+    // const [favorites, setFavorites] = useState([])
     const [isFavourite, setIsFavourite] = useState(false)
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverFavourite_endpoint = "/quizzes/clickFavourite"
 
     useEffect(() => {
         if(userContext.details){
-            console.log('data', userContext.details.favoriteQuizzes)
+            // console.log('data', data.data)
             const currentCardID = data.data._id.toString()
             const checkIfCardIsFavourite = userContext.details.favoriteQuizzes.some((q) => q._id === currentCardID)
 
-            console.log('check', checkIfCardIsFavourite)
+            // console.log('check', checkIfCardIsFavourite)
 
             if(checkIfCardIsFavourite) 
                 {setIsFavourite(true)

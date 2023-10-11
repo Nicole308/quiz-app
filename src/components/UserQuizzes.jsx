@@ -7,13 +7,13 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const UserQuizzes = ({ data }) => {
+const UserQuizzes = ({ data, handleRemoveQuiz }) => {
   const [userQuizzes, setUserQuizzes] = useState([]);
   const navigate = useNavigate()
 
-  useEffect(() => {
-      console.log("userQuizzes: ", userQuizzes);
-  }, [data])
+  // useEffect(() => {
+  //     console.log("userQuizzes: ", userQuizzes);
+  // }, [data])
 
   useEffect(() => {
     if (!data || !data || !data.quizzes) {
@@ -86,7 +86,8 @@ const UserQuizzes = ({ data }) => {
                 >
                   <EditIcon sx={{color: 'black'}}/>
                 </Button>
-                <Button sx={{
+                <Button onClick={() => handleRemoveQuiz(quiz)}
+                        sx={{
                           width: '50%', 
                           margin: 0, 
                           padding: '0.3rem',

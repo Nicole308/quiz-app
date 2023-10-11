@@ -1,6 +1,6 @@
 import express from "express";
 import User from "../models/User.js"
-import mongoose from "mongoose"
+import { ObjectId } from "mongodb";
 // import passport from "passport";
 // import { getToken, COOKIE_OPTIONS, getRefreshToken, verifyUser } from "../middleware.js";
 // import jwt from "jsonwebtoken"
@@ -130,6 +130,124 @@ router.post('/clickFavourite', async(req, res) => {
     } catch(err){
         console.log("Error in server clickFavourite: ", err)
         res.send(err)
+    }
+})
+
+router.post('/deleteQuiz', async(req, res) => {
+    const selectedQuiz = req.body.selectedQuiz
+    const userID = req.body.user
+    const objID = new ObjectId(userID._id)
+
+    // console.log("selected quiz: ", selectedQuiz, "user: ", userID)
+    // console.log("objID: ", objID)
+
+    try {
+        await User.findById(objID)
+            .then((user) => {
+                // console.log("user: ", user)
+                const quizIndex = user.quizzes.findIndex((userQuizzes) => (
+                    userQuizzes._id.toString() === selectedQuiz._id && userQuizzes.topic_name === selectedQuiz.topic_name
+                ))
+
+                if(quizIndex !== -1){
+                    user.quizzes.splice(quizIndex, 1)
+
+                    user.save().then((updatedQuiz) => {
+                        if(updatedQuiz){
+                            console.log("User selected quiz has been removed")
+
+                            const newUserObj = {
+                                _id: objID,
+                                username: updatedQuiz.username,
+                                quizzes: updatedQuiz.quizzes,
+                                favoriteQuizzes: updatedQuiz.favoriteQuizzes
+                            }
+
+                            res.json(newUserObj)
+                        } else {
+                            console.log("Failed to delete the selected quiz")
+                        }
+                    })
+                }
+            })
+    } catch(error){
+        console.log("The selected quiz didn't exist in users database")
+    }
+    
+
+})
+
+router.post('/deleteFavourite', async(req, res) => {
+    const selectedQuiz = req.body.selectedQuiz
+    const userID = req.body.user
+    const objID = new ObjectId(userID._id)
+
+    // console.log("selected quiz: ", selectedQuiz, "user: ", userID)
+    // console.log("objID: ", objID)
+
+    try {
+        await User.findById(objID)
+            .then((user) => {
+                const quizIndex = user.favoriteQuizzes.findIndex((userQuizzes) => (
+                    userQuizzes._id.toString() === selectedQuiz._id && userQuizzes.topic_name === selectedQuiz.topic_name
+                ))
+
+                if(quizIndex !== -1){
+                    user.favoriteQuizzes.splice(quizIndex, 1)
+
+                    user.save().then((updatedQuiz) => {
+                        if(updatedQuiz){
+                            console.log("Quiz has been deleted")
+
+                            const newUserObj = {
+                                _id: objID,
+                                username: updatedQuiz.username,
+                                quizzes: updatedQuiz.quizzes,
+                                favoriteQuizzes: updatedQuiz.favoriteQuizzes
+                            }
+
+                            res.json(newUserObj)
+                        } else {
+                            console.log("Failed to delete user selected quiz")
+                        }
+                    })
+                }
+            })
+    } catch(error){
+        console.log("Failed to delete user selected quiz: ", error)
+    }
+
+})
+
+router.get('/getUserDashboard', async(req, res) => {
+    // console.log("getUserDashboard: ", req.query.user.to, req.query.name)
+
+    const userID = req.query.user
+    const username = req.query.name
+    const objID = new ObjectId(userID)
+
+    try {
+        // console.log("objID: ", objID)
+        await User.findById(objID)
+            .then((user) => {
+                if(user.username === username){
+                    // console.log("User exist: ", user)
+
+                    const newUserObj = {
+                        _id: objID,
+                        username: user.username,
+                        quizzes: user.quizzes,
+                        favoriteQuizzes: user.favoriteQuizzes
+                    }
+                    // console.log("newUserObj: ", newUserObj)
+                    res.json(newUserObj)
+                } 
+                else {
+                    console.log("User doesn't exist")
+                }
+            })
+    } catch(error){
+        console.log("Error in getting the user: ", error)
     }
 })
 

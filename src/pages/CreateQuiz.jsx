@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { Button, FormControlLabel, Radio, RadioGroup, TextField } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import NavigationBar from '../components/NavigationBar';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 
 const CreateQuiz = () => {
