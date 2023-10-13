@@ -1,17 +1,22 @@
 import { Box, Button, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { getDataFromLocalStorage } from '../localStorage/localStorageUtils';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import '../../public/css/fonts.css'
 import '../../public/css/allFiles.css'
+import { UserContext } from '../context/UserContext';
 
-const QuizScoreBox = () => {
+const QuizScoreBox = ({handleScoreSubmit}) => {
     const storedData = getDataFromLocalStorage('myData');
+    // const [userContext] = useContext(UserContext)
     const [userScore, setUserScore] = useState(0)
     const navigate = useNavigate()
+    // const server_api = import.meta.env.VITE_CONNECT_SERVER_API
+    
 
-    console.log("QuizScoreBox: ", storedData)
+    // console.log("QuizScoreBox: ", storedData)
+    // console.log("userContext from QuizScoreBox: ", userContext.details)
 
     const calcUserScore = () => {
         let tempScore = 0
@@ -25,8 +30,10 @@ const QuizScoreBox = () => {
 
     useEffect(() => {
         calcUserScore()
+
     }, [storedData])
 
+    
 
     return (
         <>
@@ -39,7 +46,8 @@ const QuizScoreBox = () => {
                         <h2>{userScore} / {storedData.length}</h2>
                     </Typography>
                     <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '1rem'}}>
-                        <Button variant='outlined'
+                        <Button onClick={() => handleScoreSubmit(userScore)}
+                                variant='outlined'
                                 sx={{
                                     "&:hover": {backgroundColor: "transparent"}
                                 }}

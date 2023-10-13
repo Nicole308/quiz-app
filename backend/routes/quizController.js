@@ -219,6 +219,30 @@ router.post('/deleteFavourite', async(req, res) => {
 
 })
 
+router.post('/handleScoreSubmit', async(req, res) => {
+    const userScore = req.body.userScore
+    const quizData = req.body.quizData
+    const userAccount = req.body.userAccount
+
+    try {
+        console.log(`userScore: ${userScore}, quiz name: ${quizData.topic_name}, quiz ID: ${quizData._id}, quiz score: ${quizData.score}, userAccount: ${userAccount._id}`)
+        // Find the quiz first by topic_name and _id
+
+        // Create a new property in the quiz object called score
+
+        // Push the new score value inside the quiz object
+
+        // Find the account user by its iD
+
+        // Push the updated quiz inside the user account 'recent' property
+
+        // Save the updated user values to the database
+    } catch(error){
+        console.log("Error in getting the userScore and quizData: ", error)
+    }
+    
+})
+
 router.get('/getUserDashboard', async(req, res) => {
     // console.log("getUserDashboard: ", req.query.user.to, req.query.name)
 

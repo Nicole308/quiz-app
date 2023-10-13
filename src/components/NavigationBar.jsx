@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { UserContext } from "../context/UserContext.js"
 
 import { Link, useNavigate } from 'react-router-dom'
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 // import { getSessionJwtToken, getSessionRefreshToken } from '../../session/sessionStorage.js';
 
@@ -21,87 +21,18 @@ const NavigationBar = () => {
     // const [username, setUsername] = useState('user')
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
-    const [userContext, setUserContext] = useContext(UserContext)
+    const {userContext, setUserContext} = useContext(UserContext)
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
-    const serverRefresh_endpoint = "/users/refreshToken"
-    const serverMe_endpoint = "/users/me"
     const serverLogout_endpoint = "/users/logout"
     const navigate = useNavigate()
     // const sessionJWTtoken = getSessionJwtToken()
     // const sessionRefreshToken = getSessionRefreshToken()
 
-    // console.log(".env from navigationBar.jsx: ", server_api)
-    // console.log("userContext token :", userContext['token'])
-    // console.log("Using session storage for JWT token in navigation bar: ", sessionJWTtoken)
-    // console.log("Using session storage for JWT token in navigation bar: ", sessionRefreshToken)
-
-    const verifyUser = useCallback(async() => {
-        try {
-            const response = await fetch(
-                `${server_api}${serverRefresh_endpoint}`, {
-                    method: "POST",
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                }
-            )
-            if(response.ok){
-                const jsonData = await response.json()
-                // console.log("token inside jsonData '/refreshToken': ", jsonData)
-                setUserContext((oldValues) => {
-                    return {...oldValues, token: jsonData.token }
-                })
-            } else {
-                setUserContext((oldValues) => {
-                    return {...oldValues, token: null }
-                })
-            }
-            setTimeout(verifyUser, 3 * 60 * 60 * 1000)
-
-        } catch(err) {
-            console.log("error fetching refreshToken from server: ", err)
-        } 
-        
-        // console.log("token after fetching from '/refreshToken': ", userContext.token)
-
-        // Fetching user details
-        if(userContext.token){
-            const fetchUserDetails = await fetch(
-                `${server_api}${serverMe_endpoint}`, {
-                    method: "GET",
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${userContext.token}`,
-                    }
-                }
-            )
-            if(fetchUserDetails.ok){
-                const userData = await fetchUserDetails.json()
-                setUserContext((oldValues) => {
-                    return {...oldValues, details: userData}
-                })
-            } else {
-                if(fetchUserDetails.status === 401){
-                    window.location.reload()
-                } else {
-                    setUserContext((oldValues) => {
-                        return {...oldValues, details: null}
-                    })
-                }
-            }
-        }
-
-    }, [setUserContext, userContext.token])
-
     useEffect(() => {
-        // fetchLoginUsername()
-        // verifyUser()
         if(!userContext.details){
-            verifyUser()
+            console.log("loading...")
         }
-    }, [verifyUser, userContext.details])
+    }, [userContext.details])
 
     const handleOpenClick = (e) => {
         setAnchorEl(e.currentTarget)
@@ -130,28 +61,6 @@ const NavigationBar = () => {
 
         }
     }
-
-    // Using express-session
-    // const fetchLoginUsername = async () => {
-    //     try {
-    //         const response = await fetch (
-    //             '/api/getUsername', {
-    //                 method: 'get'
-    //             }
-    //         )
-    //         if(response.ok){
-    //             const getUsername = await response.json()
-    //             setUsername(getUsername.username)
-    //             console.log("Username for navibar: ", getUsername)
-    //         } else {
-    //             console.log("Failed to get username for navibar")
-    //         }
-    //     } catch (err) {
-    //         console.error("Error: ", err)
-    //     }
-    // }
-
-    // console.log("username for navbar: ", username)
 
     return (
         

@@ -6,13 +6,13 @@ import AddIcon from '@mui/icons-material/Add';
 import { Button, FormControlLabel, Radio, RadioGroup, TextField } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import NavigationBar from '../components/NavigationBar';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 
 const CreateQuiz = () => {
     
-    const [userContext, setUserContext] = useContext(UserContext)
-    console.log("userContext from createQuiz: ", userContext)   // userContext contains token and user details
+    const {userContext} = useContext(UserContext)
+    // console.log("userContext from createQuiz: ", userContext)   // userContext contains token and user details
     const [questionNum, setQuestionNum] = useState(1)
     const navigate = useNavigate()
     const [selectedImage, setSelectedImage] = useState(null)
@@ -28,7 +28,7 @@ const CreateQuiz = () => {
         topic_name: userQuizTopic,
         image_url: selectedImage,
         description: quizDescription,
-        content: userQuiz
+        content: userQuiz,
     })
     const keyNames= ["answer_a", "answer_b", "answer_c", "answer_d", "answer_e"]
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
@@ -205,7 +205,7 @@ const CreateQuiz = () => {
                 topic_name: userQuizTopic,
                 image_url: selectedImage,
                 description: quizDescription,
-                content: userQuiz
+                content: userQuiz,
             }
         })
 

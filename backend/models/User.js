@@ -58,6 +58,7 @@ const UserSchema = mongoose.Schema(
         },
         quizzes: [QuestionSchema],
         favoriteQuizzes: [QuestionSchema],
+        recent: [QuestionSchema],
         refreshToken: {
             type: [Session],
         },

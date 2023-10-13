@@ -14,7 +14,7 @@ const Register = () => {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [userContext, setUserContext] = useContext(UserContext)
+    const {userContext, setUserContext} = useContext(UserContext)
 
     // console.log("username: ", username)
     // console.log("password: ", password)

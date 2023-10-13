@@ -50,7 +50,7 @@ function indexProps(index) {
   
 const Dashboard = () => {
     const [tabValue, setTabValue] = useState(0)
-    const [userContext] = useContext(UserContext)
+    const {userContext} = useContext(UserContext)
     const [userQuizzes, setUserQuizzes] = useState([])
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverFavourite_endpoint = "/quizzes/deleteFavourite"

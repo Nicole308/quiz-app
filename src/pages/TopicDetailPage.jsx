@@ -96,7 +96,7 @@ const TopicDetailPage = () => {
                                         backgroundRepeat: 'no-repeat'
                                     }}>
 
-                                        <Button onClick={() => navigate('/QuizList')} variant='outlined' startIcon={<KeyboardReturnIcon />} style={{marginTop: '2em', marginLeft: '2em', color: 'aquamarine', fontWeight: '600'}}>
+                                        <Button onClick={() => navigate(-1)} variant='outlined' startIcon={<KeyboardReturnIcon />} style={{marginTop: '2em', marginLeft: '2em', color: 'aquamarine', fontWeight: '600'}}>
                                             {/* <Link to={`/QuizList`}>Back</Link> */}
                                             Back
                                         </Button>

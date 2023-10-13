@@ -20,7 +20,7 @@ const QuizList = () => {
 
     // Use the useContext provider to get the jsonData 
     const {topicData} = useContext(QuizContext)
-    const [userContext, setUserContext] = useContext(UserContext)
+    const {userContext} = useContext(UserContext)
     const [usersAllQuiz, setUsersAllQuiz] = useState([])
     const [dataFetched, setDataFetched] = useState(false);
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
@@ -52,23 +52,7 @@ const QuizList = () => {
             } catch (error){
                 console.log("There's no quizzes fetched: ", error)
             }
-            // const response = await fetch(
-            //     `${server_api}${serverRefresh_endpoint}`, {
-            //         method: 'GET',
-            //         credentials: 'include',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //         }
-            //     }
-            // )
-            // if(response.ok){
-            //     // console.log("response in QuizList page: ", response)
-            //     const quizJsonData = await response.json()
-            //     // console.log("quizJsonData in QuizList", quizJsonData)
-            //     await setUsersAllQuiz(quizJsonData)
-            // } else {
-            //     console.log("No quizzes fetched in backend: ", response.status, response.statusText)
-            // }
+           
         }
 
         fetchAllUsersQuiz()

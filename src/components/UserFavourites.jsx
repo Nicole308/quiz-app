@@ -2,6 +2,7 @@ import { Box, Card, CardContent, CardMedia, IconButton, Typography } from '@mui/
 import { useEffect, useState } from 'react'
 import HelpIcon from '@mui/icons-material/Help';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Link } from 'react-router-dom';
 
 const UserFavourites = ({data, handleRemoveFavourites}) => {
     const [userFavourites, setUserFavourites] = useState([])
@@ -46,46 +47,47 @@ const UserFavourites = ({data, handleRemoveFavourites}) => {
                                             />
                                         </IconButton>
             
-                                        <Box sx={{
-                                            position: 'absolute', 
-                                            bottom: '0%', 
-                                            width: '100%',
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            gap: '4rem',
-                                            // padding: '5px'
-                                        }}>
-                                            <CardContent>
-                                                <Typography variant='body2' sx={{color: 'white', fontSize: '1.25rem'}}>
-                                                    {quiz.topic_name}
-                                                </Typography> 
-            
-                                                <Box sx={{display: 'flex', alignItems: 'center', color: 'white'}}>
-                                                    <HelpIcon />
-                                                    <Typography variant='body2'>
-                                                        {userFavourites.length} question(s)
-                                                    </Typography>
-                                                </Box>
-            
-                                                {
-                                                    quiz.description ? (
-                                                        <Typography noWrap variant='body2' style={{color: 'white'}}>
-                                                            {quiz.description}
+                                        <Link to={`/QuizList/${quiz._id}/${quiz.topic_name}`}>
+                                            <Box sx={{
+                                                position: 'absolute', 
+                                                bottom: '0%', 
+                                                width: '100%',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                gap: '4rem',
+                                                // padding: '5px'
+                                            }}>
+                                                <CardContent>
+                                                    <Typography variant='body2' sx={{color: 'white', fontSize: '1.25rem'}}>
+                                                        {quiz.topic_name}
+                                                    </Typography> 
+                
+                                                    <Box sx={{display: 'flex', alignItems: 'center', color: 'white'}}>
+                                                        <HelpIcon />
+                                                        <Typography variant='body2'>
+                                                            {userFavourites.length} question(s)
                                                         </Typography>
-                                                    ) : (
-                                                        <Typography noWrap variant='body2' style={{color: 'white'}}>
-                                                            No Description
-                                                        </Typography>
-                                                    )
-                                                }
-            
-                                                {/* Previous Score if user has one */}
-                                            </CardContent>
-                                        </Box>
+                                                    </Box>
+                
+                                                    {
+                                                        quiz.description ? (
+                                                            <Typography noWrap variant='body2' style={{color: 'white'}}>
+                                                                {quiz.description}
+                                                            </Typography>
+                                                        ) : (
+                                                            <Typography noWrap variant='body2' style={{color: 'white'}}>
+                                                                No Description
+                                                            </Typography>
+                                                        )
+                                                    }
+                
+                                                    {/* Previous Score if user has one */}
+                                                </CardContent>
+                                            </Box>
+                                        </Link>
                                     </Card>
                                 </div>
                             ))
-                        
                         }
                     </Box>
                 )

@@ -17,36 +17,13 @@ const Login = () => {
     const [loginUsername, setLoginUsername] = useState("")
     const [loginPassword, setLoginPassword] = useState("")
     const [isEmpty, setIsEmpty] = useState(false)
-    const [userContext, setUserContext] = useContext(UserContext)
+    const {userContext, setUserContext} = useContext(UserContext)
+    const [loginAlert, setLoginAlert] = useState(false)
     const navigate = useNavigate()
 
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
-    // const serverTest_endpoint = "users/serverTest"
     const serverLogin_endpoint = "/users/login"
     console.log(".env from login.jsx: ", server_api)
-
-    // const testServerConnection = async(e) => {
-    //     e.preventDefault()
-        
-    //     try {
-    //         const response = await fetch(
-    //             `${server_api}${serverTest_endpoint}`, {
-    //                 method: "get",
-    //                 headers: {
-    //                     'Content-Type': 'application/json'
-    //                 },
-    //                 // body: JSON.stringify
-    //             }
-    //         )
-    //         if(response.ok){
-    //             console.log("response from server: ", response)
-    //         } else {
-    //             console.log("Error retrieving data from server")
-    //         }
-    //     } catch(err){
-    //         console.log("error fetching from server to login: ", err)
-    //     }
-    // }
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -82,18 +59,14 @@ const Login = () => {
                     return {...oldValues, token: jsonData.token} 
                 })
 
+                setLoginAlert(true)
+
                 navigate('/QuizList')
 
                 // Got the correct token for user
                 // console.log("checking userContext after login submission: ", userContext['token'])
 
-                // window.location.href = "/QuizList"
-                // jsonData.map((data) => {
-                //     console.log("Each data: ", data)
-                //     if(data.username === loginUsername && data.password === loginPassword){
-                //         window.location.href = "/QuizList"
-                //     }
-                // })
+                
             } else {
                 console.log("Failed to send login data to backend: ", response.status, response.statusText)
             }
@@ -104,7 +77,7 @@ const Login = () => {
     }
 
     // Got the correct token for user
-    console.log("checking userContext after login submission: ", userContext['token'])
+    // console.log("checking userContext after login submission: ", userContext['token'])
     // console.log("Users accessed from frontend: ", users)
     
 
@@ -137,7 +110,19 @@ const Login = () => {
                     </h1>
 
                     {
-                        isEmpty === true ? (
+                        loginAlert? (
+                            <Stack sx={{ width: '100%' }} spacing={2}>
+                                <Alert severity='success'>Login Successful!</Alert>
+                            </Stack>
+                        ) : (
+                            <Stack sx={{ width: '100%' }} spacing={2}>
+                                <Alert severity='error'>Failed to login!</Alert>
+                            </Stack>
+                        )
+                    }
+
+                    {
+                        isEmpty? (
                             
                             <Stack sx={{ width: '100%' }} spacing={2}>
                                 <Alert severity='error'>Username or Password is empty!</Alert>

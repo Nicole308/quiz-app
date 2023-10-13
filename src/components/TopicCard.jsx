@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 
 const TopicCard = (data) => {
     
-    const [userContext] = useContext(UserContext)
+    const {userContext} = useContext(UserContext)
     // const [favorites, setFavorites] = useState([])
     const [isFavourite, setIsFavourite] = useState(false)
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API

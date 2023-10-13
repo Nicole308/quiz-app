@@ -10,29 +10,22 @@ import QuizScoreBox from './QuizScoreBox';
 
 // Call the properties that has been passed from QuizContent file
 // eslint-disable-next-line react/prop-types
-const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, currentStep}) => {
+const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, currentStep, handleScoreSubmit}) => {
     // console.log("QUIZ CONTENT CARD CHECK: ", currentStep)
 
     // If the questions are done/gone, display the QuizContentResult component page
     if(!data){        
         return (
-            <QuizScoreBox />
+            <QuizScoreBox handleScoreSubmit={handleScoreSubmit}/>
         )
     }
 
     // console.log(currentStep, "Current step")
     // console.log(data, "data accessed from questionContentCard")    
 
-    // Assign of the data property object called 'choices' to a new const called choicesObj
     // eslint-disable-next-line react/prop-types
     const choicesObj = data.choices
 
-    // const [values, setValues] = useState({})
-    // console.log(choicesObj, "Data choices OBJ:")
-
-    // I checked the choices object properties and some of them have null as its values
-    // and since the null will also be displayed as an empty radio button, the properties have to be filtered
-    // if they contain null values.
     const filterNullValues = (choicesObj) => {
 
         for(let filter in choicesObj){
@@ -45,13 +38,6 @@ const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, cur
     }
 
     filterNullValues(choicesObj)
-
-    // console.log(choicesObj, "Filtered obj")
-
-    // Object.keys(choicesObj).map((key, value) => {
-    //     console.log(`Num: ${value}, key: ${key} = value: ${choicesObj[key]}`)  
-    // })
-
 
     const handleFormSubmit = (event) => {
         event.preventDefault()
