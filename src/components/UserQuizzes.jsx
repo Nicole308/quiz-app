@@ -26,7 +26,10 @@ const UserQuizzes = ({ data, handleRemoveQuiz }) => {
     }
   }, [data]);
 
-  
+  const handleEditQuiz = (quiz) => {
+      // console.log("quizID: ", quiz._id)
+      navigate(`/createQuiz?id=${quiz._id}`)
+  }
 
   return (
     <Box sx={{display: 'flex', gap: 3}}>
@@ -75,7 +78,8 @@ const UserQuizzes = ({ data, handleRemoveQuiz }) => {
               </CardContent>
 
               <CardActions sx={{padding: 0}}>
-                <Button sx={{
+                <Button onClick={() => handleEditQuiz(quiz)}
+                        sx={{
                           width: '50%', 
                           margin: 0, 
                           padding: '0.3rem', 

@@ -38,6 +38,10 @@ const QuestionSchema = mongoose.Schema({
     content: [QuizSchema],
     score: {
         type: Number
+    },
+    datePlayed: {
+        type: Date,
+        default: Date.now,
     }
 })
 

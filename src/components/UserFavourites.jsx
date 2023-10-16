@@ -7,10 +7,6 @@ import { Link } from 'react-router-dom';
 const UserFavourites = ({data, handleRemoveFavourites}) => {
     const [userFavourites, setUserFavourites] = useState([])
 
-    // useEffect(() => {
-    //     console.log("there's data in UserFavourites.jsx: ")
-    // }, [data])
-
     useEffect(() => {
         if(!data && data.favoriteQuizzes){
             console.log('Loading...')

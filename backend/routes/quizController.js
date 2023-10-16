@@ -224,19 +224,57 @@ router.post('/handleScoreSubmit', async(req, res) => {
     const quizData = req.body.quizData
     const userAccount = req.body.userAccount
 
+    const userObjID = new ObjectId(userAccount._id)
+    console.log("userObjID: ", userObjID)
+
     try {
-        console.log(`userScore: ${userScore}, quiz name: ${quizData.topic_name}, quiz ID: ${quizData._id}, quiz score: ${quizData.score}, userAccount: ${userAccount._id}`)
+        // console.log(`userScore: ${userScore}, quiz name: ${quizData.topic_name}, quiz ID: ${quizData._id}, quiz score: ${quizData.score}, userAccount: ${userAccount._id}`)
+        
         // Find the quiz first by topic_name and _id
+        const data = await User.find({}, 'quizzes -_id')
+        // console.log("data: ", data)
 
         // Create a new property in the quiz object called score
+        if(data){
+            const quizArr = await data.map(quiz => quiz.quizzes).flat();
+            // console.log("quizArr: ", quizArr)   // Array of objects
 
-        // Push the new score value inside the quiz object
+            const filteredQuiz = await quizArr.filter(quiz => quiz._id === quiz._id && quiz.topic_name === quizData.topic_name)
+            // console.log("filteredQuiz: ", filteredQuiz)
 
-        // Find the account user by its iD
+            // Find the account user by its iD
+            await User.findById(userObjID)
+                .then((user) => {
+                    if(user){
+                        // Push the new score value inside the quiz object
+                        const newObjQuiz = {
+                            topic_name: filteredQuiz[0].topic_name,
+                            image_url: filteredQuiz[0].image_url,
+                            description: filteredQuiz[0].description ? filteredQuiz[0].description : "",
+                            content: filteredQuiz[0].content,
+                            score: userScore,
+                            _id: filteredQuiz[0]._id
+                        }
+                        // console.log("newObjQuiz: ", newObjQuiz)
 
-        // Push the updated quiz inside the user account 'recent' property
+                        // Push the updated quiz inside the user account 'recent' property
+                        user.recent.push(newObjQuiz)
 
-        // Save the updated user values to the database
+                        // Save the updated user values to the database
+                        user.save().then((recentUpdate) => {
+                            if(recentUpdate){
+                                console.log("Quiz has been saved in recent")
+                                res.send({message: "success"})
+                            } else{
+                                console.log("Failed to save")
+                            }
+                        })
+                    } else{
+                        console.log("Couldnt find the user")
+                    }
+                    
+                }).catch((error) => console.log("error in finding user: ", error))
+        }
     } catch(error){
         console.log("Error in getting the userScore and quizData: ", error)
     }
@@ -272,6 +310,64 @@ router.get('/getUserDashboard', async(req, res) => {
             })
     } catch(error){
         console.log("Error in getting the user: ", error)
+    }
+})
+
+router.get('/getSpecificQuiz', async(req, res) => {
+    const id = new ObjectId(req.query.id)
+    const userID = new ObjectId(req.query.user)
+    console.log("id from backend: ", id, "user: ", userID)
+    
+    try {
+        await User.findById(userID)
+            .then((user) => {
+                const quiz = user.quizzes.find((quiz) => quiz._id.equals(id));
+
+                if(quiz){
+                    console.log("quiz found: ", quiz)
+                    res.json(quiz)
+                } else {
+                    console.log("quiz hasnt been found")
+                }
+            })
+    } catch(error){
+        console.log("Error in searching the quiz")
+    }
+
+})
+
+router.post('/updateExistingQuiz', async(req, res) => {
+    const byUser = req.body.byUser
+    const quizID = new ObjectId(req.body.quizID)
+    const userQuizDetail = req.body.userQuizDetail
+    
+    console.log("byUser: ", byUser)
+    console.log("quizID: ", quizID)
+    console.log("updateExistingQuiz: ", userQuizDetail)
+
+    try {
+        await User.findById(byUser)
+            .then((user) => {
+                const findQuiz = user.quizzes.find((quiz) => quiz._id.equals(quizID))
+
+                if(findQuiz){
+                    // console.log("findQuiz found: ", findQuiz)
+                    Object.assign(findQuiz, userQuizDetail)
+                    
+                    user.save().then((updatedQuiz) => {
+                        if(updatedQuiz){
+                            // console.log("Existing quiz has been saved in database")
+                            res.status(200).send({message: 'saved!'})
+                        } else {
+                            console.log("Failed to save the existing quiz in database")
+                        }
+                    })
+                } else {
+                    console.log("couldnt find the quiz")
+                }
+            })
+    } catch(error){
+        console.log("Failed to search the existing quiz")
     }
 })
 

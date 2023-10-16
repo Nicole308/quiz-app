@@ -7,11 +7,11 @@ import axios from 'axios'
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import UserQuizzes from '../components/UserQuizzes';
 import { useEffect } from 'react';
 import UserFavourites from '../components/UserFavourites';
+import UserRecent from '../components/UserRecent'
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -117,6 +117,7 @@ const Dashboard = () => {
 
         loadDatas()
     }, [userContext])
+    
 
     // console.log("dashboard quizzes: ", userQuizzes)
 
@@ -132,10 +133,10 @@ const Dashboard = () => {
                     DASHBOARD
                 </Box>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center' }}>
-                    <Tabs value={tabValue} onChange={handleTabChange} aria-label="basic tabs example" style={{paddingTop: '1.25rem'}}>
+                    <Tabs value={tabValue} onChange={handleTabChange} TabIndicatorProps={{ style: {backgroundColor: 'red'}}} aria-label="basic tabs example" style={{paddingTop: '1.25rem'}}>
                         <Tab label="Your Quizzes" {...indexProps(0)} style={{padding: '0rem 2rem 0rem 2rem',}}/>
                         <Tab label="Your Favorites" {...indexProps(1)} style={{padding: '0rem 2rem 0rem 2rem'}}/>
-                        {/* <Tab label="Recent" {...indexProps(2)} style={{padding: '0rem 2rem 0rem 2rem'}}/> */}
+                        <Tab label="Recent" {...indexProps(2)} style={{padding: '0rem 2rem 0rem 2rem'}}/>
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={tabValue} index={0}>
@@ -144,9 +145,9 @@ const Dashboard = () => {
                 <CustomTabPanel value={tabValue} index={1}>
                     <UserFavourites data={userQuizzes} handleRemoveFavourites={handleRemoveFavourites}/>
                 </CustomTabPanel>
-                {/* <CustomTabPanel value={tabValue} index={2}>
-                    Item Three
-                </CustomTabPanel> */}
+                <CustomTabPanel value={tabValue} index={2}>
+                    <UserRecent />
+                </CustomTabPanel>
             </Box>
             
         </>
