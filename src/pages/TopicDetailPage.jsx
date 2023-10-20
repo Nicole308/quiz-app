@@ -75,14 +75,6 @@ const TopicDetailPage = () => {
             <NavigationBar />
             <div>
                 {
-                    // Mapped the data json that's inside of topicData and check if the link parameter topic_name is the same as
-                    // data json topic_name. If it's true, then return the object that has the same name and display the object
-                    // information 
-                    // I created 2 material UI buttons: one is for going back to the QuizList selection page and the other one would
-                    // be to go to another page called QuizContent where we will take the quiz. I will set the the quiz questions amount
-                    // to be around 7
-                    // Passed the parameter name again to the link router for starting the quiz so that we can fetch the API according 
-                    // to the params name
                     combinedQuizArr.map((data) => {
                         if(data.topic_name === params.name && data._id === params.id){
                             return (
@@ -96,7 +88,7 @@ const TopicDetailPage = () => {
                                         backgroundRepeat: 'no-repeat'
                                     }}>
 
-                                        <Button onClick={() => navigate(-1)} variant='outlined' startIcon={<KeyboardReturnIcon />} style={{marginTop: '2em', marginLeft: '2em', color: 'aquamarine', fontWeight: '600'}}>
+                                        <Button onClick={() => navigate('/QuizList')} variant='outlined' startIcon={<KeyboardReturnIcon />} style={{marginTop: '2em', marginLeft: '2em', color: 'aquamarine', fontWeight: '600'}}>
                                             {/* <Link to={`/QuizList`}>Back</Link> */}
                                             Back
                                         </Button>
@@ -109,13 +101,9 @@ const TopicDetailPage = () => {
                                             paddingTop: '5rem'
                                         }}>
                                             <div style={{position: 'absolute'}}>
-                                                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                                                    <div style={{
-                                                        backgroundColor: 'white', 
-                                                        width: '200px', 
-                                                        height: '200px', 
-                                                        marginRight: '2em', 
-                                                        padding: '2em',
+                                                <div className='detail-structure'>
+                                                    <div className='detail-img' style={{
+                                                        backgroundColor: 'white',  
                                                         borderRadius: '20px'
                                                     }}>
                                                         <img src={data.image2_url ? (data.image2_url) : (data.image_url)} 
@@ -124,10 +112,10 @@ const TopicDetailPage = () => {
                                                         />
                                                     </div>
 
-                                                    <div style={{display: 'flex', flexDirection: 'column'}}>
-                                                        <div style={{width: '400px', height: '300px', color: 'white'}}>
-                                                            <h1 style={{fontSize: '28px', fontWeight: '600'}}>{data.topic_name}</h1>
-                                                            <div>
+                                                    <div className='detail-desc' style={{display: 'flex', flexDirection: 'column'}}>
+                                                        <div style={{width: '100%', height: '300px', color: 'white'}}>
+                                                            <h1 className="allerta-font" style={{fontSize: '28px', fontWeight: '600'}}>{data.topic_name}</h1>
+                                                            <div className='allerta-font'>
                                                                 { data.description !== "" ? (
                                                                         data.description
                                                                     ) : (

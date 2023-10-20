@@ -16,9 +16,6 @@ const Register = () => {
     const [password, setPassword] = useState("")
     const {userContext, setUserContext} = useContext(UserContext)
 
-    // console.log("username: ", username)
-    // console.log("password: ", password)
-
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverRegister_endpoint = "/users/register"
     console.log(".env from login.jsx: ", server_api)
@@ -60,39 +57,33 @@ const Register = () => {
         
     }
 
-    const loginBGStyle = {
-        backgroundColor: 'white',
-        width: '40%',
-        padding: '30px'
-    }
-
     return (
         <>
-            <div style={{width: '100%', display: 'flex', flexDirection: 'row'}}>
+            <div className='login-structure' style={{width: '100%'}}>
 
-                <div style={{width: '60%', height: '100vh'}}>
+                <div className='login-img'>
                     <img src="./images/register-bg.jpg" alt="Register img" style={{height: '100%', width: '100%', transform: 'scaleX(-1)', objectFit: 'cover'}}/>
                 </div>
 
-                <div style={loginBGStyle}>
+                <div className='login-form'>
 
                     <Link to={'/'} style={{textDecoration: 'none'}}>
                         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>   
-                            <QuizIcon style={{width: '50px', height: '50px', textDecoration: 'none', color: 'black'}}/>
-                            <h1 className='kelly-font' style={{fontSize: '35px', textDecoration: 'none', color: 'black'}}>QuizQuest</h1>
+                            <QuizIcon className='icon' style={{width: '50px', height: '50px', textDecoration: 'none'}}/>
+                            <h1 className='kelly-font login-txt' style={{fontSize: '35px', textDecoration: 'none'}}>QuizQuest</h1>
                         </div>
                     </Link>
 
-                    <h1 className='kelly-font' style={{textAlign: 'center', fontSize: '40px', marginTop: '50px', textDecoration: 'underline'}}>
+                    <h1 className='kelly-font login-txt' style={{textAlign: 'center', marginTop: '50px', textDecoration: 'underline'}}>
                         Register
                     </h1>
 
                     <form action="" onSubmit={handleRegister} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                        <TextField id="standard-basic" value={username} onChange={(e) => setUsername(e.target.value)} label="Username" variant="standard" style={{marginTop: '1em'}}/>
-                        <TextField id="standard-basic" value={password} onChange={(e) => setPassword(e.target.value)} label="Password" variant="standard" style={{marginTop: '1em'}}/>
+                        <TextField className='txt-input' value={username} onChange={(e) => setUsername(e.target.value)} label="Username" variant="standard" style={{marginTop: '1em'}}/>
+                        <TextField className='txt-input' value={password} onChange={(e) => setPassword(e.target.value)} label="Password" variant="standard" style={{marginTop: '1em'}}/>
                         
                         <Link to={'/login'}>
-                            <h2 className='kelly-font' style={{marginTop: '1em', fontSize: '18px', textDecoration: 'underline'}}>
+                            <h2 className='kelly-font login-txt' style={{marginTop: '1em', fontSize: '18px', textDecoration: 'underline'}}>
                                 Have an account?
                             </h2>
                         </Link>

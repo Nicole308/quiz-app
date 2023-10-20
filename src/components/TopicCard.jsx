@@ -5,8 +5,8 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-import { Link } from 'react-router-dom'
-import { IconButton } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom'
+import { Alert, AlertTitle, IconButton } from '@mui/material';
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 import { useState } from 'react';
@@ -17,6 +17,8 @@ const TopicCard = (data) => {
     const {userContext} = useContext(UserContext)
     // const [favorites, setFavorites] = useState([])
     const [isFavourite, setIsFavourite] = useState(false)
+    const [alertVisible, setAlertVisible] = useState(false)
+    const navigate = useNavigate()
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverFavourite_endpoint = "/quizzes/clickFavourite"
 
@@ -42,47 +44,63 @@ const TopicCard = (data) => {
     // console.log("favoriteQuizzes in TopicCard: ", favorites)
 
     const handleFavouriteClick = async() => {
-
+        
         try {
-            await fetch(
-                `${server_api}${serverFavourite_endpoint}`, {
-                    method: "POST",
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({selectedQuiz: data.data, byUser: userContext.details, isFavourite: isFavourite})
-                }
-            ).then(async (res) =>{
-                // console.log('response data', await res.json())
-
-                const responseData = await res.json()
-
-                if(responseData.message){ // like
-                    setIsFavourite(true)
-                } else { // dislike
-                    setIsFavourite(false)
-                }
-
-            })
-            
-            
+            if(!userContext || !userContext.details || !userContext.token){
+                navigate('/login')
+            } else {
+                await fetch(
+                    `${server_api}${serverFavourite_endpoint}`, {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({selectedQuiz: data.data, byUser: userContext.details, isFavourite: isFavourite})
+                    }
+                ).then(async (res) =>{
+                    // console.log('response data', await res.json())
+    
+                    const responseData = await res.json()
+    
+                    if(responseData.message){ // like
+                        setIsFavourite(true)
+                    } else { // dislike
+                        setIsFavourite(false)
+                    }
+    
+                })
+            }
         } catch (err){
             console.log("Error in handling favourite click: ", err)
         }
         
     }
     
+    const alertVisibility = () => {
+        setAlertVisible(true)
+    }
+
+    const checkFavouriteBtn = () => {
+        data.data._id === "1" || data.data._id === "2" || data.data._id === "3"? 
+        alertVisibility() : handleFavouriteClick()
+    }
+    
     return (
         <>
-            <Card sx={{ width: '300px', height: '200px', borderRadius: '10px', margin: '0px 15px'}}>
-                <Box sx={{ position: 'relative' }}>
+        {
+            alertVisible && <Alert onClose={() => setAlertVisible(false)} variant='filled' severity='warning'>
+            <AlertTitle>Quiz cannot be added</AlertTitle>
+            <strong>This quiz is for sampling only and cannot be added to your favorites.</strong>
+        </Alert>
+        }
+            <Card className="cardMedia-img" sx={{ display: 'flex', borderRadius: '10px', margin: '10px 15px'}}>
+                <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
                     <Link to={`/QuizList/${data.data._id}/${data.data.topic_name}`}>
                         <CardMedia
-                        component="img"
-                        height="200px"
-                        image={data.data.image_url}
-                        style={{height: '200px'}}
+                            component="img"
+                            image={data.data.image_url}
+                            style={{height: '100%', width: '100%'}}
                         />
 
                         <Box
@@ -103,7 +121,7 @@ const TopicCard = (data) => {
                     
                     
                     <IconButton 
-                        onClick={handleFavouriteClick}
+                        onClick={checkFavouriteBtn}
                         sx={{
                             "&:hover": {
                                 backgroundColor: "white",

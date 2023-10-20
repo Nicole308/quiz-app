@@ -299,7 +299,8 @@ router.get('/getUserDashboard', async(req, res) => {
                         _id: objID,
                         username: user.username,
                         quizzes: user.quizzes,
-                        favoriteQuizzes: user.favoriteQuizzes
+                        favoriteQuizzes: user.favoriteQuizzes,
+                        recent: user.recent
                     }
                     // console.log("newUserObj: ", newUserObj)
                     res.json(newUserObj)

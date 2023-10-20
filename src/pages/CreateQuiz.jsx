@@ -43,6 +43,12 @@ const CreateQuiz = () => {
     //     answer_a: "",
     // })
 
+    // useEffect(() => {
+    //     if(!userContext || !userContext.details){
+    //         navigate('/login')
+    //     }
+    // }, [userContext])
+
     const uploadQuizCover = async(e) => {
         // console.log("picture url: ", e.target.files[0])
         const coverImgURL = e.target.files[0]
@@ -290,9 +296,7 @@ const CreateQuiz = () => {
     return (
         <>
             <NavigationBar />
-            <div style={{backgroundColor: 'white', width: '100%', height: '100vh', padding: '10px', overflowY: 'scroll'}}>
-                
-
+            <div className='create-structure' style={{backgroundColor: 'white', width: '100%', height: '100vh', overflowY: 'scroll'}}>
                 <Button onClick={() => navigate(-1)}>
                     <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                         <KeyboardReturnIcon style={{width: '40px', height: '40px', color: 'black'}}/>
@@ -302,8 +306,8 @@ const CreateQuiz = () => {
 
                 {
                     alertVisible ? (
-                        <Box sx={{position: 'absolute', width: '70%'}}>
-                            <Alert variant='filled' severity='success'>
+                        <Box sx={{position: 'absolute', width: '100%', display: 'flex', justifyContent: 'center'}}>
+                            <Alert onClose={() => setAlertVisible(false)} variant='filled' severity='success'>
                                 <AlertTitle>Success!</AlertTitle>
                                 <strong>Quiz has been updated!</strong>
                             </Alert>
@@ -313,13 +317,15 @@ const CreateQuiz = () => {
                     )
                 }
 
-                <form onSubmit={handleSubmit} style={{padding: '10px 100px 20px 100px'}}>
+                <form onSubmit={handleSubmit} className='create-form' style={{}}>
                     
                     <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
-                        <h2 className='allerta-font'>Create A New Quiz</h2>
-                        <div style={{display: 'flex', flexDirection: 'row'}}>
-                            <div style={{display: 'flex', flexDirection: 'column', width: '30%'}}>
-                                <h3 className='allerta-font'>Quiz Cover</h3>
+                        <h2 className='allerta-font create-txt'>
+                            {id ? (<>Edit Quiz!</>) : (<>Create a new quiz!</>)}
+                        </h2>
+                        <div className='create-desc'>
+                            <div className='upload-section' style={{display: 'flex', flexDirection: 'column'}}>
+                                <h3 className='allerta-font create-txt'>Quiz Cover</h3>
                                 <div style={{width: '200px', height: '200px'}}>
                                     {
                                         selectedImage !== null ? (
@@ -370,7 +376,7 @@ const CreateQuiz = () => {
                                     
                                 </div>
                             </div>
-                            <div style={{width: '70%'}}>
+                            <div className='desc-section'>
                                 <div style={{display: 'flex', flexDirection: 'column', paddingTop: '1rem'}}>
                                     <h2 className='allerta-font' style={{fontSize: '1rem'}}>Quiz Topic</h2>
                                     <TextField 
@@ -409,7 +415,7 @@ const CreateQuiz = () => {
                             userQuiz.map((question, index) => {
                                 return (
                                     <>
-                                        <div style={{border: '10px solid #26547C', padding: '30px 50px', borderRadius: '20px', marginTop: '50px'}}>
+                                        <div className='choice-layout' style={{border: '10px solid #26547C', borderRadius: '20px', marginTop: '50px', width: '100%'}}>
                                             <div key={index} style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                                                 <h1 style={{marginRight: '10px', fontSize: '1.25rem'}}>{question.number}</h1>
                                                 <TextField 
@@ -419,6 +425,7 @@ const CreateQuiz = () => {
                                                         onChange={(e) => handleQuestionInput(index, e.target.value)}
                                                         InputProps={{style: {border: '3px solid black', borderRadius: '10px'}}}
                                                         style={{width: '100%'}}
+                                                        multiline
                                                 />
                                             </div>
                                             <RadioGroup style={{marginTop: '5px', marginLeft: '20px', width: '100%'}}>
@@ -427,30 +434,30 @@ const CreateQuiz = () => {
                                                         return (
                                                             <div key={choiceIndex} style={{width: '100%', marginTop: '20px'}}>
                                                                 <FormControlLabel
+                                                                    className='choice-input'
                                                                     value={key}
                                                                     onChange={(e) => handleCorrectAnswer(index, e.target.value)}
                                                                     control={<Radio />}
+                                                                    style={{width: '100%'}}
                                                                     label={
-                                                                        <>
-                                                                            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                                                                                <TextField
-                                                                                    value={value}
-                                                                                    onChange={
-                                                                                        (e) => {
-                                                                                            handleInput(e.target.value, key, index)
-                                                                                        }
+                                                                        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%'}}>
+                                                                            <TextField
+                                                                                value={value}
+                                                                                onChange={
+                                                                                    (e) => {
+                                                                                        handleInput(e.target.value, key, index)
                                                                                     }
-                                                                                    size='small'
-                                                                                    fullWidth
-                                                                                    InputProps={{style: {border: '3px solid black', borderRadius: '10px'}}}
-                                                                                    style={{width: '700px', borderRadius: '10px'}}
-                                                                                />
-                                                                                <Button onClick={() => deleteAnswer(key, index)} style={{paddingLeft: '0.25rem'}}>
-                                                                                    <CancelIcon style={{width: '2.5rem', height: '2.5rem', color: '#EFA93F'}}/>
-                                                                                </Button>
-                                                                            </div>
-                                                                        </>
-                                                                       
+                                                                                }
+                                                                                size='small'
+                                                                                fullWidth
+                                                                                multiline
+                                                                                InputProps={{style: {border: '3px solid black', borderRadius: '10px'}}}
+                                                                                style={{ borderRadius: '10px'}}
+                                                                            />
+                                                                            <Button onClick={() => deleteAnswer(key, index)} style={{paddingLeft: '0.25rem'}}>
+                                                                                <CancelIcon style={{width: '2.5rem', height: '2.5rem', color: '#EFA93F'}}/>
+                                                                            </Button>
+                                                                        </div>
                                                                     }
                                                                 />
                                                             </div>
@@ -481,7 +488,7 @@ const CreateQuiz = () => {
 
                     <div style={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
                         <Button type='submit' variant='contained' style={{backgroundColor: '#26547C', padding: '3px 40px', borderRadius: '10px'}}>
-                            <h1 className='allerta-font' style={{fontSize: '1rem'}}>Create</h1>
+                            <h1 className='allerta-font' style={{fontSize: '1rem'}}>{id? (<>Update</>) : (<>Create</>)}</h1>
                         </Button>
                     </div>
                     
@@ -493,49 +500,3 @@ const CreateQuiz = () => {
 }
 
 export default CreateQuiz
-
-
-// PREV CODE FOR USER QUIZ CHOICES
-{/* <div>
-        <div style={{display: 'flex', flexDirection: 'row'}}>
-            <h1>1. </h1>
-            <TextField variant='outlined' size='small' onChange={(e) => setQuestion(e.target.value)}/>
-        </div>
-        
-        <RadioGroup>
-            {
-                Object.entries(rows).map(([key, value]) => {
-                    return (
-                        <div key={key}>
-                            <FormControlLabel
-                                value={(e) => e.target.value}
-                                onChange={(e) => e.target.value}
-                                control={<Radio />}
-                                label = {
-                                    <TextField
-                                        value={value}
-                                        onChange={
-                                            (e) => {
-                                                handleInput(e.target.value, key)
-                                                // updateObjectChoices(keyIndex, e.target.value)
-                                            }
-                                        }
-                                        size='small'
-                                    />
-                                }
-                            />
-                        </div>
-                    )
-                })
-            }
-        </RadioGroup>
-        
-        <div style={{display: 'flex', flexDirection: 'row'}}>
-            <h2>Please select the correct answer</h2>
-            <Button onClick={addQuestion} variant='contained'>
-                Add answer
-            </Button>
-        </div>
-        
-    </div> 
-*/}

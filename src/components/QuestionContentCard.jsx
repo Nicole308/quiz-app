@@ -52,7 +52,7 @@ const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, cur
                     <div style={{display: 'flex', flexDirection: 'column'}}>
                         <Box className='allerta-font' sx={{display: 'flex', flexDirection: 'column', fontSize: '30px', alignItems: 'center'}}>
                             {/* <h5 style={{margin: '0px'}}>{data.number}{'\u00A0'}/{currentStep}</h5> */}
-                            <h5 style={{margin: '0px'}}>{data.question}</h5>
+                            <h5 className='quiz-txt' style={{margin: '0px'}}>{data.question}</h5>
                         </Box>
                         <div style={{paddingTop: '0.75rem', display: 'flex', justifyContent: 'center'}}>
                             <FormControl>
@@ -86,12 +86,12 @@ const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, cur
                         </div>
                        
                         {/* Needs a validation method */}
-                        <div style={{display: 'flex', justifyContent: 'flex-end', padding: '1em 2em 1em 2em', margin: '0 5em 2em'}}>
+                        <div className="quiz-btn" style={{display: 'flex', margin: '0 5em 2em'}}>
 
                             
                             {/* Used ternary operator to change the button text to either 'Submit' or 'Next' */}
                             {/* If the currentStep (questionNum) has reached 6 (according to the length of the array starting from 0 => 0, 1, 2, ...) */}
-                            <Button type='submit' variant='outlined' style={{padding: '0.5rem 2.5rem 0.5rem 2.5rem', border: '4px solid #26547C', borderRadius: '10px'}}>
+                            <Button type='submit' variant='outlined' style={{padding: '0.5rem 2.5rem', border: '4px solid #26547C', borderRadius: '10px'}}>
                                 <p className='allerta-font' style={{fontSize: '1rem', margin: '0px', color: '#26547C'}}>
                                 {
                                     currentStep === 6 ? `Submit` : `Next`

@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import QuizContext from "../context/QuizContext"
 import NavigationBar from "../components/NavigationBar"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useMemo } from "react"
 
 import '../../public/css/fonts.css'
@@ -14,19 +14,10 @@ import { Button } from "@mui/material"
 const Homepage = () => {
 
     const getJSONData = useContext(QuizContext)
+    const navigate = useNavigate()
     // console.log(getJSONData, "Linux Data accessed from homepage: ")
 
-    // Will use this to further the homepage intro
     const memoizeHomepageData = useMemo(() => getJSONData, [getJSONData])
-
-    const regularText = {
-        fontSize: '25px',
-        textAlign: 'center',
-        margin: '2% 36% 0 36%',
-        padding: '20px',
-        color: 'white',
-        border: '1px solid white'
-    }
 
     return (
         <>
@@ -34,83 +25,89 @@ const Homepage = () => {
             <div style={{display: 'grid', gridTemplateColumns: '1fr'}}>
 
                 <div style={{gridRowStart: '1', gridColumnStart: '1'}}>
-                    <img src="./images/study.jpg" alt="study img" style={{height: '100vh', width: '100%'}}/>
+                    <img className="banner-img" src="./images/study.jpg" alt="study img" style={{ width: '100%'}}/>
                 </div>
 
                 
                 <div style={{gridRowStart: '1', gridColumnStart: '1'}}>
-                    <div style={{
+                    <div className="box-shadow" 
+                        style={{
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center',
                             alignItems: 'center',
                             width: '100%', 
-                            height: '100%', 
+                            // height: '100%', 
                             background: 'linear-gradient(180deg, rgba(3, 36, 40, 0.46) 2.09%, rgba(3, 44, 50, 0.86) 100%)'
                     }}> 
                         <h1 
-                            className="allerta-font"
+                            className="allerta-font title-size"
                             style={{color: 'white', 
-                                    fontSize: '52px',
                                     textAlign: 'center',
                                     margin: '0 30% 0 30%'
                         }}>
                             Welcome to QuizQuest
                         </h1>
 
-                        <h2 className="allerta-font" style={regularText}>
+                        <p className="allerta-font body-size box-body" >
                             A place where you can test your computer knowledge and learn more!
-                        </h2>
+                        </p>
 
-                        <h3 className="allerta-font" style={{fontSize: '20px', fontWeight: '600', color: '#00FFFF', textDecorationLine: 'underline', marginTop: '20px'}}>
-                            <Link to={'/QuizList'}>
-                                Try It Now!
-                            </Link>
-                        </h3>
+                        <Link to={'/QuizList'}>
+                            <h3 className="allerta-font" style={{fontSize: '20px', fontWeight: '600', color: '#00FFFF', textDecorationLine: 'underline', marginTop: '20px'}}>
+                                    Try It Now!
+                            </h3>
+                        </Link>
                     </div>
                 </div>               
                 
             </div>
 
-            <div style={{backgroundColor: '#032C32', width: '100%', height: '450px'}}>
-                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '50px'}}>
-                    <h1 className="allerta-font" style={{color: '#00FFFF', fontSize: '32px'}}>
-                        Available Quizzes
-                    </h1>
-                    <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '35px'}}>
+            <div className="quiz-box" style={{backgroundColor: '#032C32', width: '100%'}}>
+                <h1 className="allerta-font" style={{textAlign: 'center', color: '#00FFFF', fontSize: '32px', margin: '0px', paddingTop: '2rem'}}>
+                    Available Quizzes
+                </h1>
+                <div className="scroll-side" style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', paddingTop: '10px'}}>
+                    <div style={{ display: 'flex', flexDirection: 'row', marginTop: '35px'}}>
                     {
                         // Mapped the jsonData which is an array of objects and create another component called to TopicCard. 
                         // Returned the TopicCard component 
                         memoizeHomepageData.topicData.map((data) => {
-                            return <TopicCard key={data.id} data={data} />
+                            return (<TopicCard key={data.id} data={data} />)
                         })
                     }
                     </div>
                 </div>
             </div>
             
-            <div style={{backgroundColor: 'white', height: '600px', paddingTop: '20px', width: '100%', display: 'flex', flexDirection: 'row'}}>
-                <div style={{padding: '0px 30px', width: '50%'}}>
-                    <img src="./images/comp-desk.png" 
-                        alt="Image by Arivle One from Pixabay" 
-                        style={{height: '350px', width: '350px', borderRadius: '50%', border: '1px solid black'}}/>
-                    
-                    <div style={{ marginLeft: '40%'}}>
-                        <img src="./images/work.png" 
+            <div className="bottom-box" style={{backgroundColor: 'white', width: '100%',}}>
+                <div className="first-section" style={{}}>
+                    <div className="first-img">
+                        <img className="bigCircle-img"
+                            src="./images/comp-desk.png" 
                             alt="Image by Arivle One from Pixabay" 
-                            style={{height: '200px', width: '200px', borderRadius: '50%', border: '1px solid black'}}/>
+                            style={{ border: '1px solid black'}}/>
+                    </div>
+                    
+                    
+                    <div className="second-img" style={{ }}>
+                        <img className="smallCircle-img" 
+                            src="./images/work.png" 
+                            alt="Image by Arivle One from Pixabay" 
+                            style={{ }}/>
                     </div>
                    
                 </div>
 
-                <div style={{width: '50%', display: 'flex', flexDirection: 'column',justifyContent: 'center', alignItems: 'center', marginRight: '30px'}}>
-                    <h1 className="allerta-font" style={{fontSize: '75px', padding: '0px 40px', textAlign: 'right'}}>
-                        Create your very own quiz!
+                <div className="second-section" style={{display: 'flex', flexDirection: 'column',justifyContent: 'center', alignItems: 'center'}}>
+                    <h1 className="allerta-font bottom-font" style={{padding: '0px 40px'}}>
+                        Browse other quiz
                     </h1>
 
-                    <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end',  padding: '0px 40px', marginTop: '20px'}}>
-                        <Button variant="contained" style={{backgroundColor: '#26547C', padding: '10px 30px'}}>
-                            <h1 className="allerta-font">Create</h1>
+                    {/* Has to check if the user is signed in or not */}
+                    <div className="btn-layout" style={{width: '100%', display: 'flex', marginTop: '20px'}}>
+                        <Button onClick={() => navigate('/QuizList')} variant="contained" style={{backgroundColor: '#26547C', borderRadius: '10%'}}>
+                            <h1 className="allerta-font create-btn">Go now</h1>
                         </Button>
                     </div>
                     

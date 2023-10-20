@@ -61,21 +61,36 @@ router.post('/register', async (req, res, next) => {
 router.post("/login", passport.authenticate("local", {session: false}), async (req, res, next) => {
     const token = getToken({_id: req.user._id})
     const refreshToken = getRefreshToken({ _id: req.user._id})
-    await User.findById(req.user._id).then(
-        (user) => {
-            user.refreshToken.push({refreshToken})
-            user.save().then((err) => {
-                if(err){
-                    res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
-                    res.send({ success: true, token, refreshToken})
+    const username = req.body.username
+    const password = req.body.password
+    console.log("username: ", username, "password: ", password)
+
+    try {
+        
+        await User.findById(req.user._id).then(
+            (user) => {
+                console.log("user found: ", user)
+                if(user.username !== username || user.password !== password){
+                    console.log("password and username does not match")
+                    res.send({message: false})
                 } else {
-                    res.status(500).send(err)
+                    user.refreshToken.push({refreshToken})
+                    user.save().then((err) => {
+                        if(err){
+                            res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
+                            res.send({ success: true, token, refreshToken})
+                        } else {
+                            res.status(500).send(err)
+                        }
+                    })
                 }
-            })
-            
-        },
-        err => next(err)
-    )
+            },
+            err => next(err)
+        )
+    } catch(error){
+        console.log("error logging in")
+    }
+   
 })
 
 router.post("/refreshToken", (req, res, next) => {
@@ -124,7 +139,7 @@ router.post("/refreshToken", (req, res, next) => {
                 })
               }
             } else {
-              res.status(401).send("Unauthorized")
+              res.send({message: false})
             }
           },
           err => next(err)

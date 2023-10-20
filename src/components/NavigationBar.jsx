@@ -6,12 +6,15 @@ import Button from '@mui/material/Button';
 import QuizIcon from '@mui/icons-material/Quiz';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import MenuIcon from '@mui/icons-material/Menu';
+import '../../public/css/homepage.css'
 
 import { UserContext } from "../context/UserContext.js"
 
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import { useContext } from 'react';
+import { Grid } from '@mui/material';
 // import { getSessionJwtToken, getSessionRefreshToken } from '../../session/sessionStorage.js';
 
 // Using material UI to create NavigationBar component
@@ -35,12 +38,16 @@ const NavigationBar = () => {
     }, [userContext.details])
 
     const handleOpenClick = (e) => {
-        setAnchorEl(e.currentTarget)
+        e.stopPropagation();
+        setAnchorEl(e.currentTarget);
     }
 
-    const handleCloseClick = () => {
-        setAnchorEl(null)
+    const handleCloseClick = (e) => {
+        e.stopPropagation();
+        setAnchorEl(null);
     }
+
+    // console.log("userContext token: ", userContext.token)
 
     const logoutUser = async() => {
         const response = await fetch(
@@ -65,70 +72,67 @@ const NavigationBar = () => {
     return (
         
         <Box sx={{flexGrow: 1}}>
-            <AppBar position='static' style={{backgroundColor: '#26547C'}}>
+            <AppBar className='appBar' position='static' style={{backgroundColor: '#26547C'}}>
                 <ToolBar>
-                    <QuizIcon style={{height: '1em', width: '1em', color: 'white'}} />
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        <Link to={'/'} style={{textDecoration: 'none', color: 'white', fontWeight: 700}}>
-                            QuizQuest
-                        </Link>
-                        <Link to={'/QuizList'} style={{marginLeft: '1em', textDecoration: 'none', color: 'white', fontSize: '1.20rem'}}>
-                            Quiz List
-                        </Link>
-                    </Typography>
+                    <Grid container style={{display: 'flex', alignItems: 'center'}}>
+                        <Grid item xs={9} md={10} style={{display: 'flex'}}>
+                            <QuizIcon className='quizIcon' style={{color: 'white'}} />
+                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                                <Link to={'/'} className='font-size' style={{textDecoration: 'none', color: 'white', fontWeight: 700}}>
+                                    QuizQuest
+                                </Link>
+                                <Link to={'/QuizList'} className='font-size' style={{marginLeft: '1em', textDecoration: 'none', color: 'white'}}>
+                                    Quiz List
+                                </Link>
+                            </Typography>
+                        </Grid>
+                       
+                        <Grid item xs={3} md={2}>
+                            {
+                                !userContext.token === null || !userContext.token ? (
+                                    // IF the userContext.token IS null then...
+                                    <Link to={`/login`}>
+                                        <Button style={{color: 'white', fontWeight: 700, fontSize: '1rem'}}>
+                                            Sign In
+                                        </Button>
+                                    </Link>
+                                ) 
+                                : userContext.details === null? (
+                                    // ELSE IF the userContext.details is null 
+                                    <h3>Error loading the user details</h3>
 
-                    {
-                        !userContext.token === null || !userContext.token ? (
-                            // IF the userContext.token IS null then...
-                            <Link to={`/login`}>
-                                <Button style={{color: 'white', fontWeight: 700, fontSize: '1rem'}}>
-                                    Sign In
-                                </Button>
-                            </Link>
-                        ) 
-                        // : !userContext.token ? (
-                        //     // ELSE IF the userContext.token IS NOT null BUT
-                        //     // there's NO userContext.token then...
-                        //     // 
-                        //     // When loading the user, we could use material-ui
-                        //     // to use loading effect button
-                        //     <Button>
-                        //         <h4>Trying to load user token</h4>
-                        //     </Button>
+                                ) : !userContext.details ?(
+                                    // ELSE IF the userContext.details IS NOT null BUT
+                                    // the userContext.details is undefined then...
+                                    <h3>Loading user...</h3>
 
-                        // ) 
-                        : userContext.details === null? (
-                            // ELSE IF the userContext.details is null 
-                            <h3>Error loading the user details</h3>
-
-                        ) : !userContext.details ?(
-                            // ELSE IF the userContext.details IS NOT null BUT
-                            // the userContext.details is undefined then...
-                            <h3>Loading user...</h3>
-
-                        ) : (
-                            // ELSE IF the userContext.details DO exist, then
-                            // display the userContext.details
-                            <>
-                                <Button
-                                    onClick={handleOpenClick}
-                                >
-                                    <h3 style={{color: 'white'}}>
-                                        Welcome {userContext.details.username
-                                    }</h3>
-                                </Button>
-                                <Menu
-                                    anchorEl={anchorEl}
-                                    open={open}
-                                    onClose={handleCloseClick}
-                                >
-                                    <MenuItem onClick={() => navigate(`/dashboard`)}>Dashboard</MenuItem>
-                                    <MenuItem onClick={logoutUser}>Logout</MenuItem>
-                                </Menu>
-                            </>
-                            
-                        )
-                    }
+                                ) : (
+                                    // ELSE IF the userContext.details DO exist, then
+                                    // display the userContext.details
+                                    <Box className="menuBar">
+                                        <Button
+                                            onClick={handleOpenClick}
+                                        >
+                                            <h3 style={{color: 'white'}}>
+                                                {userContext.details.username}
+                                            </h3>
+                                        </Button>
+                                        <Menu
+                                            anchorEl={anchorEl}
+                                            open={open}
+                                            onClose={handleCloseClick}
+                                            
+                                        >
+                                            <MenuItem onClick={() => navigate(`/dashboard`)}>Dashboard</MenuItem>
+                                            <MenuItem onClick={logoutUser}>Logout</MenuItem>
+                                        </Menu>
+                                    </Box>
+                                    
+                                )
+                            }
+                        </Grid>
+                    </Grid>
+                    
 
                     {/* This one is for using express-session */}
                     {/* {

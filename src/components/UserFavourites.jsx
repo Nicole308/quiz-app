@@ -19,20 +19,20 @@ const UserFavourites = ({data, handleRemoveFavourites}) => {
     // console.log("userFavourites: ", userFavourites)
 
     return (
-        <Box sx={{display: 'flex', gap: 3}}>
+        <Box sx={{display: 'flex', gap: 3, flexWrap: 'wrap'}}>
             {
                 userFavourites.length === 0? (
                     <Box className="allerta-font" sx={{color: '#26547C'}}>
                         No Favourites has been added
                     </Box>
                 ) : (
-                    <Box>
+                    <Box style={{display: 'flex', flexWrap: 'wrap', gap: 3}}>
                         {
                             userFavourites.map((quiz) => (
                                 <div key={quiz._id}>
-                                    <Card sx={{width: 180, position: 'relative', border: '3px solid #26547C'}}>
-                                        <CardMedia 
-                                            sx={{height: 220, filter: 'brightness(40%)'}}
+                                    <Card className="quizzes-card" sx={{position: 'relative', border: '3px solid #26547C'}}>
+                                        <CardMedia className="favourite-media"
+                                            sx={{filter: 'brightness(40%)'}}
                                             image={quiz.image_url}
                                             title={quiz.topic_name}
                                         />
@@ -61,7 +61,7 @@ const UserFavourites = ({data, handleRemoveFavourites}) => {
                                                     <Box sx={{display: 'flex', alignItems: 'center', color: 'white'}}>
                                                         <HelpIcon />
                                                         <Typography variant='body2'>
-                                                            {userFavourites.length} question(s)
+                                                            <div className="favourite-txt">{quiz.content.length} question(s)</div>
                                                         </Typography>
                                                     </Box>
                 

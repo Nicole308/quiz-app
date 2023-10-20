@@ -12,6 +12,7 @@ import UserQuizzes from '../components/UserQuizzes';
 import { useEffect } from 'react';
 import UserFavourites from '../components/UserFavourites';
 import UserRecent from '../components/UserRecent'
+import { useNavigate } from 'react-router-dom'
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -52,10 +53,17 @@ const Dashboard = () => {
     const [tabValue, setTabValue] = useState(0)
     const {userContext} = useContext(UserContext)
     const [userQuizzes, setUserQuizzes] = useState([])
+    const navigate = useNavigate()
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverFavourite_endpoint = "/quizzes/deleteFavourite"
     const serverDashboard_endpoint = "/quizzes/getUserDashboard"
     const serverDelete_endpoint = "/quizzes/deleteQuiz"
+
+    // useEffect(() => {
+    //     if(!userContext || !userContext.details){
+    //         navigate('/login')
+    //     }
+    // }, [userContext])
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue)
@@ -99,8 +107,8 @@ const Dashboard = () => {
         // console.log("userContext: ", userContext.details)
         const loadDatas = async() => {
             try {
-                if(!userContext.details){
-                    return <div>Loading...</div>
+                if(!userContext.details && !userContext){
+                    console.log('loading data')
                 }
 
                 await axios.get(`${server_api}${serverDashboard_endpoint}?user=${userContext.details._id}&name=${userContext.details.username}`)
@@ -132,11 +140,11 @@ const Dashboard = () => {
                 >
                     DASHBOARD
                 </Box>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center' }}>
-                    <Tabs value={tabValue} onChange={handleTabChange} TabIndicatorProps={{ style: {backgroundColor: 'red'}}} aria-label="basic tabs example" style={{paddingTop: '1.25rem'}}>
-                        <Tab label="Your Quizzes" {...indexProps(0)} style={{padding: '0rem 2rem 0rem 2rem',}}/>
-                        <Tab label="Your Favorites" {...indexProps(1)} style={{padding: '0rem 2rem 0rem 2rem'}}/>
-                        <Tab label="Recent" {...indexProps(2)} style={{padding: '0rem 2rem 0rem 2rem'}}/>
+                <Box sx={{width:'100%', borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center' }}>
+                    <Tabs value={tabValue} onChange={handleTabChange} TabIndicatorProps={{ style: {backgroundColor: 'red'}}} aria-label="basic tabs example" style={{width: '100%', paddingTop: '1.25rem'}}>
+                        <Tab className='tab-edit' label="Your Quizzes" {...indexProps(0)}/>
+                        <Tab className='tab-edit' label="Your Favorites" {...indexProps(1)} />
+                        <Tab className='tab-edit' label="Recent" {...indexProps(2)}/>
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={tabValue} index={0}>
@@ -146,7 +154,7 @@ const Dashboard = () => {
                     <UserFavourites data={userQuizzes} handleRemoveFavourites={handleRemoveFavourites}/>
                 </CustomTabPanel>
                 <CustomTabPanel value={tabValue} index={2}>
-                    <UserRecent />
+                    <UserRecent data={userQuizzes} />
                 </CustomTabPanel>
             </Box>
             

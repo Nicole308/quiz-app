@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Modal, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const UserQuizzes = ({ data, handleRemoveQuiz }) => {
   const [userQuizzes, setUserQuizzes] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const navigate = useNavigate()
 
   // useEffect(() => {
@@ -16,7 +17,7 @@ const UserQuizzes = ({ data, handleRemoveQuiz }) => {
   // }, [data])
 
   useEffect(() => {
-    if (!data || !data || !data.quizzes) {
+    if (!data || !data.quizzes) {
       console.log("Loading...")
       // window.location.reload()
     } else {
@@ -31,34 +32,40 @@ const UserQuizzes = ({ data, handleRemoveQuiz }) => {
       navigate(`/createQuiz?id=${quiz._id}`)
   }
 
+  const handleQuizRemove = (quiz) => {
+      handleRemoveQuiz(quiz)
+      setIsModalOpen(false)
+  }
+
   return (
-    <Box sx={{display: 'flex', gap: 3}}>
+    <Box sx={{display: 'flex', gap: 3, flexWrap: 'wrap'}}>
       {
         userQuizzes.map((quiz) => (
           <div key={quiz._id}>
-            <Card sx={{width: 180, position: 'relative', border: '3px solid #26547C'}}>
-              <CardMedia 
-                sx={{height: 130, filter: 'brightness(40%)'}}
+            <Card className="quizzes-card" sx={{ position: 'relative', border: '3px solid #26547C'}}>
+              <CardMedia className="quizzes-media"
+                sx={{filter: 'brightness(40%)'}}
                 image={quiz.image_url}
                 title={quiz.topic_name}
+                style={{width: '100%'}}
               />
-              <Box sx={{
+              <Box className="quizzes-layout" sx={{
                 position: 'absolute', 
                 top: '0%', 
                 width: '100%',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '4rem',
                 padding: '5px'
               }}>
-                <Typography variant='body2' sx={{color: 'white', fontSize: '1.25rem'}}>
-                  {quiz.topic_name}
+                <Typography  variant='body2' sx={{color: 'white'}}>
+                  <div className='quizzes-txt'>{quiz.topic_name}</div>
+                  
                 </Typography> 
 
                 <Box sx={{display: 'flex', alignItems: 'center', color: 'white'}}>
                   <HelpIcon />
                   <Typography variant='body2'>
-                    {userQuizzes.length} question(s)
+                    {quiz.content.length} question(s)
                   </Typography>
                 </Box>
               </Box>
@@ -90,7 +97,7 @@ const UserQuizzes = ({ data, handleRemoveQuiz }) => {
                 >
                   <EditIcon sx={{color: 'black'}}/>
                 </Button>
-                <Button onClick={() => handleRemoveQuiz(quiz)}
+                <Button onClick={() => setIsModalOpen(true)}
                         sx={{
                           width: '50%', 
                           margin: 0, 
@@ -102,15 +109,49 @@ const UserQuizzes = ({ data, handleRemoveQuiz }) => {
                         size='small'
                 >
                   <DeleteIcon sx={{color: 'black'}}/>
-                </Button>
+                </Button> 
+                {
+                  isModalOpen && (
+                    <Modal
+                        keepMounted
+                        open={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                    >
+                        <Box sx={{position: 'absolute', 
+                                  top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                                  width: 400, height: 100, p: 4, textAlign: 'center',
+                                  bgcolor: 'white', border: '2px solid #26547C', borderRadius: '15px'
+                        }}>
+
+                            <Typography variant='h6'> 
+                                <strong>Do you want to delete {quiz.topic_name}?</strong>
+                            </Typography>
+                            
+                            <Box sx={{p: 4}}>
+                                <Button onClick={() => handleQuizRemove(quiz)} variant='outlined' 
+                                        style={{border: '3px solid #26547C', color: '#26547C', marginRight: '0.75rem', fontWeight: 700}}
+                                    >
+                                        Delete
+                                    </Button>
+                                <Button onClick={() => setIsModalOpen(false)} variant='outlined' 
+                                        style={{border: '3px solid #26547C', color: '#26547C', marginLeft: '0.75rem', fontWeight: 700}}
+                                >
+                                    Cancel
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Modal>
+                  ) 
+                }
               </CardActions>
             </Card>
           </div>
       ))}
 
       <Box onClick={() => navigate(`/createQuiz`)}
-          width={180} 
-          height={210} 
+          className="quizzes-card add-card"
+          // width={180} 
+          // height={210} 
           sx={{backgroundColor: 'white', border: '4px dashed #26547C'}}
         >
           <AddIcon sx={{padding: '38%', width: '3rem', height: '3rem', color: '#26547C'}}/>

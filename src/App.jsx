@@ -1,7 +1,6 @@
 import './App.css'
 import { useEffect, useState, useCallback, useContext } from 'react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
-import axios from 'axios'
 import QuizContext from './context/QuizContext'
 import Homepage from './pages/Homepage'
 import QuizList from './pages/QuizList'
@@ -112,7 +111,7 @@ function App() {
               <Route path='/QuizList' element={<QuizList />}/>
               <Route path='/QuizList/:id/:name' element={<TopicDetailPage />} />
               <Route path='/QuizList/:id/:name/quiz' element={<QuizContent />}/>
-              <Route path='/QuizList/quizResult' element={<QuizContentResult />} />
+              {/* <Route path='/QuizList/quizResult' element={<QuizContentResult />} /> */}
               <Route path='/login' element={<Login />}/>
               <Route path='/register' element={<Register />}/>
               <Route path='/createQuiz' element={<CreateQuiz />}/>

@@ -17,13 +17,15 @@ const Login = () => {
     const [loginUsername, setLoginUsername] = useState("")
     const [loginPassword, setLoginPassword] = useState("")
     const [isEmpty, setIsEmpty] = useState(false)
-    const {userContext, setUserContext} = useContext(UserContext)
+    const {setUserContext} = useContext(UserContext)
     const [loginAlert, setLoginAlert] = useState(false)
+    const [alertMsg, setAlertMsg] = useState("Enter your username and password")
+    const [alertSeverity, setAlertSeverity] = useState("info")
     const navigate = useNavigate()
 
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverLogin_endpoint = "/users/login"
-    console.log(".env from login.jsx: ", server_api)
+    // console.log(".env from login.jsx: ", server_api)
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -47,9 +49,6 @@ const Login = () => {
             if(response.ok){
                 console.log("Login currently being checked in backend")
                 const jsonData = await response.json()
-                // console.log("Response Users: ", jsonData)
-                // console.log("Response user token: ", jsonData.token)
-                // console.log("Response refresh user token: ", jsonData.refreshToken)
 
                 // Tried using sessionStorage => works but I decided to use cookies to store tokens
                 // await setSessionJwtToken(jsonData.token)
@@ -60,6 +59,7 @@ const Login = () => {
                 })
 
                 setLoginAlert(true)
+                setAlertMsg("Login Successful!")
 
                 navigate('/QuizList')
 
@@ -67,8 +67,16 @@ const Login = () => {
                 // console.log("checking userContext after login submission: ", userContext['token'])
 
                 
+            } else if(!response.message){
+                setAlertMsg(false)
+                setAlertSeverity("warning")
+                setAlertMsg("Username and password does not match")
             } else {
                 console.log("Failed to send login data to backend: ", response.status, response.statusText)
+                setLoginAlert(false)
+                setAlertSeverity("error")
+                setAlertMsg("Failed to login")
+
             }
         } catch (err) {
             console.error("Error: ", err)
@@ -79,45 +87,41 @@ const Login = () => {
     // Got the correct token for user
     // console.log("checking userContext after login submission: ", userContext['token'])
     // console.log("Users accessed from frontend: ", users)
-    
-
-    const loginBGStyle = {
-        backgroundColor: 'white',
-        width: '40%',
-        padding: '30px'
-    }
-
+  
     return (
         <>
-            <div style={{width: '100%', display: 'flex', flexDirection: 'row'}}>
+            <div className='login-structure' style={{width: '100%'}}>
                 
-                <div style={{width: '60%', height: '100vh'}}>
+                <div className='login-img'>
                     <img src="./images/login-bg.jpg" alt="Login img" style={{height: '100%', width: '100%', transform: 'scaleX(-1)'}}/>
                 </div>
 
-                <div style={loginBGStyle}>
+                <div className='login-form'>
 
                     <Link to={'/'} style={{textDecoration: 'none'}}>
                         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>   
-                            <QuizIcon style={{width: '50px', height: '50px', textDecoration: 'none', color: 'black'}}/>
-                            <h1 className='kelly-font' style={{fontSize: '35px', textDecoration: 'none', color: 'black'}}>QuizQuest</h1>
+                            <QuizIcon className='icon' style={{width: '50px', height: '50px', textDecoration: 'none'}}/>
+                            <h1 className='kelly-font login-txt' style={{fontSize: '35px', textDecoration: 'none'}}>QuizQuest</h1>
                         </div>
                     </Link>
                    
                     
-                    <h1 className='kelly-font' style={{textAlign: 'center', fontSize: '40px', marginTop: '50px', textDecoration: 'underline'}}>
+                    <h1 className='kelly-font login-txt' style={{textAlign: 'center', marginTop: '50px', textDecoration: 'underline'}}>
                         Login
                     </h1>
 
                     {
                         loginAlert? (
-                            <Stack sx={{ width: '100%' }} spacing={2}>
+                            <Stack className='alert-box' sx={{ width: '50%' }} spacing={2}>
                                 <Alert severity='success'>Login Successful!</Alert>
                             </Stack>
                         ) : (
-                            <Stack sx={{ width: '100%' }} spacing={2}>
-                                <Alert severity='error'>Failed to login!</Alert>
-                            </Stack>
+                            <div className='alert-box'>
+                                <Stack sx={{ width: '50%' }} spacing={2}>
+                                    <Alert severity={alertSeverity}>{alertMsg}</Alert>
+                                </Stack>
+                            </div>
+                            
                         )
                     }
 
@@ -134,10 +138,10 @@ const Login = () => {
                     }
 
                     <form action="" onSubmit={handleLogin} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                        <TextField id="standard-basic" value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} label="Username" variant="standard" style={{marginTop: '1em'}}/>
-                        <TextField id="standard-basic" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} label="Password" variant="standard" style={{marginTop: '2em'}}/>
+                        <TextField className='txt-input' value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} label="Username" variant="standard" style={{marginTop: '1em'}}/>
+                        <TextField className='txt-input' value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} label="Password" variant="standard" style={{marginTop: '2em'}}/>
                         <Link to={'/register'}>
-                            <h2 className='kelly-font' style={{marginTop: '1em', fontSize: '18px', textDecoration: 'underline'}}>
+                            <h2 className='kelly-font login-txt' style={{marginTop: '1em', fontSize: '18px', textDecoration: 'underline'}}>
                                 Don't have an account?
                             </h2>
                         </Link>

@@ -6,3 +6,295 @@
     align-items: center;
     justify-content: center;
 }
+
+.content-first {
+    width: 50%;
+}
+
+.content-second {
+    width: 50%;
+}
+
+/* QUIZ LIST PAGE */
+.quiz-list {
+    padding: 8rem 0rem;
+}
+
+.list {
+    margin-left: 3rem;
+}
+
+.banner-layout {
+    padding: 10%;
+}
+
+.banner-font {
+    font-size: 35px;
+}
+
+/* LOGIN PAGE */
+.login-structure {
+    display: flex; flex-direction: row;
+}
+
+.login-img {
+    width: 60%; height: 100vh;
+}
+
+.login-form {
+    width: 40%; padding: 30px; background-color: white;
+}
+
+.login-txt {
+    color: black; font-size: 40px;
+}
+
+.alert-box {
+    display: flex; justify-content: center;
+}
+
+.icon {
+    color: black;
+}
+
+/* CREATE QUIZ PAGE */
+.create-desc {
+    display: flex; flex-direction: row;
+}
+
+.choice-input  .MuiFormControlLabel-label{
+    width: 100%;
+}
+
+.upload-section {
+    width: 30%;
+}
+
+.desc-section {
+    width: 70%;
+}
+
+.create-form {
+    padding: 10px 100px 20px 100px;
+}
+
+.create-structure {
+    padding: 10px;
+}
+
+.choice-layout {
+    padding: 30px 20px;
+}
+
+/* DASHBOARD PAGE */
+.tab-edit {
+    padding: 0rem 2rem 0rem 2rem;
+}
+
+.quizzes-card {
+    width: 180px;
+}
+
+.quizzes-media {
+    height: 130px;
+}
+
+.quizzes-layout {
+    gap: 4rem;
+}
+
+.quizzes-txt {
+    font-size: 1.25rem;
+}
+
+.favourite-media {
+    height: 220px;
+}
+
+/* TOPIC DETAIL PAGE */
+.detail-structure {
+    display: flex; flex-direction: row; align-items: center; width: 100%;
+}
+
+.detail-img {
+    width: 40%; margin-right: 2em; padding: 2em; 
+}
+
+.detail-desc {
+    width: 60%;
+}
+
+.quiz-btn {
+    justify-content: flex-end; padding: 1em 2em;
+}
+
+@media (max-width: 992px){
+    /* CREATE QUIZ PAGE */
+    .create-desc {
+        flex-direction: column; align-items: center;
+    }
+
+    .create-txt {
+        text-align: center;
+    }
+
+    .upload-section {
+        width: 0%; align-items: center;
+    }
+    
+    .desc-section {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px){
+    /* QUIZ LIST PAGE */
+    .banner-layout {
+        padding: 5% 3%;
+    }
+
+    .list {
+        margin-left: 1rem;
+    }
+
+    .banner-font {
+        font-size: 30px;
+    }
+
+    /* LOGIN PAGE */
+    .login-structure {
+        flex-direction: column;
+    }
+
+    .login-img {
+        width: 100%; height: 100vh; filter: brightness(30%);
+    }
+
+    .login-form {
+        width: 100%; padding: 0; height: 100%; position: absolute; background-color: transparent;
+    }
+
+    .login-txt {
+        color: white; font-size: 30px;
+    }
+
+    .txt-input {
+        background-color: white; border-radius: 5px; width: 50%;
+    }
+
+    .txt-input label {
+        color: black; 
+        padding-left: 5px;
+    }
+
+    .icon {
+        color: white;
+    }
+
+    /* TOPIC DETAIL PAGE */
+    .detail-structure {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 428px){
+    /* QUIZ LIST PAGE */
+    .list {
+        justify-content: center;
+    }
+
+    .create-form {
+        padding: 0px;
+    }
+
+    .create-structure {
+        padding: 0px;
+    }
+
+    .choice-layout {
+        padding: 30px 10px;
+    }
+
+    /* DASHBOARD PAGE */
+    .tab-edit {
+        padding: 0rem;
+    }
+
+    .quizzes-card {
+        width: 130px;
+    }
+    
+    .quizzes-media {
+        height: 80px;
+    }
+
+    .quizzes-layout {
+        gap: 0rem;
+    }
+
+    .quizzes-txt {
+        font-size: 1rem;
+    }
+
+    .add-card {
+        display: flex; justify-content: center; align-items: center;
+    }
+
+    .favourite-media {
+        height: 160px;
+    }
+
+    .favourite-txt {
+        font-size: 12px;
+    }
+
+    .recent-info .MuiCardContent-root{
+        padding: 0px;
+    }
+
+    .recent-info .css-46bh2p-MuiCardContent-root:last-child {
+        padding: 0px;
+    }
+
+    /* TOPIC DETAIL PAGE */
+
+
+    .detail-img {
+        width: 80%; margin: 0px; padding: 20px;
+    }
+    
+    .detail-desc {
+        width: 100%; text-align: center;
+    }
+
+    /* QUIZ CONTENT PAGE */
+    .quiz-txt {
+        text-align: center;
+    }
+
+    .quiz-btn {
+        justify-content: center; padding: 0px;
+    }
+
+    /* QUIZ SCORE BOX */
+    .scoreBox-txt {
+        font-size: 12px;
+    }
+
+    .content-structure {
+        flex-direction: column;
+    }
+
+    .content-first {
+        width: 100%; height: 50%;
+    }
+
+    .content-second {
+        width: 100%; height: 50%;
+    }
+
+    .back-arrow {
+        position: absolute;
+    }
+
+}

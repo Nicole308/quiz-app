@@ -1,0 +1,221 @@
+.quizIcon {
+    height: 3rem;
+    width: 3rem; 
+}
+
+.appBar {
+    height: 5rem;
+}
+
+.box-body {
+    text-align: center;
+    margin: 2% 36% 0 36%;
+    padding: 20px;
+    color: white;
+    border: 1px solid white;
+}
+
+.scroll-side {
+    width: 100%; 
+    overflow-x: scroll;
+}
+
+.quiz-box {
+    height: 450px;
+}
+
+/* .scroll-side::-webkit-scrollbar {
+    display: none;
+} */
+
+.create-btn {
+    padding: 3px 25px;
+    font-size: 25px;
+}
+  
+
+.cardMedia-img {
+    height: 12.5rem; /*200px*/
+    width: 18.75rem /*300px*/
+}
+
+.bottom-box {
+    display: flex;
+    flex-direction: row;
+    padding-top: 20px;
+}
+
+.bottom-font {
+    font-size: 75px;
+    text-align: right;
+}
+
+.bigCircle-img {
+    height: 350px;
+    width: 350px;
+    border-radius: 50%;
+}
+
+.smallCircle-img {
+    height: 200px; 
+    width: 200px;
+    border-radius: 50%; border: 1px solid black;
+}
+
+.first-section {
+    padding: 0px 30px; width: 50%;
+}
+
+.second-section {
+    margin-right: 30px; width: 50%;
+}
+
+.second-img {
+    margin-left: 40%;
+}
+
+.btn-layout {
+    justify-content: flex-end;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media (max-width: 400px){
+    .title-size {
+        font-size: 18px;
+        padding: 1rem;
+    }
+
+    .cardMedia-img {
+        height: 8rem;
+        width: 10rem;
+    }
+
+    .quiz-box {
+        height: 350px;
+    }
+
+    .first-section {
+        flex-direction: column;
+    }
+
+    .bottom-box {
+        font-size: 30px;
+    }
+}
+
+
+/* Small devices (portrait tablets and large phones, 600px and down) */
+@media (max-width: 768px) {
+    .font-size {
+        font-size:medium;
+    }
+
+    .title-size {
+        font-size: 25px;
+    }
+    
+    .box-body {
+        margin: 2% 20%;
+    }
+
+    .box-shadow {
+        height: 100%;
+    }
+
+    .body-size {
+        font-size: 18px;
+    }
+
+    /*200px*/
+    .cardMedia-img {
+        height: 8rem;
+        width: 11rem; 
+    }
+
+    .banner-img {
+        height: 100%;
+    }
+
+    .bottom-box {
+        flex-direction: column; padding-top: 0px;
+    }
+
+    .bottom-font{
+        font-size: 40px;
+        text-align: center;
+    }
+
+    .bigCircle-img {
+        width: 100%;
+        height: 250px;
+        border-radius: 10px; 
+    }
+    
+    .smallCircle-img {
+        height: 250px; 
+        width: 100%;
+        border-radius: 10px; 
+    }
+
+    .create-btn {
+        padding: 3px 20px;
+        font-size: 20px;
+    }
+
+    .first-section {
+        padding: 0px; width: 100%; padding-top: 1rem; display: flex; flex-direction: row;
+        height: 100%;
+    }
+    
+    .second-section {
+        margin-right: 0px; width: 100%;
+    }
+
+    .first-img {
+        width: 50%
+    }
+
+    .second-img{
+        width: 50%;
+        margin-left: 0px;
+    }
+
+    .btn-layout {
+        justify-content: center;
+    }
+    
+}
+
+/* up */
+@media (min-width: 768px){
+    .title-size {
+        font-size: 40px;
+    }
+
+    .body-size {
+        font-size: 25px;
+    }
+
+    .box-shadow {
+        height: 100%;
+    }
+}
+
+@media (min-width: 1200px){
+    .title-size {
+        font-size: 52px;
+    }
+
+    .body-size {
+        font-size: 35px;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+/* @media only screen and (min-width: 768px) {} */
+
+/* Large devices (laptops/desktops, 992px and up) */
+/* @media only screen and (min-width: 992px) {} */
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+/* @media only screen and (min-width: 1200px) {} */

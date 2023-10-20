@@ -5,11 +5,14 @@ import QuestionContentCard from '../components/QuestionContentCard';
 import QuizContext from '../context/QuizContext';
 import {getDataFromLocalStorage, setDataInLocalStorage} from '../localStorage/localStorageUtils'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CloseIcon from '@mui/icons-material/Close';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import axios from 'axios';
 import { UserContext } from '../context/UserContext';
+import { Modal, Typography } from '@mui/material';
+import { CheckBoxOutlined } from '@mui/icons-material';
 
 const QuizContent = () => {
 
@@ -21,6 +24,7 @@ const QuizContent = () => {
     const [userAnswers, setUserAnswers] = useState([])
     const [currentStep, setCurrentStep] = useState(0)
     const [values, setValues] = useState({answer: ''})
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const navigate = useNavigate()
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const TOKEN_API = import.meta.env.VITE_QUIZ_API
@@ -75,7 +79,7 @@ const QuizContent = () => {
 
                 if(simplifiedUserQuiz.length > 0){
                     const firstQuizArr = simplifiedUserQuiz[0]
-                    console.log("firstQuizArr: ", firstQuizArr)
+                    // console.log("firstQuizArr: ", firstQuizArr)
 
                     setQuizData(firstQuizArr)
                     setSelectedQuiz(filteredQuiz[0])
@@ -149,16 +153,28 @@ const QuizContent = () => {
 
     }
 
-    const handleScoreSubmit = async(userScore) => {
+    const handleScoreSubmit = async(userScore, checkID) => {
+        // console.log("userContext from QuizContent: ", userContext)
+        console.log("checkID: ", checkID)
+        const paramsID = checkID.toString()
+
         try {
-            await axios.post(`${server_api}${serverScore_endpoint}`, {userScore: userScore, quizData: selectedQuiz, userAccount: userContext.details})
-                .then(() => {
-                    console.log("Score has been saved to recent dashboard")
-                    navigate('/QuizList')
-                })
-                .catch((error) => {
-                    console.log("Failed to save the score data: ", error)
-                })
+            if(!userContext || !userContext.details){
+                setIsModalOpen(true)
+            } else if(paramsID === "1" || paramsID === "2" || paramsID === "3"){
+                console.log("quiz content is from API")
+                navigate("/QuizList")
+            }
+            else {
+                await axios.post(`${server_api}${serverScore_endpoint}`, {userScore: userScore, quizData: selectedQuiz, userAccount: userContext.details})
+                    .then(() => {
+                        console.log("Score has been saved to recent dashboard")
+                        navigate('/QuizList')
+                    })
+                    .catch((error) => {
+                        console.log("Failed to save the score data: ", error)
+                    })
+            }
         } catch(error){
             console.log("Error in submitting the score: ", error)
         }
@@ -172,6 +188,41 @@ const QuizContent = () => {
 
     return (
         <> 
+            {
+                isModalOpen ? (
+                    <Modal
+                        keepMounted
+                        open={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                    >
+                        <Box sx={{position: 'absolute', 
+                                  top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                                  width: 400, height: 200, p: 4, textAlign: 'center',
+                                  bgcolor: 'white', border: '2px solid #26547C', borderRadius: '15px'
+                        }}>
+
+                            <Typography variant='h6'> 
+                                <strong>Save your score by logging in or proceed without logging in.</strong>
+                            </Typography>
+                            
+                            <Box sx={{p: 4}}>
+                                <Button onClick={() => navigate('/login')} variant='outlined' 
+                                        style={{border: '3px solid #26547C', color: '#26547C', marginRight: '0.75rem', fontWeight: 700}}
+                                    >
+                                        Log in
+                                    </Button>
+                                <Button onClick={() => navigate('/QuizList')} variant='outlined' 
+                                        style={{border: '3px solid #26547C', color: '#26547C', marginLeft: '0.75rem', fontWeight: 700}}
+                                >
+                                    Continue
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Modal>
+                ) : (
+                    <></>
+                )
+            }
             <Box sx={{backgroundColor: 'white', 
                       border: '3px solid #26547C', 
                       position: 'absolute', 
@@ -179,7 +230,7 @@ const QuizContent = () => {
                       top: '50%', 
                       transform: 'translate(-50%, -50%)', 
                       borderRadius: '15px',
-                      width: '50rem',
+                      width: '80%',
                       height: '30rem'
                     }}>
                 {
@@ -210,10 +261,11 @@ const QuizContent = () => {
                     )
                 }
             </Box>
-            <Box component="div" sx={{width: '100%', display: 'flex'}}>
-                <Box component="div" sx={{width: '50%', backgroundColor: 'white'}}>
+            <Box className='content-structure' component="div" sx={{width: '100%', height: '100vh', display: 'flex'}}>
+                <Box className='content-first' component="div" sx={{backgroundColor: 'white'}}>
                     <Button onClick={() => navigate(`/QuizList/${params.id}/${params.name}`)}
                             startIcon={<ArrowBackIcon sx={{width: '5rem', height: '3rem'}}/>} 
+                            className="back-arrow"
                             style={{
                                 marginTop: '3rem', 
                                 marginLeft: '3rem', 
@@ -224,10 +276,10 @@ const QuizContent = () => {
                     </Button>
                 </Box>
                
-                <Box component="div" sx={{width: '50%', height: '100%', display: 'flex', }}>
+                <Box className="content-second" component="div" sx={{display: 'flex'}}>
                     <img src={QUIZ_CONTENT_IMG} 
                          alt="Quiz content background img"
-                         style={{width: '100rem'}}
+                         style={{width: '100vw'}}
                     />
                 </Box>
                 

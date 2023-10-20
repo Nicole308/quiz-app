@@ -6,7 +6,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 // import NavigationBar from "./NavigationBar";
 
 // Display all the datas and count the total quiz score
@@ -16,6 +17,7 @@ const QuizContentResult = () => {
     // const [totalScore, setTotalScore] = useState(0)
     // const [totalQuestion, setTotalQuestion] = useState(0)
     const storedData = getDataFromLocalStorage('myData');
+    const navigate = useNavigate()
 
     if(storedData){
         console.log(storedData, "Local Storage data success")
@@ -50,13 +52,13 @@ const QuizContentResult = () => {
     // and also their previous answers
     return (
         <>
-            <ArrowBackIcon sx={{position: 'absolute', width: '2.5rem', height: '2.5rem'}} />
+            
             <Box sx={{
                     display: 'flex', 
                     flexDirection: 'column', 
                     justifyContent: 'center', 
                     alignItems: 'center', 
-                    padding: '2em',
+                    // padding: '2em',
                     width: '100%',
                     height: '100%',
                     backgroundColor: 'white'
@@ -68,14 +70,14 @@ const QuizContentResult = () => {
                 </h1>
 
                 <div className="allerta-font" 
-                    style={{display: 'flex', flexDirection: 'column', padding: '1em 2em 0 2em'}}
+                    style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%'}}
                 >
                     {
                         storedData.map((data) => {
                             return (
                                 <>
 
-                                    <div key={data.number} style={{margin: '20px 0px'}}>
+                                    <div key={data.number} style={{width: '100%', height: '100%'}}>
                                         
                                         <h2>{data.number}. {data.question}</h2>
 
@@ -91,11 +93,11 @@ const QuizContentResult = () => {
                                         }
                                         
 
-                                        <FormControl component="fieldset">
+                                        <FormControl component="fieldset" style={{width: '100%'}}>
                                             <RadioGroup
                                                 aria-labelledby="demo-radio-buttons-group-label"
                                                 value={data.correctQuizAnswer}
-                                                style={{width: '700px'}}
+                                                style={{width: '100%'}}
                                             >
                                                 {
                                                     Object.keys(data.questionChoices).map((key) => (

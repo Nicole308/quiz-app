@@ -63,64 +63,57 @@ const QuizList = () => {
     return (
         <>
             <NavigationBar />
-            <div style={{display: 'flex', justifyContent: 'center'}}>
-                <Box sx={{ maxWidth: 500 }} style={{position: 'absolute', marginTop: '10%'}}>
-                    <Card variant="outlined" sx={{maxWidth: 500}} style={{backgroundColor: '#26547C', padding: '10% 10%', borderRadius: '50px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent : 'center'}}>
-                        <CardContent>
-                            <Typography variant="h5" component="div" style={{fontFamily: 'sans-serif', color: 'white', fontWeight: '600', textAlign: 'center', fontSize: '35px'}}> 
-                                Want To Create Your Own Quiz?
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button onClick={verifyUserCreateQuiz}
-                                    size="small" 
-                                    style={{backgroundColor: 'white', color: '#26547C', padding: '10px 20px 10px 20px'}}>
-                                Create Now!
-                            </Button>
-                        </CardActions>
-                    </Card>
-                </Box>
-                <div style={{height: '350px', width: window.innerWidth}}>
-                    <div style={{width: '100%', height: '100%', backgroundImage: 'url("./images/computer2.jpg")', backgroundSize: 'contain'}}>
-                        
+
+            <div style={{width: '100vw'}}>
+                <div style={{display: 'flex', justifyContent: 'center', width: '100%'}}>
+                    <Box sx={{ maxWidth: '100%' }} style={{position: 'absolute', marginTop: '10%'}}>
+                        <Card className="banner-layout" variant="outlined" style={{backgroundColor: '#26547C', borderRadius: '50px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent : 'center'}}>
+                            <CardContent>
+                                <Typography className="banner-font" variant="h5" component="div" style={{fontFamily: 'sans-serif', color: 'white', fontWeight: '600', textAlign: 'center'}}> 
+                                    Want To Create Your Own Quiz?
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Button onClick={verifyUserCreateQuiz}
+                                        size="small" 
+                                        style={{backgroundColor: 'white', color: '#26547C', padding: '10px 20px 10px 20px'}}>
+                                    Create Now!
+                                </Button>
+                            </CardActions>
+                        </Card>
+                    </Box>
+                    <div style={{height: '350px', width: window.innerWidth}}>
+                        <div style={{width: '100%', height: '100%', backgroundImage: 'url("./images/computer2.jpg")', backgroundSize: 'contain'}} />
+                    </div>
+                
+                </div>
+                
+                <div className="quiz-list" style={{backgroundColor: 'white', width: '100%', height: '100%'}}>  
+                    <h1 className="allerta-font" style={{fontSize: '1.5rem', color: '#26547C', margin: '20px'}}>Sample quiz (cannot be added)</h1>
+                    <div className="list" style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '1.25rem'}}>
+                        {
+                            memoizeQuizList.map((data) => {
+                                return <TopicCard key={data._id} data={data}/>
+                            })   
+                        }
+                    </div>
+
+                    {/* Map ALL users quiz */}
+                    <h3 className="allerta-font" style={{fontSize: '1,5rem', color: '#26547C', marginLeft: '40px'}}>
+                        Browse other quiz
+                    </h3>
+                    <div className="list" style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '1.25rem'}}>
+                        {
+                            usersAllQuiz && (
+                                usersAllQuiz.map((quizzes) => {
+                                    return <TopicCard key={quizzes._id} data={quizzes}/>
+                                })
+                            )
+                        }
                     </div>
                 </div>
-            
             </div>
             
-            <div style={{backgroundColor: 'white', width: '100%', padding: '8% 0%'}}>
-                
-                <h1 style={{textAlign: 'center', fontSize: '28px', fontWeight: '700', color: '#26547C'}}>TOPICS AVAILABLE</h1>
-                <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '1.25rem', justifyContent: 'center'}}>
-                    {
-                        // Mapped the jsonData which is an array of objects and create another component called to TopicCard. 
-                        // Returned the TopicCard component 
-                        memoizeQuizList.map((data) => {
-                            return <TopicCard key={data._id} data={data}/>
-                        })
-                        
-
-                        // topicData.map((data) => {
-                        //     return <TopicCard key={data.id} data={data} />
-                        // })
-                        
-                    }
-                </div>
-
-                {/* Map ALL users quiz */}
-                <h3 style={{textAlign: 'center', fontSize: '28px', fontWeight: '700', color: '#26547C'}}>
-                    Browse other quiz
-                </h3>
-                <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '1.25rem', justifyContent: 'center'}}>
-                    {
-                        usersAllQuiz && (
-                            usersAllQuiz.map((quizzes) => {
-                                return <TopicCard key={quizzes._id} data={quizzes}/>
-                            })
-                        )
-                    }
-                </div>
-            </div>
            
             
             
