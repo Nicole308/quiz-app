@@ -36,17 +36,17 @@ app.use(bodyParser.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
 
 // Add the client URL to the CORS policy
-const whitelist = process.env.WHITELISTED_DOMAINS? process.env.WHITELISTED_DOMAINS.split(",") : []
+// const whitelist = process.env.WHITELISTED_DOMAINS? process.env.WHITELISTED_DOMAINS.split(",") : []
 
-var corsOptionsDelegate = function (req, callback) {
-  var corsOptions;
-  if (whitelist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
-  } else {
-    corsOptions = { origin: false } // disable CORS for this request
-  }
-  callback(null, corsOptions) // callback expects two parameters: error and options
-}
+// var corsOptionsDelegate = function (req, callback) {
+//   var corsOptions;
+//   if (whitelist.indexOf(req.header('Origin')) !== -1) {
+//     corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+//   } else {
+//     corsOptions = { origin: false } // disable CORS for this request
+//   }
+//   callback(null, corsOptions) // callback expects two parameters: error and options
+// }
   
 // const corsOptions = {
 //   origin: function (req, callback) {
