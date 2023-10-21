@@ -30,6 +30,7 @@ function App() {
                 method: "POST",
                 credentials: "include",
                 headers: {
+                    'Access-Control-Allow-Origin': '*',
                     "Content-Type": "application/json"
                 },
             }
@@ -60,6 +61,7 @@ function App() {
                 method: "GET",
                 credentials: "include",
                 headers: {
+                    'Access-Control-Allow-Origin': '*',
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${userContext.token}`,
                 }
