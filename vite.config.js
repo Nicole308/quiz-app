@@ -10,7 +10,7 @@ dotenv.config({path: ".env"});
 export default defineConfig({
   server: {
     proxy: {
-      '/api': 'http://localhost:8080/'
+      '/api': process.env.BACKEND_DEPLOY_URL
     }
   },
   // esbuild: {
