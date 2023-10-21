@@ -40,7 +40,7 @@ const whitelist = process.env.WHITELISTED_DOMAINS
   : []
 
 const corsOptions = {
-  "origin": "*",
+  "origin": "https://quiz-app-kz52.vercel.app/",
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
   "preflightContinue": false,
   "optionsSuccessStatus": 204
