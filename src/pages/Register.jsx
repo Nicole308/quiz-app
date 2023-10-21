@@ -26,6 +26,7 @@ const Register = () => {
             const response = await fetch(
                 `${server_api}${serverRegister_endpoint}`, {
                     method: "POST",
+                    mode: 'cors',
                     credentials: "include",
                     headers: {
                         'Content-Type': 'application/json',
