@@ -61,7 +61,7 @@ var corsOptionsDelegate = function (req, callback) {
 //   credentials: true,
 // }
 
-app.use(cors(corsOptionsDelegate))
+app.use(cors())
 
 app.use(passport.initialize())
 

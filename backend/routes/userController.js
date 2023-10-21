@@ -95,6 +95,7 @@ router.post("/login", passport.authenticate("local", {session: false}), async (r
 
 router.post("/refreshToken", (req, res, next) => {
     // console.log("req", req)
+    console.log('refreshTOKEEN')
     const { signedCookies = {} } = req
     const { refreshToken } = signedCookies
 
