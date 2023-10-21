@@ -31,23 +31,22 @@ mongoose.connect(MONGO_URL, {dbName:'quizUsers', useNewUrlParser: true}).then(()
 const app = express()
 
 // app.use(express.json())
-app.use(cors())
 app.use(bodyParser.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
 
 // Add the client URL to the CORS policy
-// const whitelist = process.env.WHITELISTED_DOMAINS? process.env.WHITELISTED_DOMAINS.split(",") : []
+const whitelist = process.env.WHITELISTED_DOMAINS? process.env.WHITELISTED_DOMAINS.split(",") : []
 
-// var corsOptionsDelegate = function (req, callback) {
-//   var corsOptions;
-//   if (whitelist.indexOf(req.header('Origin')) !== -1) {
-//     corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
-//   } else {
-//     corsOptions = { origin: false } // disable CORS for this request
-//   }
-//   callback(null, corsOptions) // callback expects two parameters: error and options
-// }
-  
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
+
 // const corsOptions = {
 //   origin: function (req, callback) {
 //     if (whitelist.indexOf(req.header('Origin')) !== -1) {
@@ -62,6 +61,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 //   credentials: true,
 // }
 
+app.use(cors(corsOptionsDelegate))
 
 app.use(passport.initialize())
 

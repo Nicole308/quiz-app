@@ -28,11 +28,7 @@ function App() {
         const response = await fetch(
             `${server_api}${serverRefresh_endpoint}`, {
                 method: "POST",
-                mode: 'cors',
                 credentials: "include",
-                headers: {
-                    "Content-Type": "application/json"
-                },
             }
         )
         if(response.ok){
@@ -59,10 +55,8 @@ function App() {
         const fetchUserDetails = await fetch(
             `${server_api}${serverMe_endpoint}`, {
                 method: "GET",
-                mode: 'cors',
                 credentials: "include",
                 headers: {
-                    "Content-Type": "application/json",
                     Authorization: `Bearer ${userContext.token}`,
                 }
             }
