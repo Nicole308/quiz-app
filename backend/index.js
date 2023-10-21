@@ -23,7 +23,7 @@ const MONGO_URL = process.env.MONGO_DB_CONNECTION_STRING;
 
 mongoose.set('strictQuery', false)
 mongoose.connect(MONGO_URL, {dbName:'quizUsers', useNewUrlParser: true}).then(() => {
-    console.log('MongoDB is now connected')
+    console.log('MongoDB is now connected: ', MONGO_URL)
 }).catch(err => console.log(err))
 
 // User.createIndexes()
@@ -61,14 +61,14 @@ var corsOptionsDelegate = function (req, callback) {
 //   credentials: true,
 // }
 
-app.use(cors())
+app.use(cors(corsOptionsDelegate))
 
 app.use(passport.initialize())
 
 app.use("/users", userRouter)
 app.use("/quizzes", quizRouter)
 
-app.get('/', cors(corsOptionsDelegate), (req, res) => {
+app.get('/', (req, res) => {
     res.status(200).send({message: 'App is working from backend'})
 })
 

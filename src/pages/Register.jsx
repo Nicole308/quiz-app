@@ -18,10 +18,13 @@ const Register = () => {
 
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverRegister_endpoint = "/users/register"
-    console.log(".env from login.jsx: ", server_api)
+    console.log(".env SERVER_API from register.jsx: ", server_api)
+    console.log(".env SERVER_API STRING from register.jsx: ", server_api.toString())
+    console.log("serverRegister_endpoint: ", serverRegister_endpoint)
 
     const handleRegister = async (e) => {
         e.preventDefault()
+        console.log("handling register")
         try {
             const response = await fetch(
                 `${server_api}${serverRegister_endpoint}`, {
