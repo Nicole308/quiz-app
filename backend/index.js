@@ -39,13 +39,16 @@ const whitelist = process.env.WHITELISTED_DOMAINS
   ? process.env.WHITELISTED_DOMAINS.split(",")
   : []
 
-const corsOptions = {
-  "origin": "https://quiz-app-kz52.vercel.app/",
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  "preflightContinue": false,
-  "optionsSuccessStatus": 204
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
 }
-
+  
 // const corsOptions = {
 //   origin: function (req, callback) {
 //     if (whitelist.indexOf(req.header('Origin')) !== -1) {
@@ -60,14 +63,14 @@ const corsOptions = {
 //   credentials: true,
 // }
 
-app.use(cors(corsOptions))
+app.use(cors(corsOptionsDelegate))
 
 app.use(passport.initialize())
 
 app.use("/users", userRouter)
 app.use("/quizzes", quizRouter)
 
-app.get('/', (req, res) => {
+app.get('/', cors(corsOptionsDelegate), (req, res) => {
     res.status(200).send({message: 'App is working from backend'})
 })
 
