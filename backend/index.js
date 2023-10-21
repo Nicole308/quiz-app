@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import "./strategies/JwtStrategy.js"
 import "./strategies/LocalStrategy.js"
 import "./middleware.js"
@@ -7,7 +8,6 @@ import quizRouter from "./routes/quizController.js"
 import mongoose from 'mongoose'
 import User from './models/User.js'
 import session from 'express-session'
-import dotenv from 'dotenv'
 
 // EXPRESS
 import express from 'express'
@@ -15,9 +15,6 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import passport from "passport"
-
-
-dotenv.config()
 
 // console.log("mongodb url: ", process.env.MONGO_DB_CONNECTION_STRING)
 
@@ -64,7 +61,6 @@ app.use("/quizzes", quizRouter)
 app.get('/', (req, res) => {
     res.status(200).send({message: 'App is working from backend'})
 })
-
 
 // EXPRESS-SESSION
 // eslint-disable-next-line no-undef

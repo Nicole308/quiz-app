@@ -14,6 +14,8 @@ import '../config/envConfig.js'
 
 const opts = {};
 
+
+
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.JWT_SECRET;
 
