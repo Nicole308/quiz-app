@@ -30,23 +30,26 @@ mongoose.connect(MONGO_URL, {dbName:'quizUsers', useNewUrlParser: true}).then(()
 
 const app = express()
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
 // app.use(express.json())
 app.use(bodyParser.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
 
 // Add the client URL to the CORS policy
-// const whitelist = process.env.WHITELISTED_DOMAINS
-//   ? process.env.WHITELISTED_DOMAINS.split(",")
-//   : []
+const whitelist = process.env.WHITELISTED_DOMAINS
+  ? process.env.WHITELISTED_DOMAINS.split(",")
+  : []
 
 const corsOptions = {
-  origin: true,
+  origin: function (req, callback) {
+    if (whitelist.indexOf(req.header('Origin')) !== -1) {
+      console.log("pass cors")
+      callback(null, true)
+    } else {
+      console.log('not pass cors')
+      callback(new Error("Not allowed by CORS"))
+    }
+  },
+
   credentials: true,
 }
 
