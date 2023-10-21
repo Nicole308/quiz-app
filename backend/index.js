@@ -33,7 +33,12 @@ const app = express()
 // app.use(express.json())
 app.use(bodyParser.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
-
+app.use((req, res, next) => {
+  res.append('Access-Control-Allow-Origin', ['*']);
+  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.append('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 // Add the client URL to the CORS policy
 const whitelist = process.env.WHITELISTED_DOMAINS? process.env.WHITELISTED_DOMAINS.split(",") : []
 
