@@ -32,8 +32,8 @@ const Register = () => {
                     mode: 'cors',
                     credentials: "include",
                     headers: {
+                        'Access-Control-Allow-Origin': '*',
                         'Content-Type': 'application/json',
-                        // 'Access-Control-Allow-Origin': '*',
                     },
                     body: JSON.stringify({username: username, password: password}),
                     
