@@ -39,12 +39,12 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 //   ? process.env.WHITELISTED_DOMAINS.split(",")
 //   : []
 
-// const corsOptions = {
-//   origin: '*',
-//   credentials: true,
-// }
+const corsOptions = {
+  origin: process.env.WHITELISTED_DOMAINS,
+  credentials: true,
+}
 
-app.options('*', cors());
+app.use(cors(corsOptions))
 
 app.use(passport.initialize())
 
