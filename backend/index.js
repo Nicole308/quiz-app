@@ -31,6 +31,7 @@ mongoose.connect(MONGO_URL, {dbName:'quizUsers', useNewUrlParser: true}).then(()
 const app = express()
 
 // app.use(express.json())
+app.use(cors())
 app.use(bodyParser.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
 
@@ -61,7 +62,6 @@ var corsOptionsDelegate = function (req, callback) {
 //   credentials: true,
 // }
 
-app.use(cors(corsOptionsDelegate))
 
 app.use(passport.initialize())
 

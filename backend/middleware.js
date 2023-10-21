@@ -6,10 +6,10 @@ const dev = process.env.NODE_ENV !== "production"
 // Create the refresh token cookie which should be httpOnly
 export const COOKIE_OPTIONS = {
     httpOnly: true,
-    secure: true,
+    secure: true
     signed: true,
     maxAge: eval(process.env.REFRESH_TOKEN_EXPIRY) * 1000,
-    sameSite: "None",
+    // sameSite: "None",
 }
 
 // Create JSON Web Token
