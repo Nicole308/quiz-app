@@ -3,14 +3,29 @@ import User from "../models/User.js"
 import passport from "passport";
 import { getToken, COOKIE_OPTIONS, getRefreshToken, verifyUser } from "../middleware.js";
 import jwt from "jsonwebtoken"
+import cors from 'cors'
 
 const router = express.Router()
+
+const whitelist = process.env.WHITELISTED_DOMAINS
+  ? process.env.WHITELISTED_DOMAINS.split(",")
+  : []
+
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
 
 router.get('/serverTest', (req, res) => {
     res.status(200).send({message: "Server is connected through userController"})
 })
 
-router.post('/register', async (req, res, next) => {
+router.post('/register', cors(corsOptionsDelegate), async (req, res, next) => {
     if(!req.body.username || !req.body.password){
         res.status(500).json({message: "Username and password is required"})
     } else {
@@ -93,7 +108,7 @@ router.post("/login", passport.authenticate("local", {session: false}), async (r
    
 })
 
-router.post("/refreshToken", (req, res, next) => {
+router.post("/refreshToken", cors(corsOptionsDelegate), (req, res, next) => {
     // console.log("req", req)
     const { signedCookies = {} } = req
     const { refreshToken } = signedCookies
