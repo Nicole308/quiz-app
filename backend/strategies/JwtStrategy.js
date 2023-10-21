@@ -5,13 +5,6 @@ import '../config/envConfig.js'
 
 // console.log("JWT_SECRET", process.env.JWT_SECRET)
 
-// Check if the JWT secret key matches
-// if (process.env.JWT_SECRET === "Vortigenoberon-fujimaruritsukacastoria4321") {
-//     console.log("JWT secret key matches!");
-// } else {
-//     console.log("JWT secret key does not match!");
-// }
-
 const opts = {};
 
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();

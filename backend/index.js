@@ -40,18 +40,25 @@ const whitelist = process.env.WHITELISTED_DOMAINS
   : []
 
 const corsOptions = {
-  origin: function (req, callback) {
-    if (whitelist.indexOf(req.header('Origin')) !== -1) {
-      console.log("pass cors")
-      callback(null, true)
-    } else {
-      console.log('not pass cors')
-      callback(new Error("Not allowed by CORS"))
-    }
-  },
-
-  credentials: true,
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
 }
+
+// const corsOptions = {
+//   origin: function (req, callback) {
+//     if (whitelist.indexOf(req.header('Origin')) !== -1) {
+//       console.log("pass cors")
+//       callback(null, true)
+//     } else {
+//       console.log('not pass cors')
+//       callback(new Error("Not allowed by CORS"))
+//     }
+//   },
+
+//   credentials: true,
+// }
 
 app.use(cors(corsOptions))
 
