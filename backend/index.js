@@ -26,57 +26,65 @@ mongoose.connect(MONGO_URL, {dbName:'quizUsers', useNewUrlParser: true}).then(()
     console.log('MongoDB is now connected: ', MONGO_URL)
 }).catch(err => console.log(err))
 
-// User.createIndexes()
-
 const app = express()
 
 // app.use(express.json())
 app.use(bodyParser.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
-// app.use(function (req, res, next) {
 
-//   // Website you wish to allow to connect
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-
-//   // Request methods you wish to allow
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-//   // Request headers you wish to allow
-//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-//   // Set to true if you need the website to include cookies in the requests sent
-//   // to the API (e.g. in case you use sessions)
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-
-//   // Pass to next layer of middleware
-//   next();
-// });
 
 // Add the client URL to the CORS policy
-const whitelist = process.env.WHITELISTED_DOMAINS? process.env.WHITELISTED_DOMAINS.split(",") : []
+// const whitelist = process.env.WHITELISTED_DOMAINS? process.env.WHITELISTED_DOMAINS.split(",") : []
 
-const corsOptions = {
-  origin: function (req, callback) {
-    if (whitelist.indexOf(req.header('Origin')) !== -1) {
-      console.log("pass cors")
-      callback(null, true)
-    } else {
-      console.log('not pass cors')
-      callback(new Error("Not allowed by CORS"))
-    }
-  },
+// const corsOptions = {
+//   origin: function (req, callback) {
+//     if (whitelist.indexOf(req.header('Origin')) !== -1) {
+//       console.log("pass cors")
+//       callback(null, true)
+//     } else {
+//       console.log('not pass cors')
+//       callback(new Error("Not allowed by CORS"))
+//     }
+//   },
 
-  credentials: true,
+//   credentials: true,
+// }
+
+// app.use(cors(corsOptions))
+
+// 
+// 
+// 
+// 
+
+const allowCors = fn => async (req, res) => {
+  res.setHeader('Access-Control-Allow-Credentials', true)
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  // another common pattern
+  // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  )
+  if (req.method === 'OPTIONS') {
+    res.status(200).end()
+    return
+  }
+  return await fn(req, res)
 }
 
-app.use(cors(corsOptions))
+const handler = (req, res) => {
+  const d = new Date()
+  res.end(d.toString())
+}
 
 app.use(passport.initialize())
 
 app.use("/users", userRouter)
 app.use("/quizzes", quizRouter)
 
-app.get("/api", (req, res) => {
+app.get("/api", allowCors(handler), (req, res) => {
   console.log("APIII")
   res.json("Hello");
 });
