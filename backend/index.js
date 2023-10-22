@@ -52,11 +52,6 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 //   next();
 // });
 
-
-app.get("/api", (req, res) => {
-  res.json("Hello");
-});
-
 // Add the client URL to the CORS policy
 const whitelist = process.env.WHITELISTED_DOMAINS? process.env.WHITELISTED_DOMAINS.split(",") : []
 
@@ -90,6 +85,10 @@ app.use(passport.initialize())
 
 app.use("/users", userRouter)
 app.use("/quizzes", quizRouter)
+
+app.get("/api", (req, res) => {
+  res.json("Hello");
+});
 
 app.get('/', (req, res) => {
     res.status(200).send({message: 'App is working from backend'})
