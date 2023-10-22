@@ -25,24 +25,31 @@ function App() {
   
   const verifyUser = useCallback(async() => {
     try {
-        const response = await fetch(
-            `${server_api}${serverRefresh_endpoint}`, {
-                method: "POST",
-                credentials: "include",
-            }
-        )
+        const response = await fetch('https://quiz-app-production-f557.up.railway.app/api')
         if(response.ok){
             const jsonData = await response.json()
-            // console.log("token inside jsonData '/refreshToken': ", jsonData)
-            setUserContext((oldValues) => {
-                return {...oldValues, token: jsonData.token }
-            })
+            console.log("jsonData: ", jsonData)
         } else {
-            setUserContext((oldValues) => {
-                return {...oldValues, token: null }
-            })
+            console.log("failed to get /api")
         }
-        setTimeout(verifyUser, 3 * 60 * 60 * 1000)
+        // const response = await fetch(
+        //     `${server_api}${serverRefresh_endpoint}`, {
+        //         method: "POST",
+        //         credentials: "include",
+        //     }
+        // )
+        // if(response.ok){
+        //     const jsonData = await response.json()
+        //     // console.log("token inside jsonData '/refreshToken': ", jsonData)
+        //     setUserContext((oldValues) => {
+        //         return {...oldValues, token: jsonData.token }
+        //     })
+        // } else {
+        //     setUserContext((oldValues) => {
+        //         return {...oldValues, token: null }
+        //     })
+        // }
+        // setTimeout(verifyUser, 3 * 60 * 60 * 1000)
       
     } catch(error) {
         console.log("error fetching refreshToken from server: ", error)
@@ -75,6 +82,8 @@ function App() {
                 })
             }
         }
+    } else {
+        console.log("Theres no userContext.token")
     }
 
   }, [setUserContext, userContext.token])

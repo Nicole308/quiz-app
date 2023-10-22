@@ -52,6 +52,20 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 //   next();
 // });
 
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
+app.get("/api", (req, res) => {
+  res.json("Hello");
+});
+
 // Add the client URL to the CORS policy
 const whitelist = process.env.WHITELISTED_DOMAINS? process.env.WHITELISTED_DOMAINS.split(",") : []
 
