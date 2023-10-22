@@ -31,10 +31,10 @@ const Register = () => {
                     method: "POST",
                     mode: 'cors',
                     credentials: "include",
-                    headers: {
-                        'Access-Control-Allow-Origin': true,
-                        'Content-Type': 'application/json',
-                    },
+                    // headers: {
+                    //     'Access-Control-Allow-Origin': true,
+                    //     'Content-Type': 'application/json',
+                    // },
                     body: JSON.stringify({username: username, password: password}),
                     
                 }
