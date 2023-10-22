@@ -28,7 +28,6 @@ function App() {
         const response = await fetch(
             'https://quiz-app-production-f557.up.railway.app/api', {
                 method: "GET",
-                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 }

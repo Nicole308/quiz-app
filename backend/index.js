@@ -53,15 +53,6 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 // });
 
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
-
 app.get("/api", (req, res) => {
   res.json("Hello");
 });
