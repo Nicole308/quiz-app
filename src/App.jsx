@@ -30,8 +30,10 @@ function App() {
                 method: "GET",
                 credentials: 'include',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*',
+                },
+                mode: 'cors'
             })
         if(response.ok){
             const jsonData = await response.json()
