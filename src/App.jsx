@@ -25,7 +25,14 @@ function App() {
   
   const verifyUser = useCallback(async() => {
     try {
-        const response = await fetch('https://quiz-app-production-f557.up.railway.app/api')
+        const response = await fetch(
+            'https://quiz-app-production-f557.up.railway.app/api', {
+                method: "GET",
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            })
         if(response.ok){
             const jsonData = await response.json()
             console.log("jsonData: ", jsonData)
