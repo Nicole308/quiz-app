@@ -57,13 +57,20 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 // 
 // 
 
+app.use(
+  cors({
+      origin: '*',
+      methods: "GET, POST, PATCH, DELETE, PUT",
+      allowedHeaders: "Content-Type, Authorization",
+     })
+);
+
 app.use(passport.initialize())
 
 app.use("/users", userRouter)
 app.use("/quizzes", quizRouter)
 
 app.get("/api", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
   console.log("APIII")
   res.json("Hello");
 });
