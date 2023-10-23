@@ -21,22 +21,13 @@ const app = express()
 // const MONGO_URL = `mongodb+srv://Nicole:Fgonicole03@cluster01.astuaml.mongodb.net/?retryWrites=true&w=majority`
 const MONGO_URL = process.env.MONGO_DB_CONNECTION_STRING;
 
-mongoose.set('strictQuery', false)
-mongoose.connect(MONGO_URL, {dbName:'quizUsers', useNewUrlParser: true}).then(() => {
-    console.log('MongoDB is now connected: ', MONGO_URL)
-}).catch(err => console.log(err))
-
-// app.use(express.json())
-app.use(bodyParser.json())
-app.use(cookieParser(process.env.COOKIE_SECRET))
-
-
 // Add the client URL to the CORS policy
 const whitelist = process.env.WHITELISTED_DOMAINS? process.env.WHITELISTED_DOMAINS.split(",") : []
+console.log("whitelist: ", whitelist)
 
 const corsOptions = {
-  origin: function (req, callback) {
-    if (whitelist.indexOf(req.header('Origin')) !== -1) {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
       console.log("pass cors")
       callback(null, true)
     } else {
@@ -44,11 +35,14 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"))
     }
   },
-
   credentials: true,
+  optionsSuccessStatus: 200
 }
 
 app.use(cors(corsOptions))
+// app.use(express.json())
+app.use(bodyParser.json())
+app.use(cookieParser(process.env.COOKIE_SECRET))
 
 // 
 // 
@@ -68,6 +62,11 @@ app.get("/something", (req, res) => {
 app.get('/', cors(), (req, res) => {
     res.status(200).send({message: 'App is working from backend'})
 })
+
+mongoose.set('strictQuery', false)
+mongoose.connect(MONGO_URL, {dbName:'quizUsers', useNewUrlParser: true}).then(() => {
+    console.log('MongoDB is now connected: ', MONGO_URL)
+}).catch(err => console.log(err))
 
 app.listen(8080, () => console.log("Listening to port 8080"))
 
