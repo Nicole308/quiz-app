@@ -84,7 +84,7 @@ function App() {
 
   const vercelCheck = async() => {
     const response = await fetch(
-        'https://quiz-app-production-f557.up.railway.app/api', {
+        'https://quiz-app-production-f557.up.railway.app/something', {
             method: "GET",
             credentials: 'include',
             headers: {

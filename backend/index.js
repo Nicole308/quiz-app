@@ -28,44 +28,29 @@ mongoose.connect(MONGO_URL, {dbName:'quizUsers', useNewUrlParser: true}).then(()
     console.log('MongoDB is now connected: ', MONGO_URL)
 }).catch(err => console.log(err))
 
-app.use((req, res, next) => {
-  // Set the allowed origins, methods, and headers
-  res.header('Access-Control-Allow-Origin', '*'); // Change * to your specific origins
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200); // Respond with a 200 status for preflight requests
-  }
-  
-  // Continue to the next middleware for non-preflight requests
-  next();
-});
-
 // app.use(express.json())
 app.use(bodyParser.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
 
 
 // Add the client URL to the CORS policy
-// const whitelist = process.env.WHITELISTED_DOMAINS? process.env.WHITELISTED_DOMAINS.split(",") : []
+const whitelist = process.env.WHITELISTED_DOMAINS? process.env.WHITELISTED_DOMAINS.split(",") : []
 
-// const corsOptions = {
-//   origin: function (req, callback) {
-//     if (whitelist.indexOf(req.header('Origin')) !== -1) {
-//       console.log("pass cors")
-//       callback(null, true)
-//     } else {
-//       console.log('not pass cors')
-//       callback(new Error("Not allowed by CORS"))
-//     }
-//   },
+const corsOptions = {
+  origin: function (req, callback) {
+    if (whitelist.indexOf(req.header('Origin')) !== -1) {
+      console.log("pass cors")
+      callback(null, true)
+    } else {
+      console.log('not pass cors')
+      callback(new Error("Not allowed by CORS"))
+    }
+  },
 
-//   credentials: true,
-// }
+  credentials: true,
+}
 
-// app.use(cors(corsOptions))
+app.use(cors(corsOptions))
 
 // 
 // 
@@ -79,7 +64,7 @@ app.use("/quizzes", quizRouter)
 
 app.get("/something", (req, res) => {
   console.log("Somethingggg")
-  res.json("Hello");
+  res.json({message: 'hello'});
 });
 
 app.get('/', cors(), (req, res) => {
