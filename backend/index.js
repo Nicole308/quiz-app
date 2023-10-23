@@ -70,7 +70,7 @@ app.use(passport.initialize())
 app.use("/users", userRouter)
 app.use("/quizzes", quizRouter)
 
-app.get("/api", cors(), (req, res) => {
+app.get("/api", (req, res) => {
   console.log("APIII")
   res.json("Hello");
 });
