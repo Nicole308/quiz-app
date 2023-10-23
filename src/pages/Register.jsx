@@ -18,9 +18,6 @@ const Register = () => {
 
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverRegister_endpoint = "/users/register"
-    console.log(".env SERVER_API from register.jsx: ", server_api)
-    console.log(".env SERVER_API STRING from register.jsx: ", server_api.toString())
-    console.log("serverRegister_endpoint: ", serverRegister_endpoint)
 
     const handleRegister = async (e) => {
         e.preventDefault()
@@ -29,12 +26,10 @@ const Register = () => {
             const response = await fetch(
                 `${server_api}${serverRegister_endpoint}`, {
                     method: "POST",
-                    mode: 'cors',
                     credentials: "include",
-                    // headers: {
-                    //     'Access-Control-Allow-Origin': true,
-                    //     'Content-Type': 'application/json',
-                    // },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                     body: JSON.stringify({username: username, password: password}),
                     
                 }

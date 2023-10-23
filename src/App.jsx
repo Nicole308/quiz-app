@@ -82,36 +82,13 @@ function App() {
 
   }, [setUserContext, userContext.token])
 
-  const vercelCheck = async() => {
-    const response = await fetch(
-        'https://quiz-app-backend-p2h0.onrender.com/something', {
-            method: "GET",
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    if(response.ok){
-        const jsonData = await response.json()
-        console.log("jsonData: ", jsonData)
-    } else {
-        console.log("failed to get /api")
-    }
-  }
-
   useEffect(() => {
-    if(!userContext.details){
-        vercelCheck()
-    }
-  }, [])
-
-//   useEffect(() => {
-//       // fetchLoginUsername()
-//       // verifyUser()
-//       if(!userContext.details){
-//           verifyUser()
-//       }
-//   }, [verifyUser, userContext.details])
+      // fetchLoginUsername()
+      // verifyUser()
+      if(!userContext.details){
+          verifyUser()
+      }
+  }, [verifyUser, userContext.details])
 
 
   // Using the Context provider with the json data to combine with Router

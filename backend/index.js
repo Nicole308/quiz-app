@@ -18,7 +18,6 @@ const app = express()
 
 // console.log("mongodb url: ", process.env.MONGO_DB_CONNECTION_STRING)
 
-// const MONGO_URL = `mongodb+srv://Nicole:Fgonicole03@cluster01.astuaml.mongodb.net/?retryWrites=true&w=majority`
 const MONGO_URL = process.env.MONGO_DB_CONNECTION_STRING;
 
 // Add the client URL to the CORS policy
@@ -44,22 +43,12 @@ app.use(cors(corsOptions))
 app.use(bodyParser.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
 
-// 
-// 
-// 
-// 
-
 app.use(passport.initialize())
 
 app.use("/users", userRouter)
 app.use("/quizzes", quizRouter)
 
-app.get("/something", (req, res) => {
-  console.log("Somethingggg")
-  res.json({message: 'hello'});
-});
-
-app.get('/', cors(), (req, res) => {
+app.get('/', (req, res) => {
     res.status(200).send({message: 'App is working from backend'})
 })
 
