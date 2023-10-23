@@ -89,9 +89,8 @@ function App() {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': '*/*',
             },
-            mode: 'cors'
+            mode: 'no-cors'
         })
     if(response.ok){
         const jsonData = await response.json()

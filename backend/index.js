@@ -16,7 +16,6 @@ import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import passport from "passport"
 
-
 const app = express()
 
 // console.log("mongodb url: ", process.env.MONGO_DB_CONNECTION_STRING)
