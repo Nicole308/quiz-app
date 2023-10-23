@@ -110,17 +110,20 @@ router.post("/refreshToken", (req, res, next) => {
     if (refreshToken) {
       try {
         const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
-        // console.log("payload: ", payload)
+        console.log("payload: ", payload)
         const userId = payload._id
-        // console.log("userId from payload: ", userId)
+        console.log("userId from payload: ", userId)
 
         User.findOne({ _id: userId }).then(
           user => {
+            console.log("user search: ", user)
             if (user) {
+                console.log("user found: ", user)
               // Find the refresh token against the user record in database
               const tokenIndex = user.refreshToken.findIndex(
                 item => item.refreshToken === refreshToken
               )
+              console.log("tokenIndex: ", tokenIndex)
   
               if (tokenIndex === -1) {
                 res.status(401).send("Unauthorized")
