@@ -57,7 +57,9 @@ mongoose.connect(MONGO_URL, {dbName:'quizUsers', useNewUrlParser: true}).then(()
     console.log('MongoDB is now connected: ', MONGO_URL)
 }).catch(err => console.log(err))
 
-app.listen(8080, () => console.log("Listening to port 8080"))
+const port = process.env.PORT || 8080
+
+app.listen(port, () => console.log("Listening to port 8080"))
 
 
 
