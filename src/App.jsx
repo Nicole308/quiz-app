@@ -25,40 +25,25 @@ function App() {
   
   const verifyUser = useCallback(async() => {
     try {
+        
         const response = await fetch(
-            'https://quiz-app-production-f557.up.railway.app/api', {
-                method: "GET",
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': '*/*',
-                },
-                mode: 'cors'
-            })
+            `${server_api}${serverRefresh_endpoint}`, {
+                method: "POST",
+                credentials: "include",
+            }
+        )
         if(response.ok){
             const jsonData = await response.json()
-            console.log("jsonData: ", jsonData)
+            // console.log("token inside jsonData '/refreshToken': ", jsonData)
+            setUserContext((oldValues) => {
+                return {...oldValues, token: jsonData.token }
+            })
         } else {
-            console.log("failed to get /api")
+            setUserContext((oldValues) => {
+                return {...oldValues, token: null }
+            })
         }
-        // const response = await fetch(
-        //     `${server_api}${serverRefresh_endpoint}`, {
-        //         method: "POST",
-        //         credentials: "include",
-        //     }
-        // )
-        // if(response.ok){
-        //     const jsonData = await response.json()
-        //     // console.log("token inside jsonData '/refreshToken': ", jsonData)
-        //     setUserContext((oldValues) => {
-        //         return {...oldValues, token: jsonData.token }
-        //     })
-        // } else {
-        //     setUserContext((oldValues) => {
-        //         return {...oldValues, token: null }
-        //     })
-        // }
-        // setTimeout(verifyUser, 3 * 60 * 60 * 1000)
+        setTimeout(verifyUser, 3 * 60 * 60 * 1000)
       
     } catch(error) {
         console.log("error fetching refreshToken from server: ", error)
@@ -97,13 +82,38 @@ function App() {
 
   }, [setUserContext, userContext.token])
 
+  const vercelCheck = async() => {
+    const response = await fetch(
+        'https://quiz-app-production-f557.up.railway.app/api', {
+            method: "GET",
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': '*/*',
+            },
+            mode: 'cors'
+        })
+    if(response.ok){
+        const jsonData = await response.json()
+        console.log("jsonData: ", jsonData)
+    } else {
+        console.log("failed to get /api")
+    }
+  }
+
   useEffect(() => {
-      // fetchLoginUsername()
-      // verifyUser()
-      if(!userContext.details){
-          verifyUser()
-      }
-  }, [verifyUser, userContext.details])
+    if(!userContext.details){
+        vercelCheck()
+    }
+  }, [])
+
+//   useEffect(() => {
+//       // fetchLoginUsername()
+//       // verifyUser()
+//       if(!userContext.details){
+//           verifyUser()
+//       }
+//   }, [verifyUser, userContext.details])
 
 
   // Using the Context provider with the json data to combine with Router
