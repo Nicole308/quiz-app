@@ -6,8 +6,6 @@ import userRouter from "./routes/userController.js"
 import quizRouter from "./routes/quizController.js"
 
 import mongoose from 'mongoose'
-import User from './models/User.js'
-import session from 'express-session'
 
 // EXPRESS
 import express from 'express'
