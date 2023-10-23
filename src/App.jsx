@@ -90,7 +90,6 @@ function App() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            mode: 'no-cors'
         })
     if(response.ok){
         const jsonData = await response.json()
