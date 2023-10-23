@@ -3,7 +3,8 @@ import {Strategy, ExtractJwt} from "passport-jwt";
 import User from "../models/User.js";
 import '../config/envConfig.js'
 
-// console.log("JWT_SECRET", process.env.JWT_SECRET)
+console.log("JWT_SECRET", process.env.JWT_SECRET)
+console.log("YOU ARE IN JWT STRATEGY")
 
 const opts = {};
 
@@ -13,6 +14,7 @@ opts.secretOrKey = process.env.JWT_SECRET;
 // console.log("jwtFromRequest: ", opts.jwtFromRequest)
 // console.log("secretOrKey: ", opts.secretOrKey)
 
+console.log("USING PASSPORT")
 // Fetch user details from the JWT /Deserialize User
 passport.use(
     new Strategy(opts, function(jwt_payload, done) {

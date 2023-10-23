@@ -23,5 +23,12 @@
                 }
             ]
         }
+    ],
+    "routes": [
+        {
+          "src": "/api/.*",
+          "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+          "dest": "backend/index.js"
+        }
     ]
 }

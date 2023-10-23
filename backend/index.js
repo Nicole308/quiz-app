@@ -16,6 +16,9 @@ import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import passport from "passport"
 
+
+const app = express()
+
 // console.log("mongodb url: ", process.env.MONGO_DB_CONNECTION_STRING)
 
 // const MONGO_URL = `mongodb+srv://Nicole:Fgonicole03@cluster01.astuaml.mongodb.net/?retryWrites=true&w=majority`
@@ -26,7 +29,20 @@ mongoose.connect(MONGO_URL, {dbName:'quizUsers', useNewUrlParser: true}).then(()
     console.log('MongoDB is now connected: ', MONGO_URL)
 }).catch(err => console.log(err))
 
-const app = express()
+app.use((req, res, next) => {
+  // Set the allowed origins, methods, and headers
+  res.header('Access-Control-Allow-Origin', '*'); // Change * to your specific origins
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200); // Respond with a 200 status for preflight requests
+  }
+  
+  // Continue to the next middleware for non-preflight requests
+  next();
+});
 
 // app.use(express.json())
 app.use(bodyParser.json())
@@ -57,21 +73,13 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 // 
 // 
 
-// app.use(
-//   cors({
-//       origin: '*',
-//       methods: "GET, POST, PATCH, DELETE, PUT",
-//       allowedHeaders: "Content-Type, Authorization",
-//      })
-// );
-
 app.use(passport.initialize())
 
 app.use("/users", userRouter)
 app.use("/quizzes", quizRouter)
 
-app.get("/api", (req, res) => {
-  console.log("APIII")
+app.get("/something", (req, res) => {
+  console.log("Somethingggg")
   res.json("Hello");
 });
 

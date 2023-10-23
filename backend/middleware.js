@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken"
 import './config/envConfig.js'
 const dev = process.env.NODE_ENV !== "production"
 
+console.log("YOUR ARE IN MIDDLEWARE.JS")
 // Create the refresh token cookie which should be httpOnly
 export const COOKIE_OPTIONS = {
     httpOnly: true,
