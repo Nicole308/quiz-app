@@ -97,11 +97,6 @@ router.post("/refreshToken", async(req, res, next) => {
     const { signedCookies = {} } = await req
     const { refreshToken } = await signedCookies
 
-    console.log("refresh token before:", refreshToken)
-    console.log("signed cookies: ", signedCookies)
-    console.log("req.cookies: ", req.cookies)
-    console.log("req.signedCookies: ", req.signedCookies)
-
     // If the refresh token exist in the signedCookies which we got from req.body,
     // then verify the refresh token with the refresh_token_secret thats used to create the refresh token itself,
     // then we check if the refresh token exist in the database since the refresh token will be connected to 

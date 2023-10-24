@@ -17,7 +17,6 @@ const TopicCard = (data) => {
     
     const {userContext} = useContext(UserContext)
     const [isFavourite, setIsFavourite] = useState(false)
-    const [alertVisible, setAlertVisible] = useState(false)
     const navigate = useNavigate()
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverFavourite_endpoint = "/quizzes/clickFavourite"
@@ -48,14 +47,7 @@ const TopicCard = (data) => {
         try {
             if(!userContext || userContext.token === null || userContext.token === undefined){
                 navigate('/login')
-            } else if(!userContext.details){
-                setAlertVisible(true)
-
-                if(userContext.details){
-                    setAlertVisible(false)
-                }
             } else {
-                setAlertVisible(false)
                 await fetch(
                     `${server_api}${serverFavourite_endpoint}`, {
                         method: "POST",
@@ -86,24 +78,6 @@ const TopicCard = (data) => {
     
     return (
         <>
-        {
-            alertVisible && <Modal open={alertVisible} onClose={() => setAlertVisible(false)} keepMounted style={{height: '100%'}}>
-                <Box className="allerta-font" style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: '30%', 
-                    backgroundColor: 'white',
-                    border: '2px solid #000', borderRadius: '20px',
-                    boxShadow: 24,
-                    height: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'center'
-                }}>
-                    <CircularProgress />
-                    <strong>Loading user account, please wait...</strong>
-                </Box>
-            </Modal>
-        }
             <Card className="cardMedia-img" sx={{ display: 'flex', borderRadius: '10px', margin: '10px 15px'}}>
                 <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
                     <Link to={`/QuizList/${data.data._id}/${data.data.topic_name}`}>

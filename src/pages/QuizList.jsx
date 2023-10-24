@@ -25,6 +25,7 @@ const QuizList = () => {
     const {userContext} = useContext(UserContext)
     const [usersAllQuiz, setUsersAllQuiz] = useState([])
     const [isLoading, setIsLoading] = useState(false);
+    const [is]
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverRefresh_endpoint = "/quizzes/getAllQuiz"
     const navigate = useNavigate()
@@ -49,7 +50,6 @@ const QuizList = () => {
 
     useEffect(() => {
         const fetchAllUsersQuiz = async() => {
-
             try {
                 await axios.get(`${server_api}${serverRefresh_endpoint}`)
                     .then((response) => {     
@@ -66,8 +66,6 @@ const QuizList = () => {
 
         fetchAllUsersQuiz()
     }, [])
-
-    // console.log("usersAllQuiz from QuizList.jsx: ", usersAllQuiz)
 
     return (
         <>
@@ -128,15 +126,39 @@ const QuizList = () => {
                     <h3 className="allerta-font" style={{fontSize: '1,5rem', color: '#26547C', marginLeft: '40px'}}>
                         Browse other quiz
                     </h3>
-                    <div className="list" style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '1.25rem'}}>
-                        {
-                            usersAllQuiz && (
-                                usersAllQuiz.map((quizzes) => {
-                                    return <TopicCard key={quizzes._id} data={quizzes}/>
-                                })
-                            )
-                        }
-                    </div>
+                    {
+                        !userContext.token || !userContext.token === null? (
+                            <Box style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                                <h4 className="allerta-font">Sign in to play other people's quiz</h4>
+                                <Button onClick={() => navigate('/login')}>Sign in</Button>
+                            </Box>
+                        ) : !userContext.details ? (
+                            <Box className="allerta-font" style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                width: '50%', 
+                                backgroundColor: 'white',
+                                border: '2px solid #000', borderRadius: '20px',
+                                boxShadow: 24,
+                                height: '200px', display: 'flex', flexDirection: 'column', alignItems: 'center'
+                            }}>
+                                <CircularProgress />
+                                <strong>Loading other users quiz, please wait...</strong>
+                            </Box>
+                        ) : (
+                            <div className="list" style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '1.25rem'}}>
+                                {
+                                    usersAllQuiz && (
+                                        usersAllQuiz.map((quizzes) => {
+                                            return <TopicCard key={quizzes._id} data={quizzes}/>
+                                        })
+                                    )
+                                }
+                            </div>
+                        )
+                    }
                 </div>
             </div>
             
