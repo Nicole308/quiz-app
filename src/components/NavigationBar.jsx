@@ -47,7 +47,7 @@ const NavigationBar = () => {
         setAnchorEl(null);
     }
 
-    // console.log("userContext token: ", userContext.token)
+    console.log("userContext token: ", userContext.details)
 
     const logoutUser = async() => {
         const response = await fetch(
@@ -96,16 +96,10 @@ const NavigationBar = () => {
                                             Sign In
                                         </Button>
                                     </Link>
-                                ) 
-                                : userContext.details === null? (
-                                    // ELSE IF the userContext.details is null 
-                                    <h3>Error loading the user details</h3>
-
                                 ) : !userContext.details ?(
                                     // ELSE IF the userContext.details IS NOT null BUT
                                     // the userContext.details is undefined then...
                                     <h3>Loading user...</h3>
-
                                 ) : (
                                     // ELSE IF the userContext.details DO exist, then
                                     // display the userContext.details

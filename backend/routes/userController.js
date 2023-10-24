@@ -118,7 +118,7 @@ router.post("/refreshToken", (req, res, next) => {
           user => {
             console.log("user search: ", user)
             if (user) {
-                console.log("user found: ", user)
+                console.log("user found in /refreshToken: ", user)
               // Find the refresh token against the user record in database
               const tokenIndex = user.refreshToken.findIndex(
                 item => item.refreshToken === refreshToken

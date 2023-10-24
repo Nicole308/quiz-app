@@ -49,7 +49,7 @@ function App() {
                 return {...oldValues, token: null }
             })
         }
-        setTimeout(verifyUser, 3 * 60 * 60 * 1000)
+        // setTimeout(verifyUser, 3 * 60 * 60 * 1000)
       
     } catch(error) {
         console.log("error fetching refreshToken from server: ", error)
