@@ -34,10 +34,10 @@ router.post('/register', async (req, res, next) => {
                     user.save().then((err) => {
                         if(err){
                             // res.status(200).send(err)
-                            res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
-                            res.status(200).send({sucess: true, token})
+                            res.cookie("register refreshToken", refreshToken, COOKIE_OPTIONS)
+                            res.status(200).send({success: true, token})
                         } else {
-                            res.status(500).send(err)
+                            res.send(err)
                             // res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
                             // res.status(200).send({sucess: true, token})
                         }
@@ -94,13 +94,12 @@ router.post("/login", passport.authenticate("local", {session: false}), async (r
 })
 
 router.post("/refreshToken", (req, res, next) => {
-    // console.log("req", req)
-    console.log('refreshTOKEEN')
+    console.log("req", req)
     const { signedCookies = {} } = req
     const { refreshToken } = signedCookies
 
-    // console.log("refresh token before:", refreshToken)
-    // console.log("signed cookies: ", signedCookies)
+    console.log("refresh token before:", refreshToken)
+    console.log("signed cookies: ", signedCookies)
 
     // If the refresh token exist in the signedCookies which we got from req.body,
     // then verify the refresh token with the refresh_token_secret thats used to create the refresh token itself,
@@ -154,7 +153,6 @@ router.post("/refreshToken", (req, res, next) => {
     } else {
         console.log("Refresh token doesnt exist in req")
         // console.log("refresh token after: ", refreshToken)
-        res.status(401).send("Unauthorized")
     }
 })
 
