@@ -30,8 +30,8 @@ const TopicCard = (data) => {
 
             // console.log('check', checkIfCardIsFavourite)
 
-            if(checkIfCardIsFavourite) 
-                {setIsFavourite(true)
+            if(checkIfCardIsFavourite) {
+                setIsFavourite(true)
             } else {
                 setIsFavourite(false)
             }
@@ -50,6 +50,10 @@ const TopicCard = (data) => {
                 navigate('/login')
             } else if(!userContext.details){
                 setAlertVisible(true)
+
+                if(userContext.details){
+                    setAlertVisible(false)
+                }
             } else {
                 setAlertVisible(false)
                 await fetch(

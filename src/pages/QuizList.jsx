@@ -37,6 +37,11 @@ const QuizList = () => {
             navigate('/login')
         } else if(!userContext.details){
             setIsLoading(true)
+
+            if(userContext.details){
+                setIsLoading(false)
+                navigate('/createQuiz')
+            }
         } else {
             navigate('/createQuiz')
         }
