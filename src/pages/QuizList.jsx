@@ -133,15 +133,8 @@ const QuizList = () => {
                             </Box>
                         ) : !userContext.details ? (
                             <Box className="allerta-font" style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                width: '50%', 
-                                backgroundColor: 'white',
-                                border: '2px solid #000', borderRadius: '20px',
-                                boxShadow: 24,
-                                height: '200px', display: 'flex', flexDirection: 'column', alignItems: 'center'
+                                width: '100%', height: '200px', 
+                                display: 'flex', flexDirection: 'column', alignItems: 'center'
                             }}>
                                 <CircularProgress />
                                 <strong>Loading other users quiz, please wait...</strong>
