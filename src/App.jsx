@@ -22,6 +22,9 @@ function App() {
   const server_api = import.meta.env.VITE_CONNECT_SERVER_API
   const serverRefresh_endpoint = "/users/refreshToken"
   const serverMe_endpoint = "/users/me"
+  console.log("userContext in app.jsx after login: ", userContext.details)
+  console.log("userContext.token in app.jsx: ", userContext.token)
+  console.log("userContext['token'] in app.jsx: ", userContext["token"])
   
   const verifyUser = useCallback(async() => {
     try {

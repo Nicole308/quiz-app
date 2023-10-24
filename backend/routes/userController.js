@@ -99,7 +99,7 @@ router.post("/refreshToken", (req, res, next) => {
 
     console.log("refresh token before:", refreshToken)
     console.log("signed cookies: ", signedCookies)
-    console.log("req.cookies: ", req.cookies.refreshToken)
+    console.log("req.cookies: ", req.cookies)
     console.log("req.signedCookies: ", req.signedCookies)
 
     // If the refresh token exist in the signedCookies which we got from req.body,

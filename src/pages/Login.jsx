@@ -17,7 +17,7 @@ const Login = () => {
     const [loginUsername, setLoginUsername] = useState("")
     const [loginPassword, setLoginPassword] = useState("")
     const [isEmpty, setIsEmpty] = useState(false)
-    const {setUserContext} = useContext(UserContext)
+    const {userContext, setUserContext} = useContext(UserContext)
     const [loginAlert, setLoginAlert] = useState(false)
     const [alertMsg, setAlertMsg] = useState("Enter your username and password")
     const [alertSeverity, setAlertSeverity] = useState("info")
@@ -67,7 +67,7 @@ const Login = () => {
                 navigate('/QuizList')
 
                 // Got the correct token for user
-                console.log("checking userContext after login submission: ", userContext['token'])
+                // console.log("checking userContext after login submission: ", userContext['token'])
 
                 
             } else if(!response.message){
@@ -88,7 +88,7 @@ const Login = () => {
     }
 
     // Got the correct token for user
-    // console.log("checking userContext after login submission: ", userContext['token'])
+    console.log("userContext['token'] in login.jsx: ", userContext['token'])
     // console.log("Users accessed from frontend: ", users)
   
     return (
