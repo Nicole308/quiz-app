@@ -93,9 +93,9 @@ router.post("/login", passport.authenticate("local", {session: false}), async (r
    
 })
 
-router.post("/refreshToken", (req, res, next) => {
-    const { signedCookies = {} } = req
-    const { refreshToken } = signedCookies
+router.post("/refreshToken", async(req, res, next) => {
+    const { signedCookies = {} } = await req
+    const { refreshToken } = await signedCookies
 
     console.log("refresh token before:", refreshToken)
     console.log("signed cookies: ", signedCookies)
@@ -114,7 +114,7 @@ router.post("/refreshToken", (req, res, next) => {
         const userId = payload._id
         console.log("userId from payload: ", userId)
 
-        User.findOne({ _id: userId }).then(
+        await User.findOne({ _id: userId }).then(
           user => {
             console.log("user search: ", user)
             if (user) {
@@ -157,11 +157,11 @@ router.post("/refreshToken", (req, res, next) => {
     }
 })
 
-router.get("/logout", verifyUser, (req, res, next) => {
-    const {signedCookies = {}} = req
-    const {refreshToken} = signedCookies
+router.get("/logout", verifyUser, async(req, res, next) => {
+    const {signedCookies = {}} = await req
+    const {refreshToken} = await signedCookies
 
-    User.findById(req.user._id)
+    await User.findById(req.user._id)
         .then((user) => {
             const tokenIndex = user.refreshToken.findIndex(
                 item => item.refreshToken === refreshToken

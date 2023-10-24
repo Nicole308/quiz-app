@@ -19,7 +19,6 @@ function App() {
 
   const [topicData, setTopicData] = useState(topicsData)
   const [userContext, setUserContext] = useContext(UserContext)
-  const [isLoading, setIsLoading] = useState(false)
   const server_api = import.meta.env.VITE_CONNECT_SERVER_API
   const serverRefresh_endpoint = "/users/refreshToken"
   const serverMe_endpoint = "/users/me"
