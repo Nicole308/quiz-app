@@ -16,8 +16,6 @@ const UserFavourites = ({data, handleRemoveFavourites}) => {
         }
     }, [data])
 
-    // console.log("userFavourites: ", userFavourites)
-
     return (
         <Box sx={{display: 'flex', gap: 3, flexWrap: 'wrap'}}>
             {
@@ -51,7 +49,6 @@ const UserFavourites = ({data, handleRemoveFavourites}) => {
                                                 display: 'flex',
                                                 flexDirection: 'column',
                                                 gap: '4rem',
-                                                // padding: '5px'
                                             }}>
                                                 <CardContent>
                                                     <Typography variant='body2' sx={{color: 'white', fontSize: '1.25rem'}}>
@@ -76,8 +73,6 @@ const UserFavourites = ({data, handleRemoveFavourites}) => {
                                                             </Typography>
                                                         )
                                                     }
-                
-                                                    {/* Previous Score if user has one */}
                                                 </CardContent>
                                             </Box>
                                         </Link>

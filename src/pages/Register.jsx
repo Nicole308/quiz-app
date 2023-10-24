@@ -1,21 +1,15 @@
-import { Button } from '@mui/material';
-import TextField from '@mui/material/TextField';
+import { Button, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { UserContext } from '../context/UserContext.js';
-
 import QuizIcon from '@mui/icons-material/Quiz';
-
 import '../../public/css/fonts.css'
-
-// import axios from 'axios'
 
 const Register = () => {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const {userContext, setUserContext} = useContext(UserContext)
-
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverRegister_endpoint = "/users/register"
 
@@ -31,7 +25,6 @@ const Register = () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({username: username, password: password}),
-                    
                 }
             )
             if(response.ok){
@@ -50,11 +43,9 @@ const Register = () => {
             }
             setUsername("")
             setPassword("")
-            // }
         } catch (err) {
             console.error('Error: ', err)
         }
-        
     }
 
     return (
@@ -95,7 +86,6 @@ const Register = () => {
                 </div>
             </div>
         </>
-        
     )
 }
 

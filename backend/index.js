@@ -4,10 +4,7 @@ import "./strategies/LocalStrategy.js"
 import "./middleware.js"
 import userRouter from "./routes/userController.js"
 import quizRouter from "./routes/quizController.js"
-
 import mongoose from 'mongoose'
-
-// EXPRESS
 import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
@@ -15,12 +12,8 @@ import cookieParser from 'cookie-parser'
 import passport from "passport"
 
 const app = express()
-
-// console.log("mongodb url: ", process.env.MONGO_DB_CONNECTION_STRING)
-
 const MONGO_URL = process.env.MONGO_DB_CONNECTION_STRING;
 
-// Add the client URL to the CORS policy
 const whitelist = process.env.WHITELISTED_DOMAINS? process.env.WHITELISTED_DOMAINS.split(",") : []
 console.log("whitelist: ", whitelist)
 
@@ -39,10 +32,8 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
-// app.use(express.json())
 app.use(bodyParser.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
-
 app.use(passport.initialize())
 
 app.use("/users", userRouter)

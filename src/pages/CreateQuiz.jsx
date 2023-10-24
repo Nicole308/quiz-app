@@ -1,8 +1,8 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import '../../public/css/fonts.css'
-
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import AddIcon from '@mui/icons-material/Add';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Alert, AlertTitle, Box, Button, FormControlLabel, Radio, RadioGroup, TextField } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import NavigationBar from '../components/NavigationBar';
@@ -11,9 +11,7 @@ import { UserContext } from '../context/UserContext';
 import axios from 'axios';
 
 const CreateQuiz = () => {
-    
     const {userContext} = useContext(UserContext)
-    // console.log("userContext from createQuiz: ", userContext)   // userContext contains token and user details
     const [questionNum, setQuestionNum] = useState(1)
     const navigate = useNavigate()
     const location = useLocation()
@@ -23,6 +21,7 @@ const CreateQuiz = () => {
     const [userQuizTopic, setUserQuizTopic] = useState("")
     const [quizDescription, setQuizDescription] = useState("")
     const [alertVisible, setAlertVisible] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME
     const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_PRESET
     const serverGetQuiz_api = "/quizzes/getSpecificQuiz"
@@ -39,23 +38,24 @@ const CreateQuiz = () => {
     const keyNames= ["answer_a", "answer_b", "answer_c", "answer_d", "answer_e"]
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverCreate_endpoint = "/quizzes/createQuiz"
-    // const [rows, setRows] = useState({
-    //     answer_a: "",
-    // })
 
-    // useEffect(() => {
-    //     if(!userContext || !userContext.details){
-    //         navigate('/login')
-    //     }
-    // }, [userContext])
+    useEffect(() => {
+        if(!userContext.token){
+            navigate('/login')
+        } else if(!userContext.details) {
+            setIsLoading(true)
+            if(userContext.details){
+                setIsLoading(false)
+            }
+        } else {
+            setIsLoading(false)
+        }
+    }, [userContext])
 
     const uploadQuizCover = async(e) => {
-        // console.log("picture url: ", e.target.files[0])
         const coverImgURL = e.target.files[0]
         const formData = new FormData()
 
-        // The upload presets can be found in cloudinary dashboard => settings => 
-        // Upload under Product environment settings section and pick the one that has unsigned value
         formData.append("upload_preset", `${UPLOAD_PRESET}`)
         formData.append("file", coverImgURL)
 
@@ -69,18 +69,8 @@ const CreateQuiz = () => {
             console.log("error in fetch post")
         }
 
-        // URL.createObjectURL(coverImgURL)
-        // setSelectedImage(URL.createObjectURL(coverImgURL))
         const responseJsonData = await response.json()
         setSelectedImage(responseJsonData.url)
-
-        // setUserQuiz((prevState) => {
-        //     prevState.map((quizItems) => ({
-        //         ...quizItems,
-        //         coverImage: selectedImage
-        //     }))
-        // })
-        // console.log("responseJsonData image detail: ", responseJsonData)
     }
 
     const handleCoverChange = () => {
@@ -102,25 +92,8 @@ const CreateQuiz = () => {
                     ...newChoice,
                 }
             }
-
             return newQuestions
         })
-
-        // userQuiz.map((question, index) => {
-        //     console.log("question: ", question)
-        //     Object.entries(userQuiz[index].choices).map(([key, value]) => {
-        //         console.log(`key: ${key}, value: ${value}`)
-        //     })
-        // })
-
-        // const newQuestions = [...userQuiz]
-        // newQuestions[questionIndex].choices.push({[keyNames[keyIndex]]: keyIndex})
-        // setUserQuiz(newQuestions)
-        
-        
-        // const addedRow = {...rows, [keyNames[keyIndex]]: keyIndex}
-        // setRows(addedRow)
-        // console.log("rows: ", rows)
     }
 
     const deleteAnswer = (key, questionIndex) => {
@@ -152,28 +125,19 @@ const CreateQuiz = () => {
         setUserQuiz((prevState) => {
             const newQuestions = [...prevState]
             newQuestions[index].question = value
-
-            // console.log("New Questions: ", newQuestions)
             return newQuestions
         })
     }
 
     const handleInput = (event, keyName, questionIndex) => {
-        
-        // console.log(`keyName: ${keyName}: ${event} at question index: ${questionIndex}`)
-
         setUserQuiz((prevState) => {
             const editQuestions = [...prevState]
             editQuestions[questionIndex].choices[keyName] = event
             return editQuestions
         })
-        // console.log("Edited userQuiz choices:", userQuiz)
-        // const updatedRow = {...rows, [keyName]: event}
-        // setRows(updatedRow)
     }
 
     const handleCorrectAnswer = (questionIndex, value) => {
-        // console.log(`Question index: ${questionIndex}: ${value}`)
         setUserQuiz((prevState) => {
             const newQuestions = [...prevState]
             newQuestions[questionIndex].answer = value
@@ -183,16 +147,12 @@ const CreateQuiz = () => {
     }
 
     const handleQuizTopic = (e) => {
-        setUserQuizTopic(e.target.value)
-    }
+        setUserQuizTopic(e.target.value)}
 
     const handleQuizDescription = (e) => {
-        setQuizDescription(e.target.value)
-    }
+        setQuizDescription(e.target.value)}
 
     useEffect(() => {
-        // console.log("User Detail Quiz: ", userQuizDetail)
-
         setUserQuizDetail((prevState) => ({
             ...prevState,
             topic_name: userQuizTopic,
@@ -200,9 +160,6 @@ const CreateQuiz = () => {
             description: quizDescription,
             content: userQuiz,
         }));
-
-        
-
     }, [userQuizTopic, selectedImage, quizDescription, userQuiz])
 
     useEffect(() => {
@@ -214,8 +171,6 @@ const CreateQuiz = () => {
                     .then((response) => {
                         if(response.data){
                             const existingQuizData = response.data
-                            // console.log("quiz founded: ", existingQuizData)
-
                             setUserQuizTopic(existingQuizData.topic_name)
                             setQuizDescription(existingQuizData.description)
                             setSelectedImage(existingQuizData.image_url)
@@ -223,25 +178,18 @@ const CreateQuiz = () => {
                             setUserQuiz(existingQuizData.content)
                             
                         }
-                        
-                        // setUserQuizDetail(response.data)
                     }).catch((error) => console.log("Error getting the quiz: ", error))
                 } catch(error){
                     console.log("getUserQuiz function err: ", error)
                 }
-            }
-                
+            }  
             getUserQuiz()
         }
-        
     }, [id])
 
 
     const handleSubmit = async(e) => {
         e.preventDefault()
-        // console.log("topic name: ", userQuizTopic)
-        // console.log("User Quiz:", userQuiz)
-
         await setUserQuizDetail((prevState) => {
             return {
                 ...prevState, 
@@ -251,14 +199,11 @@ const CreateQuiz = () => {
                 content: userQuiz,
             }
         })
-
-        // console.log("userQuizDetail in handleSubmit: ", userQuizDetail)
         
         try {
             if(id){
                 await axios.post(`${server_api}${serverUpdateQuiz_api}`, {userQuizDetail: userQuizDetail, quizID: id, byUser: userContext.details})
                     .then((response) => {
-                        // console.log("response.data: ", response.data)
                         if(response.status === 200){
                             setAlertVisible(true)
                         } else {
@@ -287,15 +232,29 @@ const CreateQuiz = () => {
         } catch(err){
             console.log("error in CreateQuiz page handleSubmit: ", err)
         }
-
     }
-
-    // console.log("userQuizDetail: ", userQuizDetail)
-    
 
     return (
         <>
             <NavigationBar />
+            {
+                isLoading && (
+                    <Box className="allerta-font" style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '50%', 
+                        backgroundColor: 'white',
+                        border: '2px solid #000', borderRadius: '20px',
+                        boxShadow: 24, textAlign: 'center',
+                        height: '200px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+                    }}>
+                        <CircularProgress />
+                        <strong>Loading user account, please wait...</strong>
+                    </Box>
+                )
+            }
             <div className='create-structure' style={{backgroundColor: 'white', width: '100%', height: '100vh', overflowY: 'scroll'}}>
                 <Button onClick={() => navigate(-1)}>
                     <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
@@ -491,11 +450,9 @@ const CreateQuiz = () => {
                             <h1 className='allerta-font' style={{fontSize: '1rem'}}>{id? (<>Update</>) : (<>Create</>)}</h1>
                         </Button>
                     </div>
-                    
                 </form>
             </div>
         </>
-        
     )
 }
 

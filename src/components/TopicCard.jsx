@@ -4,14 +4,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import CircularProgress from '@mui/material/CircularProgress';
-
 import { Link, useNavigate } from 'react-router-dom'
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../context/UserContext';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { IconButton, Modal } from '@mui/material';
+import { IconButton } from '@mui/material';
 
 const TopicCard = (data) => {
     
@@ -23,11 +19,8 @@ const TopicCard = (data) => {
 
     useEffect(() => {
         if(userContext.details){
-            // console.log('data', data.data)
             const currentCardID = data.data._id.toString()
             const checkIfCardIsFavourite = userContext.details.favoriteQuizzes.some((q) => q._id === currentCardID)
-
-            // console.log('check', checkIfCardIsFavourite)
 
             if(checkIfCardIsFavourite) {
                 setIsFavourite(true)
@@ -36,11 +29,6 @@ const TopicCard = (data) => {
             }
         }
     }, [userContext])
-
-    // Checking to see if we still get the data
-    // console.log("quizzes in TopicCard.jsx: ", data)
-    // console.log("all ids: ", data.data._id)
-    // console.log("favoriteQuizzes in TopicCard: ", favorites)
 
     const handleFavouriteClick = async() => {
         
@@ -58,22 +46,18 @@ const TopicCard = (data) => {
                         body: JSON.stringify({selectedQuiz: data.data, byUser: userContext.details, isFavourite: isFavourite})
                     }
                 ).then(async (res) =>{
-                    // console.log('response data', await res.json())
-    
                     const responseData = await res.json()
     
-                    if(responseData.message){ // like
+                    if(responseData.message){ 
                         setIsFavourite(true)
-                    } else { // dislike
+                    } else { 
                         setIsFavourite(false)
                     }
-    
                 })
             }
         } catch (err){
             console.log("Error in handling favourite click: ", err)
         }
-        
     }
     
     return (
@@ -98,7 +82,6 @@ const TopicCard = (data) => {
                                 padding: '10px',
                             }}
                         >
-                            
                             <Typography variant="h5">{data.data.topic_name}</Typography>
                         </Box>
                     </Link>
@@ -127,12 +110,10 @@ const TopicCard = (data) => {
                                         ) : (
                                             <FavoriteBorderIcon sx={{ width: '2rem', height: '2rem', fontWeight: '4rem' }} /> 
                                         )
-
                                     }
                             </IconButton>
                         )
                     }
-
                 </Box>
             </Card>
         </>

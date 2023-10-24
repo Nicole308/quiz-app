@@ -11,7 +11,6 @@ import QuizContent from './pages/QuizContent'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import CreateQuiz from './pages/CreateQuiz'
-import QuizContentResult from './pages/QuizContentResult'
 import Dashboard from './pages/Dashboard'
 import { UserContext } from './context/UserContext'
 
@@ -40,7 +39,6 @@ function App() {
         )
         if(response.ok){
             const jsonData = await response.json()
-            // console.log("token inside jsonData '/refreshToken': ", jsonData)
             setUserContext((oldValues) => {
                 return {...oldValues, token: jsonData.token }
             })
@@ -57,7 +55,6 @@ function App() {
     
     console.log("token after fetching from '/refreshToken': ", userContext.token)
 
-    // Fetching user details
     if(userContext.token){
         const fetchUserDetails = await fetch(
             `${server_api}${serverMe_endpoint}`, {
@@ -86,21 +83,14 @@ function App() {
     } else {
         console.log("Theres no userContext.token")
     }
-
   }, [setUserContext, userContext.token])
 
   useEffect(() => {
-      // fetchLoginUsername()
-      // verifyUser()
       if(!userContext.details){
           verifyUser()
       }
   }, [verifyUser, userContext.details])
 
-
-  // Using the Context provider with the json data to combine with Router
-  // so that each Route path will be able to access the data provider value
-  // I was going to try use database but didn't have time so I tried using local storage
   return (
     <>
       <Router>
@@ -117,7 +107,6 @@ function App() {
               <Route path='/QuizList' element={<QuizList />}/>
               <Route path='/QuizList/:id/:name' element={<TopicDetailPage />} />
               <Route path='/QuizList/:id/:name/quiz' element={<QuizContent />}/>
-              {/* <Route path='/QuizList/quizResult' element={<QuizContentResult />} /> */}
               <Route path='/login' element={<Login />}/>
               <Route path='/register' element={<Register />}/>
               <Route path='/createQuiz' element={<CreateQuiz />}/>

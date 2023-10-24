@@ -1,27 +1,19 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 import NavigationBar from '../components/NavigationBar'
 import { useContext, useState, useEffect } from 'react'
 import QuizContext from '../context/QuizContext'
-
 import Button from '@mui/material/Button';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 const TopicDetailPage = () => {
-
-    // Used the useParams to get the link's parameter topic_name from QuizList TopicCard component
     const params = useParams()
-    // console.log("params.name: ", params.name)
-    // console.log("params.id: ", params.id)
     const [usersAllQuiz, setUsersAllQuiz] = useState([])
     const [dataFetched, setDataFetched] = useState(false)
     const [combinedQuizArr, setCombinedQuizArr] = useState([])
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverRefresh_endpoint = "/quizzes/getAllQuiz"
     const navigate = useNavigate()
-
-    // Used the useContext provider to call the data json and made sure that the data is successfully passed
     const {topicData} = useContext(QuizContext) 
 
     const fetchAllUsersQuiz = async() => {
@@ -35,9 +27,7 @@ const TopicDetailPage = () => {
             }
         )
         if(response.ok){
-            // console.log("response in QuizList page: ", response)
             const quizJsonData = await response.json()
-            // console.log("quizJsonData in QuizList", quizJsonData)
             await setUsersAllQuiz(quizJsonData)
         } else {
             console.log("No quizzes fetched in backend: ", response.status, response.statusText)
@@ -62,13 +52,8 @@ const TopicDetailPage = () => {
     }, [dataFetched])
 
     useEffect(() => {
-        // Combine arrays whenever either topicData or usersAllQuiz changes
         combineQuizzesArr();
       }, [topicData, usersAllQuiz]);
-
-    // console.log("usersAllQuiz from TopicDetailPage.jsx: ", usersAllQuiz)
-    // console.log(topicData, "Data Context from topic detail page")  
-    // console.log("combinedQuizArr: ", combinedQuizArr)
 
     return (
         <>
@@ -89,7 +74,6 @@ const TopicDetailPage = () => {
                                     }}>
 
                                         <Button onClick={() => navigate('/QuizList')} variant='outlined' startIcon={<KeyboardReturnIcon />} style={{marginTop: '2em', marginLeft: '2em', color: 'aquamarine', fontWeight: '600'}}>
-                                            {/* <Link to={`/QuizList`}>Back</Link> */}
                                             Back
                                         </Button>
 
@@ -124,7 +108,6 @@ const TopicDetailPage = () => {
                                                                 }
                                                             </div>
                                                             <Button onClick={() => navigate(`/QuizList/${params.id}/${data.topic_name}/quiz`)} variant='contained' startIcon={<KeyboardArrowRightIcon />} style={{backgroundColor: '#4361EE', marginTop: '2em', color: 'aquamarine', fontWeight: '600'}}>
-                                                                {/* <Link to={`/QuizList/${data.topic_name}/quiz/`}>Start</Link> */}
                                                                 Start
                                                             </Button>
                                                         </div>
@@ -133,16 +116,13 @@ const TopicDetailPage = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    
                                 </>
                             )
                         } 
                    })
                 }
             </div>
-        
         </>
-       
     )
 }
 

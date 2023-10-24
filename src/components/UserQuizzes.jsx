@@ -1,7 +1,6 @@
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Modal, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import HelpIcon from '@mui/icons-material/Help';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -12,23 +11,16 @@ const UserQuizzes = ({ data, handleRemoveQuiz }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const navigate = useNavigate()
 
-  // useEffect(() => {
-  //     console.log("userQuizzes: ", userQuizzes);
-  // }, [data])
-
   useEffect(() => {
     if (!data || !data.quizzes) {
       console.log("Loading...")
-      // window.location.reload()
     } else {
       const filteredData = data.quizzes;
-      // console.log("Dashboard data: ", data);
       setUserQuizzes(filteredData);
     }
   }, [data]);
 
   const handleEditQuiz = (quiz) => {
-      // console.log("quizID: ", quiz._id)
       navigate(`/createQuiz?id=${quiz._id}`)
   }
 
@@ -150,8 +142,6 @@ const UserQuizzes = ({ data, handleRemoveQuiz }) => {
 
       <Box onClick={() => navigate(`/createQuiz`)}
           className="quizzes-card add-card"
-          // width={180} 
-          // height={210} 
           sx={{backgroundColor: 'white', border: '4px dashed #26547C'}}
         >
           <AddIcon sx={{padding: '38%', width: '3rem', height: '3rem', color: '#26547C'}}/>

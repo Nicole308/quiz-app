@@ -31,8 +31,3 @@ export const getRefreshToken = (user) => {
 }
 
 export const verifyUser = passport.authenticate("jwt", {session: false})
-
-// export const verifyUser = (req, res) => {
-//     res.status(200).send(req.user)
-
-// }

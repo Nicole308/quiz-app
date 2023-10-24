@@ -1,26 +1,20 @@
 import NavigationBar from "../components/NavigationBar"
-
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
-import { useContext } from "react";
+import { useContext, useMemo, useEffect, useState } from "react";
 import QuizContext from "../context/QuizContext";
 import TopicCard from "../components/TopicCard";
-import { useMemo } from "react";
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
 import axios from "axios";
 import { Modal } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
 
 const QuizList = () => {
-
-    // Use the useContext provider to get the jsonData 
     const {topicData} = useContext(QuizContext)
     const {userContext} = useContext(UserContext)
     const [usersAllQuiz, setUsersAllQuiz] = useState([])
@@ -28,8 +22,6 @@ const QuizList = () => {
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverRefresh_endpoint = "/quizzes/getAllQuiz"
     const navigate = useNavigate()
-    // console.log("userContext from Quiz List page: ", userContext.token)
-
     const memoizeQuizList = useMemo(() => topicData, [topicData])
 
     const verifyUserCreateQuiz = () => {
@@ -60,7 +52,6 @@ const QuizList = () => {
             } catch (error){
                 console.log("There's no quizzes fetched: ", error)
             }
-           
         }
 
         fetchAllUsersQuiz()
@@ -80,8 +71,8 @@ const QuizList = () => {
                         width: '30%', 
                         backgroundColor: 'white',
                         border: '2px solid #000', borderRadius: '20px',
-                        boxShadow: 24,
-                        height: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'center'
+                        boxShadow: 24, textAlign: 'center',
+                        height: '200px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
                     }}>
                         <CircularProgress />
                         <strong>Loading user account, please wait...</strong>
@@ -121,7 +112,6 @@ const QuizList = () => {
                         }
                     </div>
 
-                    {/* Map ALL users quiz */}
                     <h3 className="allerta-font" style={{fontSize: '1,5rem', color: '#26547C', marginLeft: '40px'}}>
                         Browse other quiz
                     </h3>
@@ -153,10 +143,6 @@ const QuizList = () => {
                     }
                 </div>
             </div>
-            
-           
-            
-            
         </>
     )
 }

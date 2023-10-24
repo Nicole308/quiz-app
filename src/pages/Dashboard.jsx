@@ -1,19 +1,13 @@
 import NavigationBar from '../components/NavigationBar'
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { UserContext } from '../context/UserContext'
-import { useState } from 'react'
+import { Tabs, Tab, Box, CircularProgress } from '@mui/material';
 import axios from 'axios'
-
 import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
 import UserQuizzes from '../components/UserQuizzes';
-import { useEffect } from 'react';
 import UserFavourites from '../components/UserFavourites';
 import UserRecent from '../components/UserRecent'
 import { useNavigate } from 'react-router-dom'
-
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
   
@@ -53,25 +47,18 @@ const Dashboard = () => {
     const [tabValue, setTabValue] = useState(0)
     const {userContext} = useContext(UserContext)
     const [userQuizzes, setUserQuizzes] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverFavourite_endpoint = "/quizzes/deleteFavourite"
     const serverDashboard_endpoint = "/quizzes/getUserDashboard"
     const serverDelete_endpoint = "/quizzes/deleteQuiz"
 
-    // useEffect(() => {
-    //     if(!userContext || !userContext.details){
-    //         navigate('/login')
-    //     }
-    // }, [userContext])
-
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue)
     }
 
     const handleRemoveFavourites = async(data) => {
-        // console.log("selected quiz data: ", data)
-
         try {
             await axios.post(`${server_api}${serverFavourite_endpoint}`, {selectedQuiz: data, user: userQuizzes})
                 .then((response) => {
@@ -87,8 +74,6 @@ const Dashboard = () => {
     }
 
     const handleRemoveQuiz = async(quiz) => {
-        // console.log("Selected quiz: ", quiz)
-
         try {
             await axios.post(`${server_api}${serverDelete_endpoint}`, {selectedQuiz: quiz, user: userQuizzes})
                 .then((response) => {
@@ -104,11 +89,16 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
-        // console.log("userContext: ", userContext.details)
         const loadDatas = async() => {
             try {
-                if(!userContext.details && !userContext){
+                if(!userContext.token){
+                    navigate('/login')
+                } else if(!userContext.details){
                     console.log('loading data')
+                    setIsLoading(true)
+                    if(userContext.details){
+                        setIsLoading(false)
+                    }
                 }
 
                 await axios.get(`${server_api}${serverDashboard_endpoint}?user=${userContext.details._id}&name=${userContext.details.username}`)
@@ -125,15 +115,27 @@ const Dashboard = () => {
 
         loadDatas()
     }, [userContext])
-    
-
-    // console.log("dashboard quizzes: ", userQuizzes)
 
     return (
         <>
             <NavigationBar />
-
             <Box sx={{ width: '100%' , backgroundColor: 'white', height: '100vh'}}>
+                { isLoading && (
+                        <Box className="allerta-font" style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: '50%', 
+                            backgroundColor: 'white',
+                            border: '2px solid #000', borderRadius: '20px',
+                            boxShadow: 24, textAlign: 'center',
+                            height: '200px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+                        }}>
+                            <CircularProgress />
+                            <strong>Loading user account, please wait...</strong>
+                        </Box>
+                    )}
                 <Box className="allerta-font" 
                      sx={{display: 'flex', justifyContent: 'center', paddingTop: '1rem'}}
                      style={{color: '#26547C', fontSize: '2.5rem'}}
@@ -157,7 +159,6 @@ const Dashboard = () => {
                     <UserRecent data={userQuizzes} />
                 </CustomTabPanel>
             </Box>
-            
         </>
     )
 }

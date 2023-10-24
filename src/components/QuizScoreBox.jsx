@@ -1,5 +1,5 @@
 import { Box, Button, Modal,Typography } from '@mui/material'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getDataFromLocalStorage } from '../localStorage/localStorageUtils';
 import { useContext, useEffect, useState } from 'react';
 
@@ -13,7 +13,6 @@ const QuizScoreBox = ({handleScoreSubmit}) => {
     const {userContext} = useContext(UserContext)
     const [userScore, setUserScore] = useState(0)
     const [openPreviewQuiz, setOpenPreviewQuiz] = useState(false)
-    // const navigate = useNavigate()
     const params = useParams()
     const checkID = params.id
 
@@ -37,8 +36,6 @@ const QuizScoreBox = ({handleScoreSubmit}) => {
             console.log("loading...")
         }
     }, [userContext])
-
-    // console.log("userContext from QuizScoreBox: ", userContext)
 
     return (
         <>
@@ -71,7 +68,7 @@ const QuizScoreBox = ({handleScoreSubmit}) => {
                                 
                             </h4>
                         </Button>
-                        {/* <Button onClick={() => navigate('/QuizList/quizResult')} */}
+
                         <Button onClick={() => setOpenPreviewQuiz(true)}
                                 variant='outlined'
                                 sx={{
@@ -107,19 +104,17 @@ const QuizScoreBox = ({handleScoreSubmit}) => {
                                             }}>
                                         <QuizContentResult />
                                     </Box>
-                                    
                                 </Modal>
                             ) : (
                                 <></>
                             )
                         }
                         </div>
-                        
                     </Box>
                 </Box>
             </Box>
         </>
-  )
+    )
 }
 
 export default QuizScoreBox

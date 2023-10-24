@@ -1,6 +1,6 @@
 const NotFoundPage = () => {
     return (
-        <div style={{fontSize: '42px', fontWeight: '600'}}>
+        <div className="allerta-font" style={{fontSize: '42px', fontWeight: '600'}}>
             PAGE NOT FOUND
         </div>
     )

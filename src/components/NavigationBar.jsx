@@ -6,30 +6,20 @@ import Button from '@mui/material/Button';
 import QuizIcon from '@mui/icons-material/Quiz';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import MenuIcon from '@mui/icons-material/Menu';
 import '../../public/css/homepage.css'
-
 import { UserContext } from "../context/UserContext.js"
-
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { Grid } from '@mui/material';
-// import { getSessionJwtToken, getSessionRefreshToken } from '../../session/sessionStorage.js';
 
-// Using material UI to create NavigationBar component
-// Need to have conditional statement to check if the user is logged in or not
 const NavigationBar = () => {
-    
-    // const [username, setUsername] = useState('user')
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
     const {userContext, setUserContext} = useContext(UserContext)
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverLogout_endpoint = "/users/logout"
     const navigate = useNavigate()
-    // const sessionJWTtoken = getSessionJwtToken()
-    // const sessionRefreshToken = getSessionRefreshToken()
 
     useEffect(() => {
         if(!userContext.details){
@@ -90,19 +80,14 @@ const NavigationBar = () => {
                         <Grid item xs={3} md={2}>
                             {
                                 !userContext.token === null || !userContext.token ? (
-                                    // IF the userContext.token IS null then...
                                     <Link to={`/login`}>
                                         <Button style={{color: 'white', fontWeight: 700, fontSize: '1rem'}}>
                                             Sign In
                                         </Button>
                                     </Link>
                                 ) : !userContext.details ?(
-                                    // ELSE IF the userContext.details IS NOT null BUT
-                                    // the userContext.details is undefined then...
                                     <h3>Loading user...</h3>
                                 ) : (
-                                    // ELSE IF the userContext.details DO exist, then
-                                    // display the userContext.details
                                     <Box className="menuBar">
                                         <Button
                                             onClick={handleOpenClick}
@@ -126,28 +111,9 @@ const NavigationBar = () => {
                             }
                         </Grid>
                     </Grid>
-                    
-
-                    {/* This one is for using express-session */}
-                    {/* {
-                        username !== "" ? (
-                            <h1>Welcome {username}</h1>
-                            
-                        ) : (
-                            <Link to={`/login`}>
-                                <Button color="inherit">
-                                    Sign In
-                                </Button>
-                            </Link>
-                        )
-                    } */}
-                    
-
                 </ToolBar>
             </AppBar>
         </Box>
-    
-       
     )
 }
 

@@ -1,21 +1,14 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import Button from '@mui/material/Button';
+import { Button, CircularProgress, Box, LinearProgress, Modal, Typography} from '@mui/material';
 import QuestionContentCard from '../components/QuestionContentCard';
 import QuizContext from '../context/QuizContext';
-import {getDataFromLocalStorage, setDataInLocalStorage} from '../localStorage/localStorageUtils'
+import { getDataFromLocalStorage, setDataInLocalStorage } from '../localStorage/localStorageUtils'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import CloseIcon from '@mui/icons-material/Close';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-import LinearProgress from '@mui/material/LinearProgress';
 import axios from 'axios';
 import { UserContext } from '../context/UserContext';
-import { Modal, Typography } from '@mui/material';
-import { CheckBoxOutlined } from '@mui/icons-material';
 
 const QuizContent = () => {
-
     const params = useParams()
     const { topicData, setTopicData } = useContext(QuizContext)
     const {userContext} = useContext(UserContext)
@@ -38,7 +31,6 @@ const QuizContent = () => {
         const fetchData = await fetch(`https://quizapi.io/api/v1/questions?apiKey=${TOKEN_API}&category=${categoryName.toLowerCase()}&limit=7`)
         if(fetchData.ok){
             const jsonDataConvert = await fetchData.json()
-
             let questionNum = 0
 
             const simplifiedData = await jsonDataConvert.map((data) => {
@@ -56,8 +48,6 @@ const QuizContent = () => {
 
             setQuizData(simplifiedData)
         } else if(!fetchData.ok) {
-            console.log("Fetch Quiz API status: ", fetchData.status, fetchData.statusText)
-
             const fetchUsersData = await fetch(
                 `${server_api}${serverRefresh_endpoint}`, {
                     method: 'GET',
@@ -69,43 +59,30 @@ const QuizContent = () => {
             )
             if(fetchUsersData.ok){
                 const userQuizJsonData = await fetchUsersData.json()
-                // console.log("userQuizJsonData: ", userQuizJsonData)
-
                 const simplifiedUserQuiz = userQuizJsonData.filter((quizzes) => quizzes._id === quizID && quizzes.topic_name === categoryName)
                                                             .map(quiz => quiz.content)
-
                 const filteredQuiz = userQuizJsonData.filter((quizzes) => quizzes._id === quizID && quizzes.topic_name === categoryName)
-                console.log("filteredQuiz: ", filteredQuiz)
 
                 if(simplifiedUserQuiz.length > 0){
                     const firstQuizArr = simplifiedUserQuiz[0]
-                    // console.log("firstQuizArr: ", firstQuizArr)
-
                     setQuizData(firstQuizArr)
                     setSelectedQuiz(filteredQuiz[0])
                 } else {
                     console.log("No match for the quiz")
                 }
-
             } else {
                 console.log("Fetch Quiz BACKEND status: ", fetchUsersData.status, fetchUsersData.statusText)
             }
-
         }
-        
     }
-
     
     useEffect(() => {
-
         getQuizData()
-
         const storedData = getDataFromLocalStorage('myData');
 
         if (storedData) {
             setUserAnswers(storedData);
         }
-
     }, [])
 
     useEffect(() => {
@@ -148,14 +125,10 @@ const QuizContent = () => {
         })
 
         handleNextQuestion()
-
         setTopicData(updateData)
-
     }
 
     const handleScoreSubmit = async(userScore, checkID) => {
-        // console.log("userContext from QuizContent: ", userContext)
-        console.log("checkID: ", checkID)
         const paramsID = checkID.toString()
 
         try {
@@ -179,12 +152,7 @@ const QuizContent = () => {
             console.log("Error in submitting the score: ", error)
         }
     }
-
     setDataInLocalStorage('myData', userAnswers)
-    
-    // console.log("quiz data: ", quizData)
-    // console.log("userContext: ", userContext.details)
-    
 
     return (
         <> 
@@ -282,9 +250,7 @@ const QuizContent = () => {
                          style={{width: '100vw'}}
                     />
                 </Box>
-                
             </Box>
-            
         </>
     )
 }

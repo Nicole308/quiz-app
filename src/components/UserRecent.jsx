@@ -17,8 +17,7 @@ const UserRecent = (data) => {
                     const tempDate = quiz.datePlayed.toString()
                     const options = { year: 'numeric', month: 'long', day: 'numeric' };
                     const newEditedDate = new Date(tempDate).toLocaleDateString([], options)
-                    
-                    // console.log("tempDate: ", newEditedDate)
+
                     quiz.datePlayed = newEditedDate
 
                     return quiz
@@ -27,8 +26,6 @@ const UserRecent = (data) => {
             } else {
                 setUserRecents(recentQuizzes)
             }
-
-            
         }
     }, [data])
 

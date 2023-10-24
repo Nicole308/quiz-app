@@ -1,22 +1,14 @@
-import { useContext } from "react"
+import { useContext, useMemo } from "react"
 import QuizContext from "../context/QuizContext"
 import NavigationBar from "../components/NavigationBar"
 import { Link, useNavigate } from 'react-router-dom'
-import { useMemo } from "react"
-
 import '../../public/css/fonts.css'
 import TopicCard from "../components/TopicCard"
 import { Button } from "@mui/material"
 
-// Homepage page is only an introductory page where it tells you what 
-// the website does which is testing your computer knowledge by taking 
-// few different quiz according to your selected category
 const Homepage = () => {
-
     const getJSONData = useContext(QuizContext)
     const navigate = useNavigate()
-    // console.log(getJSONData, "Linux Data accessed from homepage: ")
-
     const memoizeHomepageData = useMemo(() => getJSONData, [getJSONData])
 
     return (
@@ -37,7 +29,6 @@ const Homepage = () => {
                             justifyContent: 'center',
                             alignItems: 'center',
                             width: '100%', 
-                            // height: '100%', 
                             background: 'linear-gradient(180deg, rgba(3, 36, 40, 0.46) 2.09%, rgba(3, 44, 50, 0.86) 100%)'
                     }}> 
                         <h1 
@@ -70,8 +61,6 @@ const Homepage = () => {
                 <div className="scroll-side" style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', paddingTop: '10px'}}>
                     <div style={{ display: 'flex', flexDirection: 'row', marginTop: '35px'}}>
                     {
-                        // Mapped the jsonData which is an array of objects and create another component called to TopicCard. 
-                        // Returned the TopicCard component 
                         memoizeHomepageData.topicData.map((data) => {
                             return (<TopicCard key={data.id} data={data} />)
                         })
@@ -81,20 +70,19 @@ const Homepage = () => {
             </div>
             
             <div className="bottom-box" style={{backgroundColor: 'white', width: '100%',}}>
-                <div className="first-section" style={{}}>
+                <div className="first-section">
                     <div className="first-img">
                         <img className="bigCircle-img"
                             src="./images/comp-desk.png" 
                             alt="Image by Arivle One from Pixabay" 
                             style={{ border: '1px solid black'}}/>
                     </div>
-                    
-                    
-                    <div className="second-img" style={{ }}>
+                     
+                    <div className="second-img">
                         <img className="smallCircle-img" 
                             src="./images/work.png" 
                             alt="Image by Arivle One from Pixabay" 
-                            style={{ }}/>
+                        />
                     </div>
                    
                 </div>
@@ -104,7 +92,6 @@ const Homepage = () => {
                         Browse other quiz
                     </h1>
 
-                    {/* Has to check if the user is signed in or not */}
                     <div className="btn-layout" style={{width: '100%', display: 'flex', marginTop: '20px'}}>
                         <Button onClick={() => navigate('/QuizList')} variant="contained" style={{backgroundColor: '#26547C', borderRadius: '10%'}}>
                             <h1 className="allerta-font create-btn">Go now</h1>

@@ -1,4 +1,4 @@
-// Get data from local storage
+
 export const getDataFromLocalStorage = (key) => {
     try {
       const serializedData = localStorage.getItem(key);
@@ -12,7 +12,6 @@ export const getDataFromLocalStorage = (key) => {
     }
   };
   
-  // Store data in local storage
   export const setDataInLocalStorage = (key, data) => {
     try {
       const serializedData = JSON.stringify(data);
@@ -21,8 +20,7 @@ export const getDataFromLocalStorage = (key) => {
       console.error('Error storing data in local storage:', error);
     }
   };
-  
-  // Remove data from local storage
+
   export const removeDataFromLocalStorage = (key) => {
     try {
       localStorage.removeItem(key);

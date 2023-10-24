@@ -10,13 +10,10 @@ router.get('/serverTest', (req, res) => {
     res.status(200).send({message: "Server is connected through userController"})
 })
 
-router.post('/register', async (req, res, next) => {
+router.post('/register', async (req, res) => {
     if(!req.body.username || !req.body.password){
         res.status(500).json({message: "Username and password is required"})
     } else {
-        // the register function is from passport-local-mongoose plugin
-        // with username, password, and a callback. The function will be triggered
-        // once the useris registered
         await User.register(
             new User({username: req.body.username, password: req.body.password}),
             req.body.password,
@@ -33,30 +30,17 @@ router.post('/register', async (req, res, next) => {
 
                     user.save().then((err) => {
                         if(err){
-                            // res.status(200).send(err)
                             res.cookie("register refreshToken", refreshToken, COOKIE_OPTIONS)
                             res.status(200).send({success: true, token})
                         } else {
                             res.send(err)
-                            // res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
-                            // res.status(200).send({sucess: true, token})
                         }
                     })
-                    
                 }
             }
-
         )
     }
 })
-
-// passport v0.6.0 doesnt allow JsonWebToken so if we only typed "passport.authenticate("local")",
-// It will give you an error: Login sessions require session support. Did you forget to use `express-session` middleware?
-// What we are trying though is that we use tokens instead of express-session
-// 
-// SOLUTION (from reddit):
-// Typed in => passport.authenticate("local", {session: false})
-// Just DOWNGRADE passport v0.6.0 ==> passport v0.4.1
 
 router.post("/login", passport.authenticate("local", {session: false}), async (req, res, next) => {
     const token = getToken({_id: req.user._id})
@@ -66,7 +50,6 @@ router.post("/login", passport.authenticate("local", {session: false}), async (r
     console.log("username: ", username, "password: ", password)
 
     try {
-        
         await User.findById(req.user._id).then(
             (user) => {
                 console.log("user found: ", user)
@@ -90,18 +73,12 @@ router.post("/login", passport.authenticate("local", {session: false}), async (r
     } catch(error){
         console.log("error logging in")
     }
-   
 })
 
 router.post("/refreshToken", async(req, res, next) => {
     const { signedCookies = {} } = await req
     const { refreshToken } = await signedCookies
 
-    // If the refresh token exist in the signedCookies which we got from req.body,
-    // then verify the refresh token with the refresh_token_secret thats used to create the refresh token itself,
-    // then we check if the refresh token exist in the database since the refresh token will be connected to 
-    // the user._id.
-    // If the user exist, place a new refresh token to the user
     if (refreshToken) {
       try {
         const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
@@ -114,7 +91,6 @@ router.post("/refreshToken", async(req, res, next) => {
             console.log("user search: ", user)
             if (user) {
                 console.log("user found in /refreshToken: ", user)
-              // Find the refresh token against the user record in database
               const tokenIndex = user.refreshToken.findIndex(
                 item => item.refreshToken === refreshToken
               )
@@ -124,7 +100,6 @@ router.post("/refreshToken", async(req, res, next) => {
                 res.status(401).send("Unauthorized")
               } else {
                 const token = getToken({ _id: userId })
-                // If the refresh token exists, then create new one and replace it.
                 const newRefreshToken = getRefreshToken({ _id: userId })
                 user.refreshToken[tokenIndex] = { refreshToken: newRefreshToken }
 
@@ -148,7 +123,6 @@ router.post("/refreshToken", async(req, res, next) => {
       }
     } else {
         console.log("Refresh token doesnt exist in req")
-        // console.log("refresh token after: ", refreshToken)
     }
 })
 
@@ -163,8 +137,7 @@ router.get("/logout", verifyUser, async(req, res, next) => {
             )
             
             if(tokenIndex !== -1){
-                user.refreshToken.splice(tokenIndex, 1); // Remove the token from the array
-                // user.refreshToken.id(user.refreshToken[tokenIndex]._id).remove()
+                user.refreshToken.splice(tokenIndex, 1); 
             }
 
             user.save().then((user) => {
@@ -182,7 +155,6 @@ router.get("/logout", verifyUser, async(req, res, next) => {
 
 router.get("/me", verifyUser, (req, res) => {
     try {
-        // console.log("User exist: ", req.user)
         return res.status(200).json(req.user)
     } catch(err){
         console.log("No User")

@@ -1,23 +1,9 @@
 import { useEffect } from "react";
-import {getDataFromLocalStorage} from '../localStorage/localStorageUtils'
+import {getDataFromLocalStorage} from '../localStorage/localStorageUtils';
+import { FormControl, RadioGroup, FormControlLabel, Radio, Box} from '@mui/material';
 
-import FormControl from '@mui/material/FormControl';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-// import NavigationBar from "./NavigationBar";
-
-// Display all the datas and count the total quiz score
 const QuizContentResult = () => {
-
-    // The totalScore has the chance to get the wrong quiz score because there's a logic error
-    // const [totalScore, setTotalScore] = useState(0)
-    // const [totalQuestion, setTotalQuestion] = useState(0)
     const storedData = getDataFromLocalStorage('myData');
-    const navigate = useNavigate()
 
     if(storedData){
         console.log(storedData, "Local Storage data success")
@@ -25,42 +11,15 @@ const QuizContentResult = () => {
         console.log("There's an error in getting the result data")
     }
 
-    // const test = Object.keys(storedData)
-    useEffect(() => {
-        // calculateResult(totalScore)
-        
-    }, [])
+    useEffect(() => {}, [])
     
-    // const calculateResult = (totalScore) => {
-        
-    //     setTotalQuestion(storedData.length)
-
-    //     storedData.map((data) => {
-
-    //         // There's a small bug wherever the page refreshes, the score will increase
-    //         // automatically and I think it's due to the useEffect()
-    //         if(data.userAnswer === data.correctQuizAnswer){
-    //             setTotalScore(totalScore + 1)
-    //         }
-            
-    //     })
-        
-       
-    // }
-
-    // I disabled the RadioButtons since it's just a quiz preview where it shows the users the correct solutions
-    // and also their previous answers
     return (
         <>
             
             <Box sx={{
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    justifyContent: 'center', 
+                    display: 'flex', flexDirection: 'column', justifyContent: 'center', 
                     alignItems: 'center', 
-                    // padding: '2em',
-                    width: '100%',
-                    height: '100%',
+                    width: '100%', height: '100%',
                     backgroundColor: 'white'
                 }}>
  
@@ -129,7 +88,6 @@ const QuizContentResult = () => {
                                                         
                                                     ))
                                                 }
-                                                {/* <FormControlLabel value={key} control={<Radio />} label={data.questionChoices[key]} /> */}
                                             </RadioGroup>
                                         </FormControl>
                                     </div>
@@ -138,10 +96,8 @@ const QuizContentResult = () => {
                         })
                     }
                 </div>
-                
             </Box>
         </>
-        
     )
 }
 
