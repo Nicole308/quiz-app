@@ -4,18 +4,18 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { Link, useNavigate } from 'react-router-dom'
-import { Alert, AlertTitle, IconButton } from '@mui/material';
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { IconButton, Modal } from '@mui/material';
 
 const TopicCard = (data) => {
     
     const {userContext} = useContext(UserContext)
-    // const [favorites, setFavorites] = useState([])
     const [isFavourite, setIsFavourite] = useState(false)
     const [alertVisible, setAlertVisible] = useState(false)
     const navigate = useNavigate()
@@ -46,9 +46,12 @@ const TopicCard = (data) => {
     const handleFavouriteClick = async() => {
         
         try {
-            if(!userContext || !userContext.details || !userContext.token){
+            if(!userContext || userContext.token === null || userContext.token === undefined){
                 navigate('/login')
+            } else if(!userContext.details){
+                setAlertVisible(true)
             } else {
+                setAlertVisible(false)
                 await fetch(
                     `${server_api}${serverFavourite_endpoint}`, {
                         method: "POST",
@@ -77,22 +80,25 @@ const TopicCard = (data) => {
         
     }
     
-    const alertVisibility = () => {
-        setAlertVisible(true)
-    }
-
-    const checkFavouriteBtn = () => {
-        data.data._id === "1" || data.data._id === "2" || data.data._id === "3"? 
-        alertVisibility() : handleFavouriteClick()
-    }
-    
     return (
         <>
         {
-            alertVisible && <Alert onClose={() => setAlertVisible(false)} variant='filled' severity='warning'>
-            <AlertTitle>Quiz cannot be added</AlertTitle>
-            <strong>This quiz is for sampling only and cannot be added to your favorites.</strong>
-        </Alert>
+            alertVisible && <Modal open={alertVisible} onClose={() => setAlertVisible(false)} keepMounted style={{height: '100%'}}>
+                <Box style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '30%', 
+                    backgroundColor: 'white',
+                    border: '2px solid #000', borderRadius: '20px',
+                    boxShadow: 24,
+                    height: '200px',
+                }}>
+                    <CircularProgress />
+                    <strong>Loading user account, please wait...</strong>
+                </Box>
+            </Modal>
         }
             <Card className="cardMedia-img" sx={{ display: 'flex', borderRadius: '10px', margin: '10px 15px'}}>
                 <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -119,56 +125,36 @@ const TopicCard = (data) => {
                         </Box>
                     </Link>
                     
-                    
-                    <IconButton 
-                        onClick={checkFavouriteBtn}
-                        sx={{
-                            "&:hover": {
-                                backgroundColor: "white",
-                                borderRadius: "50%",
-                            },
-                            position: 'absolute',
-                            right: 0,
-                            top: 0,
-                            color: 'red',
-                            padding: '10px', 
-                        }}
-                    >
-                        {
-                            isFavourite ? (
-                                <FavoriteIcon sx={{width: '2rem', height: '2rem', fontWeight: '4rem'}}/>
-                            ) : (
-                                <FavoriteBorderIcon sx={{ width: '2rem', height: '2rem', fontWeight: '4rem' }} /> 
-                            )
+                    {
+                        data.data._id === "1" || data.data._id === "2" || data.data._id === "3" ? (
+                            <></>
+                        ) : (
+                            <IconButton
+                                    onClick={handleFavouriteClick}
+                                    sx={{
+                                        "&:hover": {
+                                            backgroundColor: "white",
+                                            borderRadius: "50%",
+                                        },
+                                        position: 'absolute',
+                                        right: 0,
+                                        top: 0,
+                                        color: 'red',
+                                        padding: '10px', 
+                                    }}
+                                >
+                                    {
+                                        isFavourite ? (
+                                            <FavoriteIcon sx={{width: '2rem', height: '2rem', fontWeight: '4rem'}}/>
+                                        ) : (
+                                            <FavoriteBorderIcon sx={{ width: '2rem', height: '2rem', fontWeight: '4rem' }} /> 
+                                        )
 
-                            // isFavourite === false && (
-                            //     favorites.map((userFavorite) => {
-                            //         if(userFavorite._id === data.data._id && userFavorite.topic_name === data.data.topic_name){
-                            //             return (
-                            //                 <div key={userFavorite._id}>
-                            //                     {
-                                                    
-                            //                         <FavoriteIcon sx={{width: '2rem', height: '2rem', fontWeight: '4rem'}}/>
-                            //                     }
-                                                
-                            //                 </div>
-                            //             )
-                            //         } else {
-                            //             return (
-                            //                 <div key={userFavorite._id}>
-                            //                     <FavoriteBorderIcon sx={{width: '2rem', height: '2rem', fontWeight: '4rem'}}/>
-                            //                 </div>
-                                            
-                            //             )
-                            //         }
-                            //     })
-                            // ) 
+                                    }
+                            </IconButton>
+                        )
+                    }
 
-                        }
-                    </IconButton>
-                    
-
-                    
                 </Box>
             </Card>
         </>
