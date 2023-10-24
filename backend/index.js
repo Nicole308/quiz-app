@@ -48,6 +48,11 @@ app.use(passport.initialize())
 app.use("/users", userRouter)
 app.use("/quizzes", quizRouter)
 
+app.get('/something', (req, res) => {
+  console.log("SOMETHINGGGG")
+  res.status(200).send({message: 'it worksss and somethinggggg'})
+})
+
 app.get('/', (req, res) => {
     res.status(200).send({message: 'App is working from backend'})
 })
@@ -59,9 +64,7 @@ mongoose.connect(MONGO_URL, {dbName:'quizUsers', useNewUrlParser: true}).then(()
 
 const PORT = process.env.PORT || 8080
 
-console.log('PORT', PORT)
-
-app.listen(PORT, '0.0.0.0', () => console.log("Listening to port 8080"))
+app.listen(PORT, '0.0.0.0', () => console.log(`Listening to Port ${PORT}`))
 
 
 
