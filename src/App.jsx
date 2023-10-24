@@ -49,7 +49,7 @@ function App() {
         console.log("error fetching refreshToken from server: ", error)
     } 
     
-    // console.log("token after fetching from '/refreshToken': ", userContext.token)
+    console.log("token after fetching from '/refreshToken': ", userContext.token)
 
     // Fetching user details
     if(userContext.token){

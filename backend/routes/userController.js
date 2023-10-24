@@ -94,12 +94,13 @@ router.post("/login", passport.authenticate("local", {session: false}), async (r
 })
 
 router.post("/refreshToken", (req, res, next) => {
-    console.log("req", req)
     const { signedCookies = {} } = req
     const { refreshToken } = signedCookies
 
     console.log("refresh token before:", refreshToken)
     console.log("signed cookies: ", signedCookies)
+    console.log("req.cookies: ", req.cookies.refreshToken)
+    console.log("req.signedCookies: ", req.signedCookies)
 
     // If the refresh token exist in the signedCookies which we got from req.body,
     // then verify the refresh token with the refresh_token_secret thats used to create the refresh token itself,

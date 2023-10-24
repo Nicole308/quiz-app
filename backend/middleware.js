@@ -22,11 +22,11 @@ export const getToken = (user) => {
 
 // Create the refresh token which itself is a JSON Web Token
 export const getRefreshToken = (user) => {
-    console.log('user getRefreshToken', user)
+    
     const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
         expiresIn: eval(process.env.REFRESH_TOKEN_EXPIRY),
     })
-    // console.log("refreshToken: ", refreshToken)
+    console.log("refreshToken: ", refreshToken)
     return refreshToken
 }
 
