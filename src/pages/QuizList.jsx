@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
+import { Modal } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const QuizList = () => {
 
@@ -22,7 +24,7 @@ const QuizList = () => {
     const {topicData} = useContext(QuizContext)
     const {userContext} = useContext(UserContext)
     const [usersAllQuiz, setUsersAllQuiz] = useState([])
-    const [dataFetched, setDataFetched] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverRefresh_endpoint = "/quizzes/getAllQuiz"
     const navigate = useNavigate()
@@ -33,6 +35,8 @@ const QuizList = () => {
     const verifyUserCreateQuiz = () => {
         if(userContext.token === null || userContext.token === undefined){
             navigate('/login')
+        } else if(!userContext.details){
+            setIsLoading(true)
         } else {
             navigate('/createQuiz')
         }
@@ -63,8 +67,25 @@ const QuizList = () => {
     return (
         <>
             <NavigationBar />
-
             <div style={{width: '100vw'}}>
+                {
+                    isLoading && <Modal open={isLoading} onClose={() => setIsLoading(false)} keepMounted style={{height: '100%'}}>
+                    <Box className="allerta-font" style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '30%', 
+                        backgroundColor: 'white',
+                        border: '2px solid #000', borderRadius: '20px',
+                        boxShadow: 24,
+                        height: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'center'
+                    }}>
+                        <CircularProgress />
+                        <strong>Loading user account, please wait...</strong>
+                    </Box>
+                </Modal>
+                }
                 <div style={{display: 'flex', justifyContent: 'center', width: '100%'}}>
                     <Box sx={{ maxWidth: '100%' }} style={{position: 'absolute', marginTop: '10%'}}>
                         <Card className="banner-layout" variant="outlined" style={{backgroundColor: '#26547C', borderRadius: '50px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent : 'center'}}>

@@ -84,7 +84,7 @@ const TopicCard = (data) => {
         <>
         {
             alertVisible && <Modal open={alertVisible} onClose={() => setAlertVisible(false)} keepMounted style={{height: '100%'}}>
-                <Box style={{
+                <Box className="allerta-font" style={{
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
@@ -93,7 +93,7 @@ const TopicCard = (data) => {
                     backgroundColor: 'white',
                     border: '2px solid #000', borderRadius: '20px',
                     boxShadow: 24,
-                    height: '200px',
+                    height: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'center'
                 }}>
                     <CircularProgress />
                     <strong>Loading user account, please wait...</strong>
