@@ -25,7 +25,6 @@ const QuizList = () => {
     const {userContext} = useContext(UserContext)
     const [usersAllQuiz, setUsersAllQuiz] = useState([])
     const [isLoading, setIsLoading] = useState(false);
-    const [is]
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverRefresh_endpoint = "/quizzes/getAllQuiz"
     const navigate = useNavigate()
@@ -129,7 +128,7 @@ const QuizList = () => {
                     {
                         !userContext.token || !userContext.token === null? (
                             <Box style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                                <h4 className="allerta-font">Sign in to play other people's quiz</h4>
+                                <h4 className="allerta-font">Sign in to play other peoples quiz</h4>
                                 <Button onClick={() => navigate('/login')}>Sign in</Button>
                             </Box>
                         ) : !userContext.details ? (
