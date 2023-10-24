@@ -50,6 +50,9 @@ const Login = () => {
                 console.log("Login currently being checked in backend")
                 const jsonData = await response.json()
 
+                console.log("jsonData in login.jsx: ", jsonData)
+                console.log("jsonData.token in login.jsx: ", jsonData.token)
+                console.log("jsonData.refreshToken in login.jsx: ", jsonData.refreshToken)
                 // Tried using sessionStorage => works but I decided to use cookies to store tokens
                 // await setSessionJwtToken(jsonData.token)
                 // await setSessionRefreshToken(jsonData.refreshToken)
@@ -64,7 +67,7 @@ const Login = () => {
                 navigate('/QuizList')
 
                 // Got the correct token for user
-                // console.log("checking userContext after login submission: ", userContext['token'])
+                console.log("checking userContext after login submission: ", userContext['token'])
 
                 
             } else if(!response.message){

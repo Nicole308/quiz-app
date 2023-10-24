@@ -30,6 +30,9 @@ function App() {
             `${server_api}${serverRefresh_endpoint}`, {
                 method: "POST",
                 credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json',
+                }
             }
         )
         if(response.ok){
@@ -58,6 +61,7 @@ function App() {
                 method: "GET",
                 credentials: "include",
                 headers: {
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${userContext.token}`,
                 }
             }
