@@ -47,7 +47,6 @@ router.post("/login", passport.authenticate("local", {session: false}), async (r
     const refreshToken = getRefreshToken({ _id: req.user._id})
     const username = req.body.username
     const password = req.body.password
-    console.log("username: ", username, "password: ", password)
 
     try {
         await User.findById(req.user._id).then(
@@ -82,36 +81,32 @@ router.post("/refreshToken", async(req, res, next) => {
     if (refreshToken) {
       try {
         const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
-        console.log("payload: ", payload)
         const userId = payload._id
-        console.log("userId from payload: ", userId)
 
         await User.findOne({ _id: userId }).then(
           user => {
-            console.log("user search: ", user)
             if (user) {
-                console.log("user found in /refreshToken: ", user)
-              const tokenIndex = user.refreshToken.findIndex(
-                item => item.refreshToken === refreshToken
-              )
-              console.log("tokenIndex: ", tokenIndex)
-  
-              if (tokenIndex === -1) {
-                res.status(401).send("Unauthorized")
-              } else {
-                const token = getToken({ _id: userId })
-                const newRefreshToken = getRefreshToken({ _id: userId })
-                user.refreshToken[tokenIndex] = { refreshToken: newRefreshToken }
+                // console.log("user found in /refreshToken: ", user)
+                const tokenIndex = user.refreshToken.findIndex(
+                    item => item.refreshToken === refreshToken
+                )
+    
+                if (tokenIndex === -1) {
+                    res.status(401).send("Unauthorized")
+                } else {
+                    const token = getToken({ _id: userId })
+                    const newRefreshToken = getRefreshToken({ _id: userId })
+                    user.refreshToken[tokenIndex] = { refreshToken: newRefreshToken }
 
-                user.save().then((err) => {
-                    if(err){
-                        res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS)
-                        res.status(200).send({ success: true, token })  
-                    } else {
-                        res.status(500).send(err)
-                    }
-                })
-              }
+                    user.save().then((err) => {
+                        if(err){
+                            res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS)
+                            res.status(200).send({ success: true, token })  
+                        } else {
+                            res.status(500).send(err)
+                        }
+                    })
+                }
             } else {
               res.send({message: false})
             }
