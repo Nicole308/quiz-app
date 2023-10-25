@@ -87,6 +87,10 @@
 }
 
 /* DASHBOARD PAGE */
+.tabs .css-k008qs {
+    justify-content: center;
+}
+
 .tab-edit {
     padding: 0rem 2rem 0rem 2rem;
 }

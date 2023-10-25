@@ -22,6 +22,7 @@ const CreateQuiz = () => {
     const [quizDescription, setQuizDescription] = useState("")
     const [alertVisible, setAlertVisible] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [errorLoadingUser, setErrorLoadingUser] = useState(false)
     const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME
     const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_PRESET
     const serverGetQuiz_api = "/quizzes/getSpecificQuiz"
@@ -39,12 +40,19 @@ const CreateQuiz = () => {
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverCreate_endpoint = "/quizzes/createQuiz"
 
+    const errorUserLoading = () => {
+        setTimeout(() => {
+            setErrorLoadingUser(true)
+        }, 7000)
+    }
+
     useEffect(() => {
         if(!userContext.token || !userContext.details){
             setIsLoading(true)
             if(userContext.details){
                 setIsLoading(false)
             }
+            errorUserLoading()
         } else {setIsLoading(false)}
     }, [userContext])
 
@@ -229,6 +237,8 @@ const CreateQuiz = () => {
         }
     }
 
+    
+
     return (
         <>
             <NavigationBar />
@@ -248,9 +258,7 @@ const CreateQuiz = () => {
                         <CircularProgress />
                         <strong>Loading user account, please wait...</strong>
                         {
-                            setTimeout(() => {
-                                return (<><strong>Error loading user account <br /> Please sign in again</strong><Button onClick={() => navigate('/login')}>Sign In</Button></>)
-                            }, 7000)
+                            errorLoadingUser && (<><strong>Error loading user account <br /> Please sign in again</strong><Button onClick={() => navigate('/login')}>Sign In</Button></>)
                         }
                     </Box>
                 )

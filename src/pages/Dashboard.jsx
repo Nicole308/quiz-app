@@ -145,7 +145,7 @@ const Dashboard = () => {
                     DASHBOARD
                 </Box>
                 <Box sx={{width:'100%', borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center' }}>
-                    <Tabs value={tabValue} onChange={handleTabChange} TabIndicatorProps={{ style: {backgroundColor: 'red'}}} aria-label="basic tabs example" style={{width: '100%', paddingTop: '1.25rem', justifyContent: 'center'}}>
+                    <Tabs className='tabs' value={tabValue} onChange={handleTabChange} TabIndicatorProps={{ style: {backgroundColor: 'red'}}} aria-label="basic tabs example" style={{width: '100%', paddingTop: '1.25rem'}}>
                         <Tab className='tab-edit' label="Your Quizzes" {...indexProps(0)}/>
                         <Tab className='tab-edit' label="Your Favorites" {...indexProps(1)} />
                         <Tab className='tab-edit' label="Recent" {...indexProps(2)}/>
