@@ -112,12 +112,6 @@ const Dashboard = () => {
         loadDatas()
     }, [userContext])
 
-    useEffect(() => {
-        if(!userContext.details ){
-            navigate('/login')
-        }
-    }, [])
-
     return (
         <>
             <NavigationBar />
