@@ -61,7 +61,7 @@ router.post("/login", passport.authenticate("local", {session: false}), async (r
                     user.save().then((err) => {
                         if(err){
                             res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
-                            res.send({ success: true, token, refreshToken})
+                            res.send({ success: true, token, refreshToken, user})
                         } else {
                             res.status(500).send(err)
                         }

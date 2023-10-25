@@ -43,7 +43,7 @@ const Login = () => {
                 console.log("jsonData.refreshToken in login.jsx: ", jsonData.refreshToken)
 
                 setUserContext((oldValues) => {
-                    return {...oldValues, token: jsonData.token} 
+                    return {...oldValues, token: jsonData.token, details: jsonData.user} 
                 })
 
                 setLoginAlert(true)

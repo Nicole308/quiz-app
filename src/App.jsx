@@ -15,15 +15,13 @@ import Dashboard from './pages/Dashboard'
 import { UserContext } from './context/UserContext'
 
 function App() {
-
   const [topicData, setTopicData] = useState(topicsData)
   const [userContext, setUserContext] = useContext(UserContext)
   const server_api = import.meta.env.VITE_CONNECT_SERVER_API
   const serverRefresh_endpoint = "/users/refreshToken"
   const serverMe_endpoint = "/users/me"
-  console.log("userContext in app.jsx after login: ", userContext.details)
+  console.log("userContext.details in app.jsx after login: ", userContext.details)
   console.log("userContext.token in app.jsx: ", userContext.token)
-  console.log("userContext['token'] in app.jsx: ", userContext["token"])
   
   const verifyUser = useCallback(async() => {
     try {
