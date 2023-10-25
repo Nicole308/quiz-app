@@ -92,14 +92,11 @@ const Dashboard = () => {
         const loadDatas = async() => {
             try {
                 if(!userContext.token || !userContext.details){
-                    setTimeout(() => {
-                        if(!userContext.details){
-                            navigate('/login')
-                        }                  
-                    }, 5000)
-
                     setIsLoading(true)
-                } 
+                    if(userContext.details){
+                        setIsLoading(false)
+                    }
+                } else {setIsLoading(false)}
 
                 await axios.get(`${server_api}${serverDashboard_endpoint}?user=${userContext.details._id}&name=${userContext.details.username}`)
                     .then((response) => {
