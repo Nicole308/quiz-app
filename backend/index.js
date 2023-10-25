@@ -15,7 +15,6 @@ const app = express()
 const MONGO_URL = process.env.MONGO_DB_CONNECTION_STRING;
 
 const whitelist = process.env.WHITELISTED_DOMAINS? process.env.WHITELISTED_DOMAINS.split(",") : []
-console.log("whitelist: ", whitelist)
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -39,18 +38,13 @@ app.use(passport.initialize())
 app.use("/users", userRouter)
 app.use("/quizzes", quizRouter)
 
-app.get('/something', (req, res) => {
-  console.log("SOMETHINGGGG")
-  res.status(200).send({message: 'it worksss and somethinggggg'})
-})
-
 app.get('/', (req, res) => {
     res.status(200).send({message: 'App is working from backend'})
 })
 
 mongoose.set('strictQuery', false)
 mongoose.connect(MONGO_URL, {dbName:'quizUsers', useNewUrlParser: true}).then(() => {
-    console.log('MongoDB is now connected: ', MONGO_URL)
+    console.log('MongoDB is now connected')
 }).catch(err => console.log(err))
 
 const PORT = process.env.PORT || 8080
