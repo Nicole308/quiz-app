@@ -47,7 +47,7 @@ const Login = () => {
                     return {...oldValues, token: jsonData.token} 
                 })
 
-                setDataInLocalStorage("accountUser", userContext)
+                setDataInLocalStorage("accountUser", jsonData.token)
 
                 setLoginAlert(true)
                 setAlertMsg("Login Successful!")
