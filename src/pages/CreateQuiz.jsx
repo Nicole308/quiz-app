@@ -247,16 +247,16 @@ const CreateQuiz = () => {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        width: '50%', 
+                        width: '100%', 
                         backgroundColor: 'white',
                         border: '2px solid #000', borderRadius: '20px',
                         boxShadow: 24, textAlign: 'center',
-                        height: '200px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+                        height: '300px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
                     }}>
                         <CircularProgress />
                         <strong>Loading user account, please wait...</strong>
                         {
-                            errorLoadingUser && (<><strong>Error loading user account <br /> Please sign in again</strong><Button onClick={() => navigate('/login')}>Sign In</Button></>)
+                            errorLoadingUser && (<><strong style={{color: 'red'}}>Error loading user account <br /> Please sign in again</strong><Button onClick={() => navigate('/login')}>Sign In</Button></>)
                         }
                     </Box>
                 )
@@ -383,7 +383,7 @@ const CreateQuiz = () => {
                                         <div className='choice-layout' style={{border: '10px solid #26547C', borderRadius: '20px', marginTop: '50px', width: '100%'}}>
                                             <div key={index} style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                                                 <h1 style={{marginRight: '10px', fontSize: '1.25rem'}}>{question.number}</h1>
-                                                <TextField 
+                                                <TextField className='choice-txtField'
                                                         variant='outlined' 
                                                         size='small'
                                                         value={question.question}
@@ -406,7 +406,7 @@ const CreateQuiz = () => {
                                                                     style={{width: '100%'}}
                                                                     label={
                                                                         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%'}}>
-                                                                            <TextField
+                                                                            <TextField className='choice-txtField'
                                                                                 value={value}
                                                                                 onChange={
                                                                                     (e) => {

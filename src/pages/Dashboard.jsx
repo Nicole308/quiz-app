@@ -48,8 +48,9 @@ const Dashboard = () => {
     const {userContext} = useContext(UserContext)
     const [userQuizzes, setUserQuizzes] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-    const navigate = useNavigate()
+    const [errorLoadingUser, setErrorLoadingUser] = useState(false)
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
+    const navigate = useNavigate()
     const serverFavourite_endpoint = "/quizzes/deleteFavourite"
     const serverDashboard_endpoint = "/quizzes/getUserDashboard"
     const serverDelete_endpoint = "/quizzes/deleteQuiz"
@@ -96,6 +97,7 @@ const Dashboard = () => {
                     if(userContext.details){
                         setIsLoading(false)
                     }
+                    errorUserLoading()
                 } else {setIsLoading(false)}
 
                 await axios.get(`${server_api}${serverDashboard_endpoint}?user=${userContext.details._id}&name=${userContext.details.username}`)
@@ -112,6 +114,12 @@ const Dashboard = () => {
 
         loadDatas()
     }, [userContext])
+
+    const errorUserLoading = () => {
+        setTimeout(() => {
+            setErrorLoadingUser(true)
+        }, 7000)
+    }
 
     return (
         <>
@@ -132,9 +140,7 @@ const Dashboard = () => {
                             <CircularProgress />
                             <strong>Loading user account, please wait...</strong>
                             {
-                                setTimeout(() => {
-                                    return (<><strong>Error loading user account <br /> Please sign in again</strong><Button onClick={() => navigate('/login')}>Sign In</Button></>)
-                                }, 7000)
+                                errorLoadingUser && (<><strong style={{color: 'red'}}>Error loading user account <br /> Please sign in again</strong><Button onClick={() => navigate('/login')}>Sign In</Button></>)
                             }
                         </Box>
                     )}

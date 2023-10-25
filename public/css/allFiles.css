@@ -62,8 +62,16 @@
     display: flex; flex-direction: row;
 }
 
+.create-desc .css-i44wyl {
+    position: inherit;
+}
+
 .choice-input  .MuiFormControlLabel-label{
     width: 100%;
+}
+
+.choice-txtField .css-i44wyl {
+    position: inherit;
 }
 
 .upload-section {
