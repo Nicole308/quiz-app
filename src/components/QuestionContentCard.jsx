@@ -55,7 +55,7 @@ const QuestionContentCard = ({data, values, handleRadioChange, handleSubmit, cur
                                                         value={key} 
                                                         control={<Radio />} 
                                                         label={
-                                                                <h3 style={{margin: '0.5rem', fontWeight: '100'}}>
+                                                                <h3 className='choices-font' style={{margin: '0.5rem', fontWeight: '100'}}>
                                                                     {choicesObj[key]}
                                                                 </h3>
                                                             } 

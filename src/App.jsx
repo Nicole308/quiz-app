@@ -13,7 +13,6 @@ import Register from './pages/Register'
 import CreateQuiz from './pages/CreateQuiz'
 import Dashboard from './pages/Dashboard'
 import { UserContext } from './context/UserContext'
-// import { getDataFromLocalStorage, setDataInLocalStorage } from './localStorage/localStorageUtils'
 
 function App() {
   const [topicData, setTopicData] = useState(topicsData)
@@ -21,11 +20,6 @@ function App() {
   const server_api = import.meta.env.VITE_CONNECT_SERVER_API
   const serverRefresh_endpoint = "/users/refreshToken"
   const serverMe_endpoint = "/users/me"
-//   const getUserLocalStoragedData = getDataFromLocalStorage('accountUser')
-//   console.log("userContext.details in app.jsx after login: ", userContext.details)
-//   console.log("userContext.token in app.jsx: ", userContext.token)
-//   console.log("userContext.refreshToken in app.jsx: ", userContext.refreshToken)
-//   console.log("getUserLocalStorageData from app.jsx: ", getUserLocalStoragedData)
   
   const verifyUser = useCallback(async() => {
     try {
@@ -55,8 +49,7 @@ function App() {
         console.log("error fetching refreshToken from server: ", error)
     } 
     
-    console.log("token after fetching from '/refreshToken': ", userContext.token)
-
+    // console.log("token after fetching from '/refreshToken': ", userContext.token)
     if(userContext.token){
         const fetchUserDetails = await fetch(
             `${server_api}${serverMe_endpoint}`, {

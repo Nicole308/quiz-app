@@ -91,16 +91,12 @@ const Dashboard = () => {
     useEffect(() => {
         const loadDatas = async() => {
             try {
-                if(!userContext.token){
-                    navigate('/login')
-                } else if(!userContext.details){
-                    console.log('loading data')
+                if(!userContext.token || !userContext.details){
                     setIsLoading(true)
                     if(userContext.details){
                         setIsLoading(false)
                     }
-                }
-
+                } 
                 await axios.get(`${server_api}${serverDashboard_endpoint}?user=${userContext.details._id}&name=${userContext.details.username}`)
                     .then((response) => {
                         setUserQuizzes(response.data)
@@ -115,6 +111,12 @@ const Dashboard = () => {
 
         loadDatas()
     }, [userContext])
+
+    useEffect(() => {
+        if(!userContext.details ){
+            navigate('/login')
+        }
+    }, [])
 
     return (
         <>

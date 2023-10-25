@@ -256,9 +256,11 @@
         padding: 0px;
     }
 
+    .delete-btn {
+        padding: '20px';
+    }
+
     /* TOPIC DETAIL PAGE */
-
-
     .detail-img {
         width: 80%; margin: 0px; padding: 20px;
     }
@@ -274,6 +276,10 @@
 
     .quiz-btn {
         justify-content: center; padding: 0px;
+    }
+
+    .choices-font {
+        font-size: 24px;
     }
 
     /* QUIZ SCORE BOX */

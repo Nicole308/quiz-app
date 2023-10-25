@@ -40,14 +40,10 @@ const Login = () => {
             if(response.ok){
                 console.log("Login currently being checked in backend")
                 const jsonData = await response.json()
-                // console.log("jsonData.token in login.jsx: ", jsonData.token)
-                // console.log("jsonData.refreshToken in login.jsx: ", jsonData.refreshToken)
 
                 setUserContext((oldValues) => {
                     return {...oldValues, token: jsonData.token} 
                 })
-
-                // setDataInLocalStorage("accountUser", jsonData.token)
 
                 setLoginAlert(true)
                 setAlertMsg("Login Successful!")

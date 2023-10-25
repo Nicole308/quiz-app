@@ -35,7 +35,7 @@ const UserFavourites = ({data, handleRemoveFavourites}) => {
                                             title={quiz.topic_name}
                                         />
             
-                                        <IconButton onClick={() => handleRemoveFavourites(quiz)} sx={{position: 'absolute', top: '0%', right: '0%'}}>
+                                        <IconButton onClick={() => handleRemoveFavourites(quiz)} className='delete-btn' sx={{position: 'absolute', top: '0%', right: '0%'}}>
                                             <DeleteIcon sx={{'&:hover': {backgroundColor: 'transparent', borderRadius: '50%'}}} 
                                                         style={{color: 'red', width: '2rem', height: '2rem'}}
                                             />
