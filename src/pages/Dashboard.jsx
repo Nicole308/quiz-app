@@ -97,7 +97,7 @@ const Dashboard = () => {
 
                         if(userContext.details || userContext.token){
                             setIsLoading(false)
-                        } else {
+                        } else if(!userContext.token) {
                             navigate('/login')
                         }
                     }, 5000)
