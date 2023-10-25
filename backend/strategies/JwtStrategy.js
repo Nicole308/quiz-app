@@ -13,10 +13,10 @@ passport.use(
         User.findOne({_id: jwt_payload._id})
             .then(user => {
                 if (user) {
-                    console.log("from JwtStrategy.js if the user exists: ", user);
+                    // console.log("from JwtStrategy.js if the user exists: ", user);
                     return done(null, user);
                 } else {
-                    console.log("from JwtStrategy.js User does not exist");
+                    // console.log("from JwtStrategy.js User does not exist");
                     return done(null, false);
                 }
             })
