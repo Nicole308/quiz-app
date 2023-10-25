@@ -24,6 +24,7 @@ function App() {
   const getUserLocalStoragedData = getDataFromLocalStorage('accountUser')
   console.log("userContext.details in app.jsx after login: ", userContext.details)
   console.log("userContext.token in app.jsx: ", userContext.token)
+  console.log("userContext.refreshToken in app.jsx: ", userContext.refreshToken)
   console.log("getUserLocalStorageData from app.jsx: ", getUserLocalStoragedData)
   
   const verifyUser = useCallback(async() => {
@@ -56,7 +57,7 @@ function App() {
     
     console.log("token after fetching from '/refreshToken': ", userContext.token)
 
-    if(userContext.token){
+    if(userContext.token ){
         const fetchUserDetails = await fetch(
             `${server_api}${serverMe_endpoint}`, {
                 method: "GET",
