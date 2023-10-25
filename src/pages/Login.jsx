@@ -10,7 +10,7 @@ const Login = () => {
     const [loginUsername, setLoginUsername] = useState("")
     const [loginPassword, setLoginPassword] = useState("")
     const [isEmpty, setIsEmpty] = useState(false)
-    const {setUserContext} = useContext(UserContext)
+    const {userContext, setUserContext} = useContext(UserContext)
     const [loginAlert, setLoginAlert] = useState(false)
     const [alertMsg, setAlertMsg] = useState("Enter your username and password")
     const [alertSeverity, setAlertSeverity] = useState("info")
@@ -44,10 +44,10 @@ const Login = () => {
                 console.log("jsonData.refreshToken in login.jsx: ", jsonData.refreshToken)
 
                 setUserContext((oldValues) => {
-                    return {...oldValues, token: jsonData.token, details: jsonData.user} 
+                    return {...oldValues, token: jsonData.token} 
                 })
 
-                setDataInLocalStorage("accountUser", jsonData.user)
+                setDataInLocalStorage("accountUser", userContext)
 
                 setLoginAlert(true)
                 setAlertMsg("Login Successful!")

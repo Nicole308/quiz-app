@@ -13,7 +13,7 @@ import Register from './pages/Register'
 import CreateQuiz from './pages/CreateQuiz'
 import Dashboard from './pages/Dashboard'
 import { UserContext } from './context/UserContext'
-import { getDataFromLocalStorage } from './localStorage/localStorageUtils'
+import { getDataFromLocalStorage, setDataInLocalStorage } from './localStorage/localStorageUtils'
 
 function App() {
   const [topicData, setTopicData] = useState(topicsData)
@@ -57,7 +57,8 @@ function App() {
     
     console.log("token after fetching from '/refreshToken': ", userContext.token)
 
-    if(userContext.token ){
+    // instead of userContext..we can use local storage
+    if(userContext.token){
         const fetchUserDetails = await fetch(
             `${server_api}${serverMe_endpoint}`, {
                 method: "GET",
