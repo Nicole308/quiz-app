@@ -102,7 +102,9 @@ const Dashboard = () => {
                         }
                     }, 5000)
                     
-                } 
+                } else {
+                    setIsLoading(false)
+                }
                 await axios.get(`${server_api}${serverDashboard_endpoint}?user=${userContext.details._id}&name=${userContext.details.username}`)
                     .then((response) => {
                         setUserQuizzes(response.data)
