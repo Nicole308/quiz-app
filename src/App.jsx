@@ -1,6 +1,6 @@
 import './App.css'
 import { useEffect, useState, useCallback, useContext } from 'react'
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import QuizContext from './context/QuizContext'
 import Homepage from './pages/Homepage'
 import QuizList from './pages/QuizList'
@@ -105,7 +105,7 @@ function App() {
               <Route path='/login' element={<Login />}/>
               <Route path='/register' element={<Register />}/>
               <Route path='/createQuiz' element={<CreateQuiz />}/>
-              <Route path='/dashboard' element={<Dashboard />}/>
+              <Route path='/dashboard' element={userContext.token ? <Dashboard /> : <Navigate to="/login" />}/>
               <Route path='*' element={<NotFoundPage />}/>
             </Routes>
           </QuizContext.Provider>
