@@ -4,6 +4,7 @@ import { useContext, useState } from 'react';
 import { UserContext } from "../context/UserContext.js"
 import QuizIcon from '@mui/icons-material/Quiz';
 import '../../public/css/fonts.css'
+import { setDataInLocalStorage } from '../localStorage/localStorageUtils.js';
 
 const Login = () => {
     const [loginUsername, setLoginUsername] = useState("")
@@ -45,6 +46,8 @@ const Login = () => {
                 setUserContext((oldValues) => {
                     return {...oldValues, token: jsonData.token, details: jsonData.user} 
                 })
+
+                setDataInLocalStorage("accountUser", jsonData.user)
 
                 setLoginAlert(true)
                 setAlertMsg("Login Successful!")
