@@ -40,12 +40,6 @@ const CreateQuiz = () => {
     const server_api = import.meta.env.VITE_CONNECT_SERVER_API
     const serverCreate_endpoint = "/quizzes/createQuiz"
 
-    const errorUserLoading = () => {
-        setTimeout(() => {
-            setErrorLoadingUser(true)
-        }, 7000)
-    }
-
     useEffect(() => {
         if(!userContext.token || !userContext.details){
             setIsLoading(true)
@@ -237,7 +231,11 @@ const CreateQuiz = () => {
         }
     }
 
-    
+    const errorUserLoading = () => {
+        setTimeout(() => {
+            setErrorLoadingUser(true)
+        }, 7000)
+    }
 
     return (
         <>
