@@ -93,18 +93,18 @@ const Dashboard = () => {
             try {
                 if(!userContext.token || !userContext.details){
                     setTimeout(() => {
-                        setIsLoading(true)
-
-                        if(userContext.details || userContext.token){
-                            setIsLoading(false)
-                        } else if(!userContext.token) {
-                            navigate('/login')
-                        }
+                        if(!userContext.details || !userContext.token){
+                            return setIsLoading(true)   
+                        } else {
+                            return setIsLoading(false)
+                        }                   
                     }, 5000)
-                    
-                } else {
-                    setIsLoading(false)
-                }
+
+                    if(isLoading){
+                        navigate('/login')
+                    } 
+                } 
+                
                 await axios.get(`${server_api}${serverDashboard_endpoint}?user=${userContext.details._id}&name=${userContext.details.username}`)
                     .then((response) => {
                         setUserQuizzes(response.data)
