@@ -1,7 +1,7 @@
 import NavigationBar from '../components/NavigationBar'
 import { useContext, useState, useEffect } from 'react'
 import { UserContext } from '../context/UserContext'
-import { Tabs, Tab, Box, CircularProgress } from '@mui/material';
+import { Tabs, Tab, Box, CircularProgress, Button } from '@mui/material';
 import axios from 'axios'
 import PropTypes from 'prop-types';
 import UserQuizzes from '../components/UserQuizzes';
@@ -131,6 +131,11 @@ const Dashboard = () => {
                         }}>
                             <CircularProgress />
                             <strong>Loading user account, please wait...</strong>
+                            {
+                                setTimeout(() => {
+                                    return (<><strong>Error loading user account <br /> Please sign in again</strong><Button onClick={() => navigate('/login')}>Sign In</Button></>)
+                                }, 7000)
+                            }
                         </Box>
                     )}
                 <Box className="allerta-font" 
@@ -140,7 +145,7 @@ const Dashboard = () => {
                     DASHBOARD
                 </Box>
                 <Box sx={{width:'100%', borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center' }}>
-                    <Tabs value={tabValue} onChange={handleTabChange} TabIndicatorProps={{ style: {backgroundColor: 'red'}}} aria-label="basic tabs example" style={{width: '100%', paddingTop: '1.25rem'}}>
+                    <Tabs value={tabValue} onChange={handleTabChange} TabIndicatorProps={{ style: {backgroundColor: 'red'}}} aria-label="basic tabs example" style={{width: '100%', paddingTop: '1.25rem', justifyContent: 'center'}}>
                         <Tab className='tab-edit' label="Your Quizzes" {...indexProps(0)}/>
                         <Tab className='tab-edit' label="Your Favorites" {...indexProps(1)} />
                         <Tab className='tab-edit' label="Recent" {...indexProps(2)}/>

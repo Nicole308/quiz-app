@@ -40,16 +40,12 @@ const CreateQuiz = () => {
     const serverCreate_endpoint = "/quizzes/createQuiz"
 
     useEffect(() => {
-        if(!userContext.token){
-            navigate('/login')
-        } else if(!userContext.details) {
+        if(!userContext.token || !userContext.details){
             setIsLoading(true)
             if(userContext.details){
                 setIsLoading(false)
             }
-        } else {
-            setIsLoading(false)
-        }
+        } else {setIsLoading(false)}
     }, [userContext])
 
     const uploadQuizCover = async(e) => {
@@ -227,8 +223,7 @@ const CreateQuiz = () => {
                 } else {
                     console.log("Error in creating the quiz: ", response.status, response.statusText)
                 }
-            }
-            
+            } 
         } catch(err){
             console.log("error in CreateQuiz page handleSubmit: ", err)
         }
@@ -252,6 +247,11 @@ const CreateQuiz = () => {
                     }}>
                         <CircularProgress />
                         <strong>Loading user account, please wait...</strong>
+                        {
+                            setTimeout(() => {
+                                return (<><strong>Error loading user account <br /> Please sign in again</strong><Button onClick={() => navigate('/login')}>Sign In</Button></>)
+                            }, 7000)
+                        }
                     </Box>
                 )
             }
