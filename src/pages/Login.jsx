@@ -4,13 +4,13 @@ import { useContext, useState } from 'react';
 import { UserContext } from "../context/UserContext.js"
 import QuizIcon from '@mui/icons-material/Quiz';
 import '../../public/css/fonts.css'
-import { setDataInLocalStorage } from '../localStorage/localStorageUtils.js';
+// import { setDataInLocalStorage } from '../localStorage/localStorageUtils.js';
 
 const Login = () => {
     const [loginUsername, setLoginUsername] = useState("")
     const [loginPassword, setLoginPassword] = useState("")
     const [isEmpty, setIsEmpty] = useState(false)
-    const {userContext, setUserContext} = useContext(UserContext)
+    const {setUserContext} = useContext(UserContext)
     const [loginAlert, setLoginAlert] = useState(false)
     const [alertMsg, setAlertMsg] = useState("Enter your username and password")
     const [alertSeverity, setAlertSeverity] = useState("info")
@@ -40,14 +40,14 @@ const Login = () => {
             if(response.ok){
                 console.log("Login currently being checked in backend")
                 const jsonData = await response.json()
-                console.log("jsonData.token in login.jsx: ", jsonData.token)
-                console.log("jsonData.refreshToken in login.jsx: ", jsonData.refreshToken)
+                // console.log("jsonData.token in login.jsx: ", jsonData.token)
+                // console.log("jsonData.refreshToken in login.jsx: ", jsonData.refreshToken)
 
                 setUserContext((oldValues) => {
                     return {...oldValues, token: jsonData.token} 
                 })
 
-                setDataInLocalStorage("accountUser", jsonData.token)
+                // setDataInLocalStorage("accountUser", jsonData.token)
 
                 setLoginAlert(true)
                 setAlertMsg("Login Successful!")
