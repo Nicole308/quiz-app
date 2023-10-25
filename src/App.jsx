@@ -105,7 +105,7 @@ function App() {
               <Route path='/login' element={<Login />}/>
               <Route path='/register' element={<Register />}/>
               <Route path='/createQuiz' element={<CreateQuiz />}/>
-              <Route path='/dashboard' element={userContext.details ? <Dashboard /> : <Navigate to="/login" />}/>
+              <Route path='/dashboard' element={<Dashboard />}/>
               <Route path='*' element={<NotFoundPage />}/>
             </Routes>
           </QuizContext.Provider>
